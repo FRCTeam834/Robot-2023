@@ -4,7 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.subsystems.DriveTrain;
 
 /**
@@ -15,10 +17,13 @@ import frc.robot.subsystems.DriveTrain;
  */
 public class RobotContainer {
   DriveTrain driveTrain = new DriveTrain();
+  Joystick leftJoystick = new Joystick(1);
+  Joystick rightJoystick = new Joystick(2);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+    new DriveWithJoysticks(driveTrain, leftJoystick::getX, leftJoystick::getY, rightJoystick::getX);
   }
 
   /**
