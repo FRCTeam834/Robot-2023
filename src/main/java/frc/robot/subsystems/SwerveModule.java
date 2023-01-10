@@ -27,6 +27,10 @@ public class SwerveModule extends SubsystemBase {
     steerController = steerMotor.getPIDController();
     driveController = driveMotor.getPIDController();
 
+    steerController.setPositionPIDWrappingEnabled(true);
+    steerController.setPositionPIDWrappingMaxInput(359);
+    steerController.setPositionPIDWrappingMinInput(0);
+
     steerController.setP(1);
     driveController.setP(1);
 

@@ -13,14 +13,14 @@ public class SwerveModuleFactory {
     }
 
     public static SwerveModule getFrontRight () {
-        return new SwerveModule(1, 5);
+        return new SwerveModule(2, 6);
     }
 
     public static SwerveModule getBackLeft () {
-        return new SwerveModule(1, 5);
+        return new SwerveModule(3, 7);
     }
 
     public static SwerveModule getBackRight () {
-        return new SwerveModule(1, 5);
+        return new SwerveModule(4, 8);
     }
 }
