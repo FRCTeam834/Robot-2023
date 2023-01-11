@@ -4,8 +4,15 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.DriveFollowPath;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.subsystems.DriveTrain;
 
@@ -19,8 +26,17 @@ public class RobotContainer {
   DriveTrain driveTrain = new DriveTrain();
   Joystick leftJoystick = new Joystick(0);
   Joystick rightJoystick = new Joystick(1);
+
+  SendableChooser<Command> autonChooser = new SendableChooser<>();
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    autonChooser.setDefaultOption("Linear Test Path", new DriveFollowPath(
+      driveTrain,
+      PathPlanner.loadPath("Linear Test Path", new PathConstraints(3, 2)),
+      true
+    ));
+
+    SmartDashboard.putData(autonChooser);
     // Configure the trigger bindings
     configureBindings();
     driveTrain.setDefaultCommand(new DriveWithJoysticks(driveTrain, leftJoystick::getX, leftJoystick::getY, rightJoystick::getX));

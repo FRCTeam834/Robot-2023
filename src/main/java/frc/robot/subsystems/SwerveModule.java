@@ -10,6 +10,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -19,6 +20,7 @@ public class SwerveModule extends SubsystemBase {
   private final SparkMaxPIDController steerController;
   private final SparkMaxPIDController driveController;
   private final RelativeEncoder steerEncoder;
+  private final RelativeEncoder driveEncoder;
   /** Creates a new SwerveModule. */
   public SwerveModule(int STEERID, int DRIVEID) {
     steerMotor = new CANSparkMax(STEERID, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -40,6 +42,9 @@ public class SwerveModule extends SubsystemBase {
 
     steerEncoder = steerMotor.getEncoder();
     steerEncoder.setPositionConversionFactor(360.0 / 12.8);
+    
+    driveEncoder = driveMotor.getEncoder();
+    driveEncoder.setPositionConversionFactor(Math.PI * 0.127 / 8.14);
   }
 
   public void setDesiredState(SwerveModuleState state) {
@@ -50,6 +55,10 @@ public class SwerveModule extends SubsystemBase {
     state = SwerveModuleState.optimize(state, Rotation2d.fromDegrees(steerEncoder.getPosition()));
     driveMotor.set(state.speedMetersPerSecond / 3);
     steerController.setReference(state.angle.getDegrees(), CANSparkMax.ControlType.kPosition);
+  }
+
+  public SwerveModulePosition getModulePosition() {
+    return new SwerveModulePosition(driveEncoder.getPosition(), Rotation2d.fromDegrees(steerEncoder.getPosition()));
   }
 
   public void halt() {
