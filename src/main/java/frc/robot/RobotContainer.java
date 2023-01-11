@@ -35,6 +35,16 @@ public class RobotContainer {
       PathPlanner.loadPath("Linear Test Path", new PathConstraints(3, 2)),
       true
     ));
+    autonChooser.setDefaultOption("Spin In Place", new DriveFollowPath(
+      driveTrain,
+      PathPlanner.loadPath("Spin In Place", new PathConstraints(3, 2)),
+      true
+    ));
+    autonChooser.setDefaultOption("Complex", new DriveFollowPath(
+      driveTrain,
+      PathPlanner.loadPath("Complex", new PathConstraints(3, 2)),
+      true
+    ));
 
     SmartDashboard.putData(autonChooser);
     // Configure the trigger bindings
