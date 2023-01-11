@@ -26,10 +26,10 @@ public class DriveTrain extends SubsystemBase {
     backRight = SwerveModuleFactory.getBackRight();
 
     kinematics = new SwerveDriveKinematics(
-      new Translation2d(-0.28448, 0.28448),
       new Translation2d(0.28448, 0.28448),
-      new Translation2d(-0.28448, -0.28448),
-      new Translation2d(0.28448, -0.28448)
+      new Translation2d(0.28448, -0.28448),
+      new Translation2d(-0.28448, 0.28448),
+      new Translation2d(-0.28448, -0.28448)
     );
   }
 
