@@ -51,7 +51,7 @@ public class DriveTrain extends SubsystemBase {
    * Field centric by default
    */
   public void drive(double vx, double vy, double omega) {
-    ChassisSpeeds speeds = new ChassisSpeeds(vx, vy, omega);
+    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, omega, Rotation2d.fromDegrees(gyro.getYaw()));
     this.setChassisSpeeds(speeds);
   }
 
