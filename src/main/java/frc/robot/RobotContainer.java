@@ -17,13 +17,13 @@ import frc.robot.subsystems.DriveTrain;
  */
 public class RobotContainer {
   DriveTrain driveTrain = new DriveTrain();
-  Joystick leftJoystick = new Joystick(1);
-  Joystick rightJoystick = new Joystick(2);
+  Joystick leftJoystick = new Joystick(0);
+  Joystick rightJoystick = new Joystick(1);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-    new DriveWithJoysticks(driveTrain, leftJoystick::getX, leftJoystick::getY, rightJoystick::getX);
+    driveTrain.setDefaultCommand(new DriveWithJoysticks(driveTrain, leftJoystick::getX, leftJoystick::getY, rightJoystick::getX));
   }
 
   /**

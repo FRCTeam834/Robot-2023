@@ -1,0 +1,39 @@
+{
+  "NetworkTables": {
+    "Driving PID": {
+      "open": false
+    },
+    "LiveWindow": {
+      "Hood": {
+        "open": false
+      },
+      "Shooter": {
+        "open": false
+      },
+      "Vision": {
+        "open": false
+      },
+      "open": false
+    },
+    "Persistent Values": {
+      "open": false
+    },
+    "SmartDashboard": {
+      "Hood": {
+        "open": false
+      },
+      "Shooter": {
+        "open": false
+      },
+      "Vision": {
+        "open": false
+      }
+    },
+    "photonvision": {
+      "PiCam": {
+        "open": false
+      },
+      "open": false
+    }
+  }
+}

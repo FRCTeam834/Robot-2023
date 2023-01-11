@@ -31,14 +31,22 @@ public class SwerveModule extends SubsystemBase {
     steerController.setPositionPIDWrappingMaxInput(359);
     steerController.setPositionPIDWrappingMinInput(0);
 
-    steerController.setP(1);
-    driveController.setP(1);
+    steerController.setP(0.05);
+    steerController.setI(0);
+    steerController.setD(0);
+    driveController.setP(0.5);
+    driveController.setI(0);
+    driveController.setD(0);
 
     steerEncoder = steerMotor.getEncoder();
-    steerEncoder.setPositionConversionFactor(360);
+    steerEncoder.setPositionConversionFactor(360.0 / 12.8);
   }
 
   public void setDesiredState(SwerveModuleState state) {
+    if (Math.abs(state.speedMetersPerSecond) <= 0.1) {
+      this.halt();
+      return;
+    }
     state = SwerveModuleState.optimize(state, Rotation2d.fromDegrees(steerEncoder.getPosition()));
     driveMotor.set(state.speedMetersPerSecond / 3);
     steerController.setReference(state.angle.getDegrees(), CANSparkMax.ControlType.kPosition);

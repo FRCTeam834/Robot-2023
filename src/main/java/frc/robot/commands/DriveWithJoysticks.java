@@ -22,6 +22,7 @@ public class DriveWithJoysticks extends CommandBase {
     DoubleSupplier turnSupplier
   ) {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(driveTrain);
     this.driveTrain = driveTrain;
     this.xSupplier = xSupplier;
     this.ySupplier = ySupplier;
@@ -35,10 +36,14 @@ public class DriveWithJoysticks extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double xRaw = this.xSupplier.getAsDouble();
+    double yRaw = this.ySupplier.getAsDouble();
+    double turnRaw = this.turnSupplier.getAsDouble();
+    if (Math.abs(xRaw) < 0.075) xRaw = 0;
+    if (Math.abs(yRaw) < 0.075) yRaw = 0;
+    if (Math.abs(turnRaw) < 0.075) turnRaw = 0;
     this.driveTrain.drive(
-      this.xSupplier.getAsDouble(),
-      this.ySupplier.getAsDouble(),
-      this.turnSupplier.getAsDouble()
+      xRaw, yRaw, turnRaw
     );
   }
 
