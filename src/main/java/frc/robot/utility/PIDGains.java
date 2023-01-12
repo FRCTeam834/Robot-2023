@@ -8,7 +8,7 @@ import com.revrobotics.SparkMaxPIDController;
 
 import edu.wpi.first.math.controller.PIDController;
 
-/** Add your docs here. */
+/** Helper class for containing PID gain values */
 public class PIDGains {
     protected double kP, kI, kD;
 
@@ -48,5 +48,9 @@ public class PIDGains {
         controller.setP(this.getP());
         controller.setI(this.getI());
         controller.setD(this.getD());
+    }
+
+    public boolean hasChanged() {
+        return false;
     }
 }

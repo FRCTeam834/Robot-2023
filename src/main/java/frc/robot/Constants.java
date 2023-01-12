@@ -17,16 +17,19 @@ import frc.robot.utility.TuneablePIDGains;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+    public static final boolean competitionMode = false;
+
     /* 
         All units are metric unless stated otherwise 
     */
 
-    /* SET TO TRUE BEFORE COMPETITION */
-    public static final boolean competitionMode = false;
-
     public static final boolean tuningMode = true && !competitionMode;
+    public static final boolean telemetryMode = true && !competitionMode;
+
     public static final NetworkTable tuningTable = NetworkTableInstance.getDefault().getTable("Tuning");
 
+    /** */
     public static final class CANIDS {
         public static final int FL_STEER = 1;
         public static final int FL_DRIVE = 2;
@@ -47,5 +50,12 @@ public final class Constants {
         public static final double WHEEL_DIAMETER = 0.127;
         public static final double STEER_GEAR_RATIO = 12.8;
         public static final double DRIVE_GEAR_RATIO = 8.14;
+        public static final double WIDTH = 0.5;
+        public static final double LENGTH = 0.5;
+
+        public static final double MAX_MODULE_SPEED = 3;
+
+        // 
+        public static final double MODULE_MOVE_THRESHOLD = 0.1;
     }
 }

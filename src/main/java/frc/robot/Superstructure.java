@@ -10,14 +10,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 /** */
 public class Superstructure extends SubsystemBase {
 
-  private final SwerveDrivePoseEstimator poseEstimator;
+  //private final SwerveDrivePoseEstimator poseEstimator;
 
   public Superstructure() {
-    poseEstimator = new SwerveDrivePoseEstimator();
+    //poseEstimator = new SwerveDrivePoseEstimator();
   }
 
   @Override
   public void periodic() {
-    poseEstimator.update(null, null);
+    //poseEstimator.update(null, null);
   }
 }

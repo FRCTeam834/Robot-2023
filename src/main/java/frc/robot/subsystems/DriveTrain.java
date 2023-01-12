@@ -7,8 +7,18 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveTrain extends SubsystemBase {
-  /** Creates a new DriveTrain. */
-  public DriveTrain() {}
+  
+  private final SwerveModule frontLeft;
+  private final SwerveModule frontRight;
+  private final SwerveModule backLeft;
+  private final SwerveModule backRight;
+
+  public DriveTrain() {
+    frontLeft = SwerveModule.buildFrontLeft();
+    frontRight = SwerveModule.buildFrontRight();
+    backLeft = SwerveModule.buildBackLeft();
+    backRight = SwerveModule.buildBackRight();
+  }
 
   @Override
   public void periodic() {

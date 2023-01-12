@@ -7,7 +7,9 @@ package frc.robot.utility;
 import edu.wpi.first.networktables.NetworkTable;
 import frc.robot.Constants;
 
-/** 2021 misspell legacy */
+/**
+ * Enables PID gains to be modified in real time through network tables
+ */
 public class TuneablePIDGains extends PIDGains {
 
     private final boolean tuningMode = Constants.tuningMode;
@@ -80,6 +82,7 @@ public class TuneablePIDGains extends PIDGains {
         return !(tuningMode && this.isTuneableD) ? this.kD : tuneableD.get();
     }
 
+    @Override
     public boolean hasChanged() {
         return (
             tuneableP == null ? false : tuneableP.hasChanged() ||
