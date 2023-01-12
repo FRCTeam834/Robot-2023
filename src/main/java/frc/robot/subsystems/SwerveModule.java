@@ -24,8 +24,6 @@ public class SwerveModule extends SubsystemBase {
   SparkMaxPIDController driveController;
   RelativeEncoder steerEncoder;
   RelativeEncoder driveEncoder;
-  
-
 
   public SwerveModule(int SteerID, int DriveID) {
     steerMotor = new CANSparkMax(SteerID, CANSparkMaxLowLevel.MotorType.kBrushless);
