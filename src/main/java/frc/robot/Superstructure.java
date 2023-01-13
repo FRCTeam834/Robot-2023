@@ -4,20 +4,32 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Pigeon;
+import frc.robot.utility.PoseEstimator;
 
 /** */
 public class Superstructure extends SubsystemBase {
 
-  //private final SwerveDrivePoseEstimator poseEstimator;
+  private final DriveTrain driveTrain;
+  private final Pigeon gyro;
 
-  public Superstructure() {
-    //poseEstimator = new SwerveDrivePoseEstimator();
+  private final PoseEstimator poseEstimator;
+
+  public Superstructure(
+    DriveTrain driveTrain,
+    Pigeon gyro
+  ) {
+    this.driveTrain = driveTrain;
+    this.gyro = gyro;
+
+    this.poseEstimator = new PoseEstimator(driveTrain, gyro);
   }
+
 
   @Override
   public void periodic() {
-    //poseEstimator.update(null, null);
+    this.poseEstimator.update();
   }
 }

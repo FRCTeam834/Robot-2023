@@ -90,4 +90,21 @@ public class TuneablePIDGains extends PIDGains {
             tuneableD == null ? false : tuneableD.hasChanged()
         );
     }
+
+    /**
+     * Clones current TUneablePIDGains instance
+     * @param name - appended to name of current instance
+     */
+    @Override
+    public TuneablePIDGains clone (String name) {
+        return new TuneablePIDGains(
+            this.name + " " + name,
+            this.getP(),
+            this.getI(),
+            this.getD(),
+            this.isTuneableP,
+            this.isTuneableI,
+            this.isTuneableD
+        );
+    }
 }

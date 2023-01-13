@@ -53,4 +53,13 @@ public class PIDGains {
     public boolean hasChanged() {
         return false;
     }
+
+    /** Not useful, interfacing TuneablePIDGains clone */
+    public PIDGains clone (String name) {
+        return new PIDGains(
+            this.getP(),
+            this.getI(),
+            this.getD()
+        );
+    }
 }

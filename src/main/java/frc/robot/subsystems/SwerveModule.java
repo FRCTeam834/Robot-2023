@@ -11,6 +11,8 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -39,6 +41,10 @@ public class SwerveModule extends SubsystemBase {
     PIDGains steerPID,
     PIDGains drivePID
   ) {
+    /* Clone pid gains so each module has unique instance (important if the gains are tuneable) */
+    steerPID = steerPID.clone(name);
+    drivePID = drivePID.clone(name);
+
     SwerveModule module = new SwerveModule(name, STEERID, DRIVEID, steerPID, drivePID);
     CANSparkMax steerMotor = module.getSteerMotor();
     CANSparkMax driveMotor = module.getDriveMotor();
@@ -60,6 +66,8 @@ public class SwerveModule extends SubsystemBase {
     steerEncoder.setPositionConversionFactor(360.0 / Constants.DRIVETRAIN.STEER_GEAR_RATIO);
     // revolutions => meters
     driveEncoder.setPositionConversionFactor(Math.PI * Constants.DRIVETRAIN.WHEEL_DIAMETER / Constants.DRIVETRAIN.DRIVE_GEAR_RATIO);
+    // rev/min => meters/sec
+    driveEncoder.setVelocityConversionFactor(Math.PI * Constants.DRIVETRAIN.WHEEL_DIAMETER / (60 * Constants.DRIVETRAIN.DRIVE_GEAR_RATIO));
 
     /* Do not touch these unless you know what you are doing */
     steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 10);
@@ -180,8 +188,20 @@ public class SwerveModule extends SubsystemBase {
     return this.steerEncoder.getPosition();
   }
 
+  public Rotation2d getCurrentAngleAsRotation2d () {
+    return Rotation2d.fromDegrees(this.getCurrentAngle());
+  }
+
   public double getCurrentVelocity () {
     return this.driveEncoder.getVelocity();
+  }
+
+  public double getCurrentPosition () {
+    return this.driveEncoder.getPosition();
+  }
+
+  public SwerveModulePosition getModulePosition () {
+    return new SwerveModulePosition(this.getCurrentPosition(), this.getCurrentAngleAsRotation2d());
   }
 
   /**
@@ -211,6 +231,38 @@ public class SwerveModule extends SubsystemBase {
     this.driveMotor.set(0);
   }
 
+  /**
+   * Set desired module state
+   * @param desiredState
+   */
+  public void setDesiredState (SwerveModuleState desiredState) {
+    desiredState = SwerveModule.optimize(desiredState, this.getCurrentAngleAsRotation2d(), Constants.DRIVETRAIN.MODULE_OPTIMIZE_THRESHOLD);
+
+    if (Math.abs(desiredState.speedMetersPerSecond) < Constants.DRIVETRAIN.MODULE_MOVE_THRESHOLD) {
+      this.halt();
+      return;
+    }
+
+    this.setDesiredAngle(desiredState.angle);
+    this.setDesiredSpeed(desiredState.speedMetersPerSecond);
+  }
+
+  /**
+   * Set desired module state open loop
+   * @param desiredState
+   */
+  public void setDesiredStateOpenLoop (SwerveModuleState desiredState) {
+    desiredState = SwerveModule.optimize(desiredState, this.getCurrentAngleAsRotation2d(), Constants.DRIVETRAIN.MODULE_OPTIMIZE_THRESHOLD);
+
+    if (Math.abs(desiredState.speedMetersPerSecond) < Constants.DRIVETRAIN.MODULE_MOVE_THRESHOLD) {
+      this.halt();
+      return;
+    }
+
+    this.setDesiredAngle(desiredState.angle);
+    this.setSpeed(desiredState.speedMetersPerSecond);
+  }
+
   @Override
   public void initSendable (SendableBuilder builder) {
     if (Constants.telemetryMode == false) return;
@@ -235,5 +287,22 @@ public class SwerveModule extends SubsystemBase {
         this.driveController.setD(this.drivePIDGains.getD());
       }
     }
+  }
+
+  /** 
+   * SwerveModuleState optimize but with customizable threshold
+   * @param threshold - angle before optimization in degrees
+   */
+  public static SwerveModuleState optimize (
+    SwerveModuleState desiredState, Rotation2d currentAngle, double threshold
+  ) {
+    Rotation2d delta = desiredState.angle.minus(currentAngle);
+    if (Math.abs(delta.getDegrees()) > threshold) {
+      return new SwerveModuleState(
+        -desiredState.speedMetersPerSecond,
+        desiredState.angle.rotateBy(Rotation2d.fromDegrees(180.0))
+      );
+    }
+    return desiredState;
   }
 }
