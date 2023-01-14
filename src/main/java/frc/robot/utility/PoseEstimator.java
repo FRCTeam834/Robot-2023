@@ -16,7 +16,6 @@ public class PoseEstimator {
     private final Pigeon gyro;
 
     private final SwerveDrivePoseEstimator poseEstimator;
-    private Pose2d estimatedPose;
 
     public PoseEstimator (DriveTrain driveTrain, Pigeon gyro) {
         this.driveTrain = driveTrain;
