@@ -2,15 +2,17 @@ package frc.robot.utility;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 // Taken from:
 // https://github.com/Mechanical-Advantage/RobotCode2020/blob/master/src/main/java/frc/robot/util/TunableNumber.java
 
-public class TuneableNumber {
+public class TuneableNumber extends SubsystemBase {
     private NetworkTableEntry entry;
     private double defaultValue;
     private boolean tuningMode;
     private double lastValue;
+    private boolean changed;
 
     /** Create a new TunableNumber */
     public TuneableNumber(NetworkTable table, String name, double defaultValue, boolean tuningMode) {
@@ -48,14 +50,7 @@ public class TuneableNumber {
      * @return The current value
      */
     public double get() {
-      return get(true);
-    }
-
-    private double get(boolean resetLastValue) {
       double currentValue = tuningMode ? entry.getDouble(defaultValue) : defaultValue;
-      if (resetLastValue) {
-        lastValue = currentValue;
-      }
       return currentValue;
     }
 
@@ -65,6 +60,15 @@ public class TuneableNumber {
      * @return
      */
     public boolean hasChanged() {
-      return lastValue == get(false);
+      return changed || get() != lastValue;
+    }
+
+    @Override
+    public void periodic () {
+      double current = get();
+      if (lastValue != current) {
+        changed = true;
+        lastValue = current;
+      }
     }
 }

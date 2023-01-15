@@ -41,10 +41,6 @@ public class SwerveModule extends SubsystemBase {
     PIDGains steerPID,
     PIDGains drivePID
   ) {
-    /* Clone pid gains so each module has unique instance (important if the gains are tuneable) */
-    steerPID = steerPID.clone(name);
-    drivePID = drivePID.clone(name);
-
     SwerveModule module = new SwerveModule(name, STEERID, DRIVEID, steerPID, drivePID);
     CANSparkMax steerMotor = module.getSteerMotor();
     CANSparkMax driveMotor = module.getDriveMotor();
