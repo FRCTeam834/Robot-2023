@@ -16,9 +16,6 @@ public class Superstructure {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public Superstructure() {
-    if (Constants.competitionMode) {
-      
-    }
     // Configure the trigger bindings
     configureBindings();
   }

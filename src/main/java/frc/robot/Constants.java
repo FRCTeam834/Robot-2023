@@ -4,7 +4,18 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.photonvision.PhotonCamera;
+import org.photonvision.RobotPoseEstimator;
+import org.photonvision.RobotPoseEstimator.PoseStrategy;
+
+import edu.wpi.first.math.Pair;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
 /**
@@ -49,15 +60,20 @@ public final class Constants {
 
     public static final class CHANNELIDS {
         public static final int ELEVATOR_HOMING_LS = 1;
+        public static final int ARM_HOMING_LS = 2;
     }
 
     public static final class ArmConstants {
-        public static final double MOI = 5;
+        public static final double kS = 0.0;
+        public static final double kG = 0.0; // Hopefully stays 0 :p
+        public static final double kV = 0.0;
+        public static final double kA = 0.0;
         public static final double GEAR_REDUCTION = 1; // Gear reduction between motor and encoder
         
         public static final int CURRENT_LIMIT = 20;
         public static final int HOME_CURRENT_LIMIT = 40;
         public static final double HOME_SPEED = 0.1;
+        public static final double HOMED_POSITION = 1;
 
         // Softlimits
         public static final double MIN_POSITION = 2;
@@ -68,8 +84,11 @@ public final class Constants {
     }
 
     public static final class ElevatorConstants {
-        public static final double CARRIAGE_MASS = 10;
-        public static final double DRUM_RADIUS = 0.5;
+        public static final double kS = 0.0;
+        public static final double kG = 0.0;
+        public static final double kV = 0.0;
+        public static final double kA = 0.0;
+        public static final double DRUM_RADIUS = 0.05;
         public static final double GEAR_REDUCTION = 1; // Gear reduction between motor and encoder
         
         public static final int CURRENT_LIMIT = 20;
@@ -79,6 +98,13 @@ public final class Constants {
         // Softlimits
         public static final double MIN_POSITION = 0.1;
         public static final double MAX_POSITION = 2;
+
+        // For MOI Calculations
+        // Treat carriage as point mass (find the carriage CM)
+        public static final double CARRIAGE_MASS = 10;
+        public static final double HOMED_DIST_TO_PIVOT = 0.1;
+        public static final double STAGE_HEIGHT = 0.5;
+        public static final double STAGE_MASS = 5;
 
         public static final TrapezoidProfile.Constraints PROFILE_CONSTRAINTS =
             new TrapezoidProfile.Constraints(1, 2);
@@ -115,6 +141,16 @@ public final class Constants {
     }
 
     public static final class VisionConstants {
-        public static final String CAMERA_NAME = "Einstein2023";
+        public static final PoseStrategy POSE_ESTIMATION_STRATEGY = PoseStrategy.CLOSEST_TO_LAST_POSE;
+        // Configuration for all cameras
+        public static final List<Pair<PhotonCamera, Transform3d>> CAMERAS = new ArrayList<>() {{
+            add(new Pair<PhotonCamera, Transform3d>(
+                new PhotonCamera("Einstein2023"),
+                new Transform3d(
+                    new Translation3d(0, 0, 0.5),
+                    new Rotation3d(0, 0, 0)
+                )
+            ));
+        }};
     }
 }

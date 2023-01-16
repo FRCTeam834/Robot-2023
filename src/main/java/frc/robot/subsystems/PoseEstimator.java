@@ -9,9 +9,26 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class PoseEstimator extends SubsystemBase {
   
+  private final DriveTrain driveTrain;
+  private final Pigeon gyro;
+  private final Vision vision;
   private final SwerveDrivePoseEstimator poseEstimator;
-  public PoseEstimator() {
-    poseEstimator = new SwerveDrivePoseEstimator(null, null, null, null);
+
+  public PoseEstimator(
+    DriveTrain driveTrain,
+    Pigeon gyro,
+    Vision vision
+  ) {
+    this.driveTrain = driveTrain;
+    this.gyro = gyro;
+    this.vision = vision;
+
+    poseEstimator = new SwerveDrivePoseEstimator(
+      null,
+      null,
+      null,
+      null
+    );
   }
 
   @Override
