@@ -23,6 +23,7 @@ public final class Constants {
     /**
      * 
      * ALL UNITS ARE METRIC
+     * !Except for angles, which are in degrees
      * 
      */
     public static final class CANIDS {
@@ -40,10 +41,30 @@ public final class Constants {
 
         public static final int ELEVATOR_MASTER = 9;
         public static final int ELEVATOR_FOLLOWER = 10;
+
+        public static final int ARM = 11;
+
+        public static final int PIGEON = 13;
     }
 
     public static final class CHANNELIDS {
         public static final int ELEVATOR_HOMING_LS = 1;
+    }
+
+    public static final class ArmConstants {
+        public static final double MOI = 5;
+        public static final double GEAR_REDUCTION = 1; // Gear reduction between motor and encoder
+        
+        public static final int CURRENT_LIMIT = 20;
+        public static final int HOME_CURRENT_LIMIT = 40;
+        public static final double HOME_SPEED = 0.1;
+
+        // Softlimits
+        public static final double MIN_POSITION = 2;
+        public static final double MAX_POSITION = 45;
+
+        public static final TrapezoidProfile.Constraints PROFILE_CONSTRAINTS =
+            new TrapezoidProfile.Constraints(30, 60);
     }
 
     public static final class ElevatorConstants {
@@ -66,6 +87,7 @@ public final class Constants {
     public static final class DriveTrainConstants {
         public static final double WIDTH = 1;
         public static final double LENGTH = 1;
+        public static final int CURRENT_LIMIT = 20;
         public static final String[] MODULE_NAMES = {
             "FL",
             "FR",
@@ -90,5 +112,9 @@ public final class Constants {
             new Translation2d(WIDTH / 2, -LENGTH / 2),
             new Translation2d(-WIDTH / 2, -LENGTH / 2)
         };
+    }
+
+    public static final class VisionConstants {
+        public static final String CAMERA_NAME = "Einstein2023";
     }
 }

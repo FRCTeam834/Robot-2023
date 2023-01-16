@@ -4,11 +4,27 @@
 
 package frc.robot.subsystems;
 
+import org.photonvision.PhotonCamera;
+
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.VisionConstants;
 
 public class Vision extends SubsystemBase {
-  /** Creates a new Vision. */
-  public Vision() {}
+  
+  private final PhotonCamera camera;
+  private final AprilTagFieldLayout fieldLayout;
+  
+  public Vision() {
+    camera = new PhotonCamera(VisionConstants.CAMERA_NAME);
+    fieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
+  }
+
+  public Pose3d getPoseFromVision () {
+    
+  }
 
   @Override
   public void periodic() {

@@ -4,11 +4,15 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class PoseEstimator extends SubsystemBase {
-  /** Creates a new PoseEstimator. */
-  public PoseEstimator() {}
+  
+  private final SwerveDrivePoseEstimator poseEstimator;
+  public PoseEstimator() {
+    poseEstimator = new SwerveDrivePoseEstimator(null, null, null, null);
+  }
 
   @Override
   public void periodic() {

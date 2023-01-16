@@ -19,6 +19,7 @@ import edu.wpi.first.math.system.LinearSystemLoop;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
@@ -56,16 +57,16 @@ public class Elevator extends SubsystemBase {
 
     this.setCurrentLimit();
 
-    if (Constants.competitionMode) {
-      masterMotor.burnFlash();
-      followerMotor.burnFlash();
-    }
-
     followerMotor.follow(masterMotor);
 
     encoder = masterMotor.getEncoder();
     encoder.setPositionConversionFactor(2 * Math.PI * ElevatorConstants.DRUM_RADIUS / ElevatorConstants.GEAR_REDUCTION);
     // encoder.setVelocityConversionFactor(2 * Math.PI * ElevatorConstants.DRUM_RADIUS / (60 * ElevatorConstants.GEAR_REDUCTION));
+
+    if (Constants.competitionMode) {
+      masterMotor.burnFlash();
+      followerMotor.burnFlash();
+    }
 
     systemModel = LinearSystemId.createElevatorSystem(
       DCMotor.getNEO(2),
@@ -164,6 +165,14 @@ public class Elevator extends SubsystemBase {
       },
       this)
       .until(homingLimitSwitch::get);
+  }
+
+  @Override
+  public void initSendable(SendableBuilder builder) {
+    if (!Constants.telemetryMode) return;
+
+    builder.setSmartDashboardType("Elevator");
+    builder.addDoubleProperty("Position", encoder::getPosition, null);
   }
 
   @Override

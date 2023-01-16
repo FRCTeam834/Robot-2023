@@ -4,11 +4,22 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.CANIDS;
 
 public class Arm extends SubsystemBase {
-  /** Creates a new Arm. */
-  public Arm() {}
+  private final CANSparkMax motor;
+  private final AbsoluteEncoder encoder;
+
+  public Arm() {
+    motor = new CANSparkMax(CANIDS.ARM, CANSparkMaxLowLevel.MotorType.kBrushless);
+    encoder = motor.getAbsoluteEncoder(Type.kDutyCycle);
+  }
 
   @Override
   public void periodic() {
