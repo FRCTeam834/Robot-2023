@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Arm;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -16,6 +17,7 @@ public class Superstructure {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public Superstructure() {
+    new Arm();
     // Configure the trigger bindings
     configureBindings();
   }
