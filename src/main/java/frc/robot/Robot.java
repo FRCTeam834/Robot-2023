@@ -4,6 +4,19 @@
 
 package frc.robot;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.controller.LinearQuadraticRegulator;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N2;
+import edu.wpi.first.math.system.LinearSystem;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.system.plant.LinearSystemId;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.util.InterpolatingTreeMap;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -19,6 +32,22 @@ public class Robot extends TimedRobot {
 
   private Superstructure m_robotContainer;
 
+  public void runTestCase (double mass, double radius) {
+    LinearSystem<N2, N1, N1> plant = LinearSystemId.createSingleJointedArmSystem(
+      DCMotor.getNEO(1),
+      mass * radius * radius,
+      1
+    );
+
+    LinearQuadraticRegulator<N2, N1, N1> controller = new LinearQuadraticRegulator<>(
+      plant,
+      VecBuilder.fill(Units.degreesToRadians(1), Units.degreesToRadians(10)), // qelms; pos and vel error tolerance
+      VecBuilder.fill(12.0), // relms; control effort
+      0.02
+    );
+
+    System.out.println(controller.getK());
+  }
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -28,6 +57,15 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new Superstructure();
+
+    try {
+      FileWriter writer = new FileWriter(Filesystem.getDeployDirectory() + "/arm.txt");
+      writer.write("hi");
+      writer.close();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
   /**
