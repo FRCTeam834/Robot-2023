@@ -40,7 +40,7 @@ public class Arm extends SubsystemBase {
   private final CANSparkMax motor;
   private final AbsoluteEncoder encoder;
 
-  private final ArmFeedforward feedforward;
+  private ArmFeedforward feedforward;
 
   private LinearSystem<N2, N1, N1> plant;
   private KalmanFilter<N2, N1, N1> observer;
@@ -50,8 +50,6 @@ public class Arm extends SubsystemBase {
     motor = new CANSparkMax(0, CANSparkMaxLowLevel.MotorType.kBrushless);
     encoder = motor.getAbsoluteEncoder(Type.kDutyCycle);
     // ... config motor and encoder
-
-    feedforward = new ArmFeedforward(ARBVALUE, ARBVALUE, ARBVALUE, ARBVALUE);
 
     if (true) {
       this.writeKLerpTable();
@@ -119,6 +117,18 @@ public class Arm extends SubsystemBase {
     return ARBVALUE;
   }
 
+  private double getMOIScale () {
+    double BASE = ARBVALUE;
+    double REAL = this.getEstimatedMOI();
+    return REAL / BASE;
+  }
+
+  private double getArmLengthScale () {
+    double BASE = ARBVALUE;
+    double REAL = ARBVALUE;
+    return REAL / BASE;
+  }
+
   private Matrix<N1, N1> calculate (Matrix<N2, N1> x, Matrix<N2, N1> nextR) {
     Matrix<N1, N1> u = KLerpTable.get(this.getEstimatedMOI()).times(nextR.minus(x));
     return u;
@@ -134,6 +144,11 @@ public class Arm extends SubsystemBase {
       12.0
     );
     observer.predict(u, 0.02);
+  }
+
+  private double ffCalculate (double position, double velocity, double acceleration) {
+    feedforward = new ArmFeedforward(ARBVALUE, this.getArmLengthScale() * ARBVALUE, ARBVALUE, this.getMOIScale() * ARBVALUE);
+    return feedforward.calculate(position, velocity, acceleration);
   }
 
   @Override
