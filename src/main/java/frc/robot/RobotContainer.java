@@ -4,7 +4,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.CloseClaw;
+import frc.robot.commands.OpenClaw;
+import frc.robot.subsystems.Arm;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -13,6 +19,15 @@ import edu.wpi.first.wpilibj2.command.Command;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+  
+  public static Arm arm = new Arm();
+
+  public static Joystick buttonBoard = new Joystick(Constants.BUTTON_BOARD_ID);
+
+  public static JoystickButton leftButton = new JoystickButton(buttonBoard, 0);
+  public static JoystickButton rightButton = new JoystickButton(buttonBoard, 1);
+
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -29,7 +44,11 @@ public class RobotContainer {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-  private void configureBindings() {}
+  private void configureBindings() {
+    leftButton.onTrue(new CloseClaw());
+    rightButton.onTrue(new OpenClaw());
+    
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
