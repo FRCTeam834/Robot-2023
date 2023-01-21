@@ -25,6 +25,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -45,7 +46,7 @@ public class Arm extends SubsystemBase {
   private final LinearQuadraticRegulator<N2, N1, N1> controller;
   private final KalmanFilter<N2, N1, N1> observer;
   private final Matrix<N1, N2> K;
-  private Matrix<N1, N1> lastU;
+  private double lastTime;
 
   /* Desired states */
   private TrapezoidProfile.State desiredState;
@@ -152,29 +153,30 @@ public class Arm extends SubsystemBase {
 
   /**
    * 
-   * @param nextPosition
-   * @param nextVelocity
-   * @return
+   * @return calculated motor voltage
    */
   public double stateSpaceCalculate () {
     if (desiredState == null) return 0.0;
-
+    /* Reference state */
     var r = VecBuilder.fill(desiredState.position, desiredState.velocity);
     
-    observer.correct(
-      lastU,
-      VecBuilder.fill(this.getPositionRadians())
-    );
-
     /* Control law u = K(r-x)*/
     var u = StateSpaceUtil.desaturateInputVector(
       K.times(r.minus(observer.getXhat())),
       12.0
     );
 
-    observer.predict(u, 0.02);
+    double currentTime = Timer.getFPGATimestamp();
 
-    lastU = u;
+    observer.predict(u, currentTime - lastTime);
+
+    lastTime = currentTime;
+
+    observer.correct(
+      u,
+      VecBuilder.fill(this.getPositionRadians())
+    );
+
     return u.get(0, 0);
   }
 
@@ -214,7 +216,7 @@ public class Arm extends SubsystemBase {
       double acceleration = (newReferenceState.velocity - lastReferenceState.velocity) / 0.02;
 
       if (position < ArmConstants.MIN_POSITION || position > ArmConstants.MAX_POSITION) {
-        /* Reference position over softlimit */
+        /* Reference position is over the softlimit */
         this.hold();
       } else {
         motor.setVoltage(

@@ -61,10 +61,11 @@ public final class Constants {
         /* Current limit when homing */
         public static final int HOME_CURRENT_LIMIT = 10;
         /* Percent speed when homing */
-        public static final double HOME_SPEED = 0.01;
+        public static final double HOME_SPEED = -0.01;
     }
 
     public static final class VisionConstants {
+        public static final boolean competitionMode = false;
         /* Strategy for resolving pose ambiguity */
         public static final PoseStrategy POSE_ESTIMATION_STRATEGY = PoseStrategy.CLOSEST_TO_LAST_POSE;
         /* Configuration for all cameras */
