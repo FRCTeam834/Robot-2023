@@ -49,8 +49,4 @@ public class PIDGains {
         controller.setI(this.getI());
         controller.setD(this.getD());
     }
-
-    public boolean hasChanged() {
-        return false;
-    }
 }

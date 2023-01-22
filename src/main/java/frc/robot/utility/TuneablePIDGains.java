@@ -82,13 +82,4 @@ public class TuneablePIDGains extends PIDGains {
     public double getD() {
         return !(tuningMode && this.isTuneableD) ? this.kD : tuneableD.get();
     }
-
-    @Override
-    public boolean hasChanged() {
-        return (
-            tuneableP == null ? false : tuneableP.hasChanged() ||
-            tuneableI == null ? false : tuneableI.hasChanged() ||
-            tuneableD == null ? false : tuneableD.hasChanged()
-        );
-    }
 }
