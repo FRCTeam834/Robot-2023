@@ -12,10 +12,12 @@ import edu.wpi.first.wpilibj2.command.Command;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
-public class Superstructure {
+public class RobotContainer {
+
+  public static intake = new Intake();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public Superstructure() {
+  public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
   }

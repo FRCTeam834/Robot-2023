@@ -153,4 +153,11 @@ public final class Constants {
             ));
         }};
     }
+
+    public static final class IntakeConstants {
+        public static final int INTAKE_MOTOR_ID = 0;
+        public static final double CURRENT_THRESHOLD = 91287821.912;
+        public static final int NUM_SAMPLES = 5;
+        public static final double MOTOR_SPEED = 2020202.2222;
+    }
 }
