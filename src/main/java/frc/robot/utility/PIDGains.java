@@ -7,6 +7,7 @@ package frc.robot.utility;
 import com.revrobotics.SparkMaxPIDController;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 
 /** Helper class for containing PID gain values */
 public class PIDGains {
@@ -38,16 +39,29 @@ public class PIDGains {
         return this.kD;
     }
 
-    public void bindToController(SparkMaxPIDController controller) {
+    public SparkMaxPIDController bindToController(SparkMaxPIDController controller) {
         controller.setP(this.getP());
         controller.setI(this.getI());
         controller.setD(this.getD());
+        return controller;
     }
 
-    public void bindToController(PIDController controller) {
+    public PIDController bindToController(PIDController controller) {
         controller.setP(this.getP());
         controller.setI(this.getI());
         controller.setD(this.getD());
+        return controller;
+    }
+
+    public ProfiledPIDController bindToController(ProfiledPIDController controller) {
+        controller.setP(this.getP());
+        controller.setI(this.getI());
+        controller.setD(this.getD());
+        return controller;
+    }
+
+    public PIDController derivePIDController () {
+        return this.bindToController(new PIDController(0.0, 0.0, 0.0));
     }
 
     public boolean hasChanged() {

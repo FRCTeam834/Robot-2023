@@ -5,6 +5,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.DriveWithSpeeds;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Pigeon;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -13,9 +18,18 @@ import edu.wpi.first.wpilibj2.command.Command;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class Superstructure {
+  OI oi = new OI();
+  Pigeon pigeon = new Pigeon();
+  DriveTrain driveTrain = new DriveTrain(pigeon);
+  // PoseEstimator poseEstimator = new PoseEstimator();
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public Superstructure() {
+    driveTrain.setDefaultCommand(new DriveWithSpeeds(
+      driveTrain,
+      OI::getRightJoystickX,
+      OI::getRightJoystickY,
+      OI::getLeftJoystickX
+    ));
     // Configure the trigger bindings
     configureBindings();
   }
