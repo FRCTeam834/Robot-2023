@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
 
 public class Intake extends SubsystemBase {
@@ -19,6 +20,16 @@ public class Intake extends SubsystemBase {
   public Intake() {
     motor = new CANSparkMax(IntakeConstants.CANID, CANSparkMaxLowLevel.MotorType.kBrushless);
     encoder = motor.getEncoder();
+
+    motor.restoreFactoryDefaults();
+    motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    motor.setInverted(false);
+    motor.enableVoltageCompensation(12.0);
+    motor.setSmartCurrentLimit(IntakeConstants.CURRENT_LIMIT);
+
+    if (Constants.competitionMode) {
+      motor.burnFlash();
+    }
   }
 
   public double getRPM () {
