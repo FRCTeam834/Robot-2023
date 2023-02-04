@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
 import edu.wpi.first.math.Matrix;
@@ -50,6 +51,11 @@ public class Arm extends SubsystemBase {
   public Arm() {
     motor = new CANSparkMax(ArmConstants.CANID, CANSparkMaxLowLevel.MotorType.kBrushless);
     encoder = motor.getAbsoluteEncoder(Type.kDutyCycle);
+
+    // Duty cycle encoder position packet (default 200ms - bad!)
+    motor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 20);
+    motor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 20);
+    motor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
 
     feedforward = ArmConstants.FEEDFORWARD;
 

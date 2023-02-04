@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -78,6 +79,10 @@ public class SwerveModule extends SubsystemBase {
     steerMotor.enableVoltageCompensation(12.0);
     driveMotor.setSmartCurrentLimit(DriveTrainConstants.DRIVE_CURRENT_LIMIT);
     steerMotor.setSmartCurrentLimit(DriveTrainConstants.STEER_CURRENT_LIMIT);
+
+    // Duty cycle encoder position packet (default 200ms - bad!)
+    steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 20);
+    steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
 
     // RPM -> m/s
     driveEncoder.setVelocityConversionFactor(Math.PI * DriveTrainConstants.WHEEL_DIAMETER / (60 * DriveTrainConstants.DRIVE_GEAR_RATIO));
