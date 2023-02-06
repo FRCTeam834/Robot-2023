@@ -157,6 +157,14 @@ public class Arm extends SubsystemBase {
   }
 
   /**
+   * @return angular acceleration from arm counterbalancing
+   */
+  public double getAccelerationFromCounterbalance () {
+    // torque = I * alpha = F * r * sin phi
+    return 0.0; // Placeholder
+  }
+
+  /**
    * Keep arm static
    */
   public void hold () {
@@ -195,7 +203,8 @@ public class Arm extends SubsystemBase {
       } else {
         motor.setVoltage(
           this.stateSpaceCalculate() +
-          feedforward.calculate(position, velocity, acceleration)
+          feedforward.calculate(position, velocity, acceleration) -
+          feedforward.ka * this.getAccelerationFromCounterbalance()
         );
       }
 
