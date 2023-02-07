@@ -168,7 +168,10 @@ public class Arm extends SubsystemBase {
    * Keep arm static
    */
   public void hold () {
-    motor.setVoltage(feedforward.calculate(this.getPositionRadians(), 0));
+    motor.setVoltage(
+      feedforward.calculate(this.getPositionRadians(), 0) -
+      feedforward.ka * this.getAccelerationFromCounterbalance()
+    );
   }
 
   /**

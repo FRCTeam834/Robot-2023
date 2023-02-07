@@ -7,6 +7,6 @@ package frc.robot.utility;
 /** Add your docs here. */
 public class UnitQuad {
     public static final double calculate (double value) {
-        return Math.pow(value, 2);
+        return Math.copySign(value * value, value);
     }
 }
