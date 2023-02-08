@@ -141,5 +141,12 @@ public final class Constants {
         public static final int CURRENT_LIMIT = 20;
         public static final int RPM_FILTER_TAPS = 12;
         public static final double CONE_RPM_THRESHOLD = 10;
+        public static final double CUBE_RPM_THRESHOLD = 100000;
     }
+
+    public static enum GamePieceType {
+        NONE,
+        CUBE,
+        CONE
+    };
 }

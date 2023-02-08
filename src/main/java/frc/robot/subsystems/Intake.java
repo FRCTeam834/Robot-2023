@@ -10,12 +10,15 @@ import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.GamePieceType;
 import frc.robot.Constants.IntakeConstants;
 
 public class Intake extends SubsystemBase {
   
   private final CANSparkMax motor;
   private final RelativeEncoder encoder;
+
+  public static GamePieceType currentGamePiece = GamePieceType.NONE;
   
   public Intake() {
     motor = new CANSparkMax(IntakeConstants.CANID, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -46,6 +49,14 @@ public class Intake extends SubsystemBase {
 
   public void stop () {
     motor.set(0.0);
+  }
+
+  public boolean hasCube () {
+    return currentGamePiece == GamePieceType.CUBE;
+  }
+
+  public boolean hasCone () {
+    return currentGamePiece == GamePieceType.CONE;
   }
 
   @Override
