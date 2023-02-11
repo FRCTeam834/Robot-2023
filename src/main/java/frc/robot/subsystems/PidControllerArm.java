@@ -28,14 +28,19 @@ public class PidControllerArm extends SubsystemBase {
     armMotor = new CANSparkMax(15, MotorType.kBrushless);
     armEncoder = armMotor.getEncoder();
 
+    armMotor.setSmartCurrentLimit(30);
+    armMotor.enableVoltageCompensation(12);
+    armMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+
+
     armEncoder.setPositionConversionFactor(2.0 * Math.PI / 100.0);
     armEncoder.setVelocityConversionFactor(2.0 * Math.PI / (60.0 * 100.0));
 
     armEncoder.setPosition(0);
 
 
-    feedforward = new ArmFeedforward(0, 0, 0, 0);
-    armController = new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(0, 0));
+    feedforward = new ArmFeedforward(1, 0.59, 1.95, 0.09);
+    armController = new ProfiledPIDController(1, 0, 0, new TrapezoidProfile.Constraints(0, 0));
     
   }
   
