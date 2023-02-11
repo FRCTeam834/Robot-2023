@@ -108,14 +108,18 @@ public final class Constants {
 
         public static final int CURRENT_LIMIT = 40;
 
-        public static final double GEAR_REDUCTION = 100;
+        public static final double GEAR_REDUCTION = 60;
         public static final double MAX_POSITION = Units.degreesToRadians(120);
-        public static final double MIN_POSITION = Units.degreesToRadians(-30);
+        public static final double MIN_POSITION = Units.degreesToRadians(-35);
+        public static final double STARTING_POSITION = Units.degreesToRadians(-30);
+
+        public static final TuneablePIDGains PID_GAINS = new TuneablePIDGains("ARM", 5);
 
         public static final TrapezoidProfile.Constraints PROFILE_CONSTRAINTS = new TrapezoidProfile.Constraints(
             Units.degreesToRadians(180),
             Units.degreesToRadians(360)
         );
+
         public static final ArmFeedforward FEEDFORWARD = new ArmFeedforward(0, 0, 0, 0);
         public static final double SETPOINT_TOLERANCE = Units.degreesToRadians(0.5);
     }

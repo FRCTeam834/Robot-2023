@@ -109,7 +109,7 @@ public class DriveTrain extends SubsystemBase {
     double omega
   ) {
     ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, omega, gyro.getYawAsRotation2d());
-    speeds = this.adjustChassisSpeeds(speeds);
+    // speeds = this.adjustChassisSpeeds(speeds);
 
     SwerveModuleState[] desiredStates = kinematics.toSwerveModuleStates(speeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(

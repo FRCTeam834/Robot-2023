@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.GamePieceType;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.Intake;
-import frc.robot.Constants.GamePieceType;
 
 public class IntakeCube extends CommandBase {
   /** Creates a new IntakeCube. */
