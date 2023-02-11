@@ -13,7 +13,7 @@ public class OI {
     public static final Joystick rightJoystick = new Joystick(DriverConstants.RIGHT_JOYSTICK_PORT);
 
     /**
-     * @return left joystick raw x input
+     * @return left joystick x input
      */
     public static final double getLeftJoystickX () {
         double raw = leftJoystick.getX();
@@ -22,7 +22,7 @@ public class OI {
     }
 
     /**
-     * @return left joystick raw y input
+     * @return left joystick y input
      */
     public static final double getLeftJoystickY () {
         double raw = leftJoystick.getY();
@@ -31,7 +31,7 @@ public class OI {
     }
 
     /**
-     * @return right joystick raw x input
+     * @return right joystick x input
      */
     public static final double getRightJoystickX () {
         double raw = rightJoystick.getX();
@@ -40,7 +40,7 @@ public class OI {
     }
 
     /**
-     * @return right joystick raw y input
+     * @return right joystick y input
      */
     public static final double getRightJoystickY () {
         double raw = rightJoystick.getY();

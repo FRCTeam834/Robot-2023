@@ -116,12 +116,25 @@ public final class Constants {
         public static final TuneablePIDGains PID_GAINS = new TuneablePIDGains("ARM", 5);
 
         public static final TrapezoidProfile.Constraints PROFILE_CONSTRAINTS = new TrapezoidProfile.Constraints(
-            Units.degreesToRadians(180),
-            Units.degreesToRadians(360)
+            Units.degreesToRadians(360),
+            Units.degreesToRadians(480)
         );
 
         public static final ArmFeedforward FEEDFORWARD = new ArmFeedforward(0, 0, 0, 0);
         public static final double SETPOINT_TOLERANCE = Units.degreesToRadians(0.5);
+
+        public static enum ArmPositionPresets {
+            L1(Units.degreesToRadians(0)),
+            L2(Units.degreesToRadians(0)),
+            L3(Units.degreesToRadians(0)),
+            DS(Units.degreesToRadians(0));
+
+            public final double position;
+
+            ArmPositionPresets (double position) {
+                this.position = position;
+            }
+        };
     }
 
     public static final class PoseEstimatorConstants {
