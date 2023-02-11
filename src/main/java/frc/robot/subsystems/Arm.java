@@ -112,6 +112,11 @@ public class Arm extends SubsystemBase {
     return Units.degreesToRadians(this.getPosition());
   }
 
+  /** */
+  public double getMOI () {
+    return 0.0;
+  }
+
   /**
    * Set desired state of arm
    * @param position - arm position in deg

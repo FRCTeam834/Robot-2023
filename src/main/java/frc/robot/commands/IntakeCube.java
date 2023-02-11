@@ -20,7 +20,7 @@ public class IntakeCube extends CommandBase {
   public IntakeCube(Intake intake) {
     this.intake = intake;
     rpmFilter = LinearFilter.movingAverage(IntakeConstants.RPM_FILTER_TAPS);
-    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
@@ -41,13 +41,15 @@ public class IntakeCube extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    if (this.isFinished()) {
+      Intake.currentGamePiece = GamePieceType.CUBE;
+    }
     intake.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    Intake.currentGamePiece = GamePieceType.CUBE;
     return Math.abs(rpm) < IntakeConstants.CUBE_RPM_THRESHOLD;
   }
 }

@@ -19,6 +19,7 @@ public class IntakeCone extends CommandBase {
   public IntakeCone(Intake intake) {
     this.intake = intake;
     rpmFilter = LinearFilter.movingAverage(IntakeConstants.RPM_FILTER_TAPS);
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
@@ -39,13 +40,15 @@ public class IntakeCone extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    if (this.isFinished()) {
+      Intake.currentGamePiece = GamePieceType.CONE;
+    }
     intake.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    Intake.currentGamePiece = GamePieceType.CONE;
     return Math.abs(rpm) < IntakeConstants.CONE_RPM_THRESHOLD;
   }
 }
