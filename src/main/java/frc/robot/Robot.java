@@ -52,8 +52,9 @@ public class Robot extends TimedRobot {
     /* Stop everything */
     CommandScheduler.getInstance().cancelAll();
 
-    m_robotContainer.driveTrain.stop();
-    m_robotContainer.intake.stop();
+    // m_robotContainer.driveTrain.stop();
+    // m_robotContainer.intake.stop();
+    // m_robotContainer.arm.stop();
     m_robotContainer.arm.stop();
   }
 

@@ -4,19 +4,24 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autons.LinearPath;
 import frc.robot.commands.DriveWithSpeeds;
-import frc.robot.subsystems.Arm;
+// import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.PidControllerArm;
 import frc.robot.subsystems.Pigeon;
 import frc.robot.subsystems.PoseEstimator;
 import frc.robot.subsystems.Vision;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -27,30 +32,40 @@ import frc.robot.subsystems.Vision;
 public class Superstructure {
   /* Initialize subsystems */
   OI oi = new OI();
-  Pigeon pigeon = new Pigeon();
-  DriveTrain driveTrain = new DriveTrain(pigeon);
-  Arm arm = new Arm();
-  Intake intake = new Intake();
-  Vision vision = new Vision();
-  PoseEstimator poseEstimator = new PoseEstimator(
-    driveTrain.getKinematics(),
-    driveTrain,
-    pigeon,
-    vision
-  );
+  // Pigeon pigeon = new Pigeon();
+  // DriveTrain driveTrain = new DriveTrain(pigeon);
+  // Arm arm = new Arm();
 
-  SendableChooser<Command> autonChooser = new SendableChooser<>();
+  PidControllerArm arm = new PidControllerArm();
+  Joystick leftJoystick = new Joystick(0);
+
+  JoystickButton button0 = new JoystickButton(leftJoystick, 1);
+
+
+  // Intake intake = new Intake();
+  // Vision vision = new Vision();
+
+
+
+  // PoseEstimator poseEstimator = new PoseEstimator(
+  //   driveTrain.getKinematics(),
+  //   driveTrain,
+  //   pigeon,
+  //   vision
+  // );
+
+  // SendableChooser<Command> autonChooser = new SendableChooser<>();
 
   public Superstructure() {
-    autonChooser.setDefaultOption("Do nothing", new InstantCommand());
-    autonChooser.addOption("Linear test path", new LinearPath(driveTrain, poseEstimator));
+  //   autonChooser.setDefaultOption("Do nothing", new InstantCommand());
+  //   autonChooser.addOption("Linear test path", new LinearPath(driveTrain, poseEstimator));
 
-    driveTrain.setDefaultCommand(new DriveWithSpeeds(
-      driveTrain,
-      OI::getRightJoystickX,
-      OI::getRightJoystickY,
-      OI::getLeftJoystickX
-    ));
+  //   driveTrain.setDefaultCommand(new DriveWithSpeeds(
+  //     driveTrain,
+  //     OI::getRightJoystickX,
+  //     OI::getRightJoystickY,
+  //     OI::getLeftJoystickX
+  //   ));
     // Configure the trigger bindings
     configureBindings();
   }
@@ -64,14 +79,25 @@ public class Superstructure {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-  private void configureBindings() {}
+  private void configureBindings() {
+    new JoystickButton(leftJoystick, 1).onTrue(new InstantCommand(() -> {
+      arm.setGoal(Units.degreesToRadians(30));
+    }));
+
+    new JoystickButton(leftJoystick, 2).onTrue(new InstantCommand(() -> {
+      arm.stop();
+    }));
+
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
+   * 
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return autonChooser.getSelected();
+    return null;
+    // return autonChooser.getSelected();
   }
 }

@@ -142,4 +142,5 @@ public final class Constants {
         public static final int RPM_FILTER_TAPS = 12;
         public static final double CONE_RPM_THRESHOLD = 10;
     }
+
 }
