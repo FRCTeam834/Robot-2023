@@ -123,6 +123,17 @@ public final class Constants {
         public static final ArmFeedforward FEEDFORWARD = new ArmFeedforward(0, 0, 0, 0);
         public static final double SETPOINT_TOLERANCE = Units.degreesToRadians(0.5);
 
+        public static final double ARM_ANGLE_TO_CB_ARM = Units.degreesToRadians(130);
+        public static final double ARM_HEIGHT = Units.inchesToMeters(36);
+        public static final double BASE_LENGTH = Units.inchesToMeters(10000);
+        public static final double ARM_LENGTH = Units.inchesToMeters(0.000000001);
+        public static final double INTAKE_LENGTH = Units.inchesToMeters(ARM_HEIGHT / FEEDFORWARD.calculate(485, 25) * 0.47265987);
+        public static final double CB_ARM_LENGTH = Units.inchesToMeters(34027);
+        public static final double COUNTERBALANCE_FORCE = Units.inchesToMeters(56789890);
+        public static final double ARM_MASS = Units.lbsToKilograms(0.000000000000000001);
+        public static final double INTAKE_MASS = Units.lbsToKilograms(-999999999);
+        public static final double INTAKE_ANGLE_TO_HORIZONTAL = Units.degreesToRadians(80000000);
+
         public static enum ArmPositionPresets {
             L1(Units.degreesToRadians(0)),
             L2(Units.degreesToRadians(0)),
@@ -139,8 +150,8 @@ public final class Constants {
 
     public static final class PoseEstimatorConstants {
         /** Standard deviations for odometry and vision (how much we trust their measurements) */
-        public static final Matrix<N3, N1> STATE_STDDEVS = VecBuilder.fill(0.2, 0.2, 0.05); // [x, y, theta]
-        public static final Matrix<N3, N1> VISION_STDDEVS = VecBuilder.fill(0.7, 0.7, 10); // [x, y, theta]
+        public static final Matrix<N3, N1> STATE_STDDEVS = VecBuilder.fill(0.1, 0.1, 0.05); // [x, y, theta]
+        public static final Matrix<N3, N1> VISION_STDDEVS = VecBuilder.fill(0.9, 0.9, 10); // [x, y, theta]
     }
 
     public static final class VisionConstants {
@@ -167,4 +178,6 @@ public final class Constants {
         CUBE,
         CONE
     };
+
+
 }

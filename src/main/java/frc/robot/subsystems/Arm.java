@@ -11,6 +11,7 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -92,10 +93,38 @@ public class Arm extends SubsystemBase {
   }
 
   /**
+   * Approximate arm as rod and intake as point mass
+   * @return current moment of inertia of the arm
+   */
+  public double getMomentOfInertia () {
+    double theta = Units.degreesToRadians(90) + this.getPosition() - ArmConstants.INTAKE_ANGLE_TO_HORIZONTAL;
+    // Law of cosines
+    double intakeDistToPivot = Math.sqrt(
+      ArmConstants.ARM_LENGTH * ArmConstants.ARM_LENGTH +
+      ArmConstants.INTAKE_LENGTH * ArmConstants.INTAKE_LENGTH -
+      2 * ArmConstants.ARM_LENGTH * ArmConstants.INTAKE_LENGTH * Math.cos(theta)
+    );
+
+    return 
+      1.0/3.0 * ArmConstants.ARM_MASS * ArmConstants.ARM_LENGTH * ArmConstants.ARM_LENGTH +
+      ArmConstants.INTAKE_MASS * intakeDistToPivot * intakeDistToPivot;
+  }
+
+  /**
    * @return angular acceleration from arm counterbalancing
    */
   public double getAccelerationFromCounterbalance () {
-    return 0.0; // Placeholder
+    double beta = ArmConstants.ARM_ANGLE_TO_CB_ARM - this.getPosition() - Units.degreesToRadians(90);
+    // Location where force is applied
+    double Fx = ArmConstants.BASE_LENGTH - (ArmConstants.CB_ARM_LENGTH * Math.cos(beta));
+    double Fy = ArmConstants.ARM_HEIGHT - (ArmConstants.CB_ARM_LENGTH * Math.sin(beta));
+
+    double theta = Math.PI - Math.atan(Fy / Fx) - beta;
+    
+    double torque = ArmConstants.COUNTERBALANCE_FORCE * Math.sin(theta);
+    
+    // torque = Ia; a = torque / I
+    return torque / getMomentOfInertia();
   }
 
   /**
