@@ -121,7 +121,7 @@ public class Arm extends SubsystemBase {
 
     double theta = Math.PI - Math.atan(Fy / Fx) - beta;
     
-    double torque = ArmConstants.COUNTERBALANCE_FORCE * Math.sin(theta);
+    double torque = ArmConstants.COUNTERBALANCE_FORCE * ArmConstants.CB_ARM_LENGTH * Math.sin(theta);
     
     // torque = Ia; a = torque / I
     return torque / getMomentOfInertia();
