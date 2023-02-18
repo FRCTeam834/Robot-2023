@@ -129,7 +129,7 @@ public class SwerveModule extends SubsystemBase {
   }
 
   public Rotation2d getAngleAsRotation2d () {
-    return Rotation2d.fromDegrees(this.getAngle());
+    return Rotation2d.fromRadians(this.getAngle());
   }
 
   /**
@@ -174,7 +174,7 @@ public class SwerveModule extends SubsystemBase {
       return;
     }
 
-    this.setDesiredAngle(desiredState.angle.getDegrees());
+    this.setDesiredAngle(desiredState.angle.getRadians());
     this.setDesiredSpeed(desiredState.speedMetersPerSecond);
   }
 
@@ -184,14 +184,14 @@ public class SwerveModule extends SubsystemBase {
    * @param desiredState
    */
   public void setDesiredStateOpenLoop (SwerveModuleState desiredState) {
-    // desiredState = SwerveModule.optimize(desiredState, this.getAngleAsRotation2d(), 120);
+    // desiredState = SwerveModule.optimize(desiredState, this.getAngleAsRotation2d(), Units.degreesToRadians(120.0));
 
     if (Math.abs(desiredState.speedMetersPerSecond) < DriveTrainConstants.MODULE_ACTIVATION_THRESHOLD) {
       this.stop();
       return;
     }
 
-    this.setDesiredAngle(desiredState.angle.getDegrees());
+    this.setDesiredAngle(desiredState.angle.getRadians());
     this.setSpeed(desiredState.speedMetersPerSecond);
   }
 

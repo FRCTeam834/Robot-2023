@@ -93,8 +93,8 @@ public final class Constants {
 
         public static final Translation2d[] MODULE_POSITIONS = {
             new Translation2d(WIDTH / 2, LENGTH / 2),
-            new Translation2d(-WIDTH / 2, LENGTH / 2),
             new Translation2d(WIDTH / 2, -LENGTH / 2),
+            new Translation2d(-WIDTH / 2, LENGTH / 2),
             new Translation2d(-WIDTH / 2, -LENGTH / 2)
         };
     }

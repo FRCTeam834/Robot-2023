@@ -51,12 +51,7 @@ public class DriveTrain extends SubsystemBase {
 
     gyro = pigeon;
 
-    kinematics = new SwerveDriveKinematics(
-      DriveTrainConstants.MODULE_POSITIONS[0],
-      DriveTrainConstants.MODULE_POSITIONS[1],
-      DriveTrainConstants.MODULE_POSITIONS[2],
-      DriveTrainConstants.MODULE_POSITIONS[3]
-    );
+    kinematics = new SwerveDriveKinematics(DriveTrainConstants.MODULE_POSITIONS);
 
     DriveTrainConstants.KEEP_HEADING_PID_GAINS.bindToController(keepHeadingController);
     keepHeadingController.enableContinuousInput(0, 2 * Math.PI);
