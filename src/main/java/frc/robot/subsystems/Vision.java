@@ -62,6 +62,7 @@ public class Vision extends SubsystemBase {
     if (!Constants.telemetryMode) return;
     
     builder.setSmartDashboardType("Vision");
+    SmartDashboard.putData(this);
   }
 
   @Override

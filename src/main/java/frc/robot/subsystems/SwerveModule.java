@@ -18,6 +18,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveTrainConstants;
@@ -202,11 +203,12 @@ public class SwerveModule extends SubsystemBase {
 
   @Override
   public void initSendable(SendableBuilder builder) {
-    //if (Constants.telemetryMode == false) return;
+    if (Constants.telemetryMode == false) return;
 
     builder.setSmartDashboardType("MAXSwerve " + this.name);
     builder.addDoubleProperty("Angle", this::getAngle, null);
     builder.addDoubleProperty("Velocity", this::getVelocity, null);
+    SmartDashboard.putData(this);
   }
 
   @Override

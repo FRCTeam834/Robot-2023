@@ -13,6 +13,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
@@ -156,9 +157,10 @@ public class Arm extends SubsystemBase {
 
   @Override
   public void initSendable (SendableBuilder builder) {
-    //if (Constants.telemetryMode == false) return;
+    if (Constants.telemetryMode == false) return;
 
     builder.setSmartDashboardType("Arm");
     builder.addDoubleProperty("Position", this::getPosition, null);
+    SmartDashboard.putData(this);
   }
 }

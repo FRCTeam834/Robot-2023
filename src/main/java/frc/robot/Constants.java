@@ -167,7 +167,7 @@ public final class Constants {
     public static final class IntakeConstants {
         public static final int CANID = 11;
         public static final int CURRENT_LIMIT = 20;
-        public static final int RPM_FILTER_TAPS = 50;
+        public static final int RPM_FILTER_TAPS = 20;
         public static final double CONE_RPM_THRESHOLD = 5;
         public static final double CUBE_RPM_THRESHOLD = 20;
         public static final double FREE_RPM_THRESHOLD = 250;

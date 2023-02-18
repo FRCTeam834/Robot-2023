@@ -15,6 +15,7 @@ public class Outtake extends CommandBase {
   private Intake intake;
   private final LinearFilter rpmFilter;
   private double rpm;
+  private GamePieceType lastGamePiece;
 
   public Outtake(Intake intake) {
     this.intake = intake;
@@ -27,9 +28,17 @@ public class Outtake extends CommandBase {
   public void initialize() {
     rpmFilter.reset();
     if(intake.currentGamePiece == GamePieceType.CUBE) {
+      lastGamePiece = intake.currentGamePiece;
       intake.setVoltage(-6);
     } else if (intake.currentGamePiece == GamePieceType.CONE){
+      lastGamePiece = intake.currentGamePiece;
       intake.setVoltage(6);
+    } else if (intake.currentGamePiece == GamePieceType.NONE) {
+      if (lastGamePiece == GamePieceType.CONE) {
+        intake.setVoltage(6);
+      } else if (lastGamePiece == GamePieceType.CUBE) {
+        intake.setVoltage(-6);
+      }
     }
   }
 

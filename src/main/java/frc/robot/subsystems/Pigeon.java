@@ -9,6 +9,7 @@ import com.ctre.phoenix.sensors.Pigeon2;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.PigeonConstants;
@@ -35,11 +36,11 @@ public class Pigeon extends SubsystemBase {
 
   @Override
   public void initSendable(SendableBuilder builder) {
-    //if (Constants.telemetryMode == false) return;
+    if (Constants.telemetryMode == false) return;
 
     builder.setSmartDashboardType("Pigeon");
-    System.out.println("oweirgbweogeuibgwogubrgouwgbowrg\n\n\n\n\n\n\nwergwegewgewrgwergwergwerg\n\n\n\nergwegewrgwergewrgerge");
     builder.addDoubleProperty("Yaw", this::getYaw, null);
+    SmartDashboard.putData(this);
   }
 
   @Override
