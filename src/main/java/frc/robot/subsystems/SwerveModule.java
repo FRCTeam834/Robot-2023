@@ -59,8 +59,8 @@ public class SwerveModule extends SubsystemBase {
   private SwerveModule(int moduleID) {
     name = DriveTrainConstants.MODULE_NAMES[moduleID];
 
-    driveMotor = new CANSparkMax(DriveTrainConstants.CANIDS[moduleID][0], CANSparkMaxLowLevel.MotorType.kBrushless);
-    steerMotor = new CANSparkMax(DriveTrainConstants.CANIDS[moduleID][1], CANSparkMaxLowLevel.MotorType.kBrushless);
+    driveMotor = new CANSparkMax(DriveTrainConstants.CANIDS[moduleID][1], CANSparkMaxLowLevel.MotorType.kBrushless);
+    steerMotor = new CANSparkMax(DriveTrainConstants.CANIDS[moduleID][0], CANSparkMaxLowLevel.MotorType.kBrushless);
 
     driveEncoder = driveMotor.getEncoder();
     steerEncoder = steerMotor.getAbsoluteEncoder(Type.kDutyCycle);
@@ -102,8 +102,8 @@ public class SwerveModule extends SubsystemBase {
 
     /* Make inputs circular (e.g 361 degrees is equivalent to 1 degree) */
     steerController.setPositionPIDWrappingEnabled(true);
+    steerController.setPositionPIDWrappingMinInput(0);
     steerController.setPositionPIDWrappingMaxInput(2 * Math.PI);
-    steerController.setPositionPIDWrappingMaxInput(0);
 
     /* Burn flash so configurations are saved if brownout */
     if (Constants.competitionMode) {
@@ -184,7 +184,7 @@ public class SwerveModule extends SubsystemBase {
    * @param desiredState
    */
   public void setDesiredStateOpenLoop (SwerveModuleState desiredState) {
-    desiredState = SwerveModule.optimize(desiredState, this.getAngleAsRotation2d(), 120);
+    // desiredState = SwerveModule.optimize(desiredState, this.getAngleAsRotation2d(), 120);
 
     if (Math.abs(desiredState.speedMetersPerSecond) < DriveTrainConstants.MODULE_ACTIVATION_THRESHOLD) {
       this.stop();
@@ -202,7 +202,7 @@ public class SwerveModule extends SubsystemBase {
 
   @Override
   public void initSendable(SendableBuilder builder) {
-    if (!Constants.telemetryMode) return;
+    //if (Constants.telemetryMode == false) return;
 
     builder.setSmartDashboardType("MAXSwerve " + this.name);
     builder.addDoubleProperty("Angle", this::getAngle, null);

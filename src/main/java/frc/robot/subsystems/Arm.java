@@ -148,16 +148,16 @@ public class Arm extends SubsystemBase {
     if (isStopped) return;
 
     motor.setVoltage(
-      feedforward.calculate(controller.getGoal().position, controller.getGoal().velocity) -
-      feedforward.ka * this.getAccelerationFromCounterbalance() +
+      feedforward.calculate(controller.getGoal().position, controller.getGoal().velocity) +//-
+      //feedforward.ka * this.getAccelerationFromCounterbalance() +
       controller.calculate(this.getPosition())
     );
   }
 
   @Override
   public void initSendable (SendableBuilder builder) {
-    if (!Constants.telemetryMode) return;
-    
+    //if (Constants.telemetryMode == false) return;
+
     builder.setSmartDashboardType("Arm");
     builder.addDoubleProperty("Position", this::getPosition, null);
   }

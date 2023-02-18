@@ -11,13 +11,13 @@ import frc.robot.utility.UnitQuad;
 public class OI {
     public static final Joystick leftJoystick = new Joystick(DriverConstants.LEFT_JOYSTICK_PORT);
     public static final Joystick rightJoystick = new Joystick(DriverConstants.RIGHT_JOYSTICK_PORT);
-
+    
     /**
      * @return left joystick x input
      */
     public static final double getLeftJoystickX () {
         double raw = leftJoystick.getX();
-        if (raw < DriverConstants.LEFT_JOYSTICK_DEADZONE) raw = 0.0;
+        if (Math.abs(raw) < DriverConstants.LEFT_JOYSTICK_DEADZONE) raw = 0.0;
         return UnitQuad.calculate(raw);
     }
 
@@ -26,7 +26,7 @@ public class OI {
      */
     public static final double getLeftJoystickY () {
         double raw = leftJoystick.getY();
-        if (raw < DriverConstants.LEFT_JOYSTICK_DEADZONE) raw = 0.0;
+        if (Math.abs(raw) < DriverConstants.LEFT_JOYSTICK_DEADZONE) raw = 0.0;
         return UnitQuad.calculate(raw);
     }
 
@@ -35,7 +35,7 @@ public class OI {
      */
     public static final double getRightJoystickX () {
         double raw = rightJoystick.getX();
-        if (raw < DriverConstants.RIGHT_JOYSTICK_DEADZONE) raw = 0.0;
+        if (Math.abs(raw) < DriverConstants.RIGHT_JOYSTICK_DEADZONE) raw = 0.0;
         return UnitQuad.calculate(raw);
     }
 
@@ -44,7 +44,7 @@ public class OI {
      */
     public static final double getRightJoystickY () {
         double raw = rightJoystick.getY();
-        if (raw < DriverConstants.RIGHT_JOYSTICK_DEADZONE) raw = 0.0;
+        if (Math.abs(raw) < DriverConstants.RIGHT_JOYSTICK_DEADZONE) raw = 0.0;
         return UnitQuad.calculate(raw);
     }
 }

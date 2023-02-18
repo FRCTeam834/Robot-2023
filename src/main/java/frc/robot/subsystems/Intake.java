@@ -18,7 +18,7 @@ public class Intake extends SubsystemBase {
   private final CANSparkMax motor;
   private final RelativeEncoder encoder;
 
-  public static GamePieceType currentGamePiece = GamePieceType.NONE;
+  public GamePieceType currentGamePiece = GamePieceType.NONE;
   
   public Intake() {
     motor = new CANSparkMax(IntakeConstants.CANID, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -39,12 +39,8 @@ public class Intake extends SubsystemBase {
     return encoder.getVelocity();
   }
 
-  public void runForward () {
-    motor.setVoltage(12);
-  }
-
-  public void runBackward () {
-    motor.setVoltage(-12);
+  public void setVoltage (double voltage) {
+    motor.setVoltage(voltage);
   }
 
   public void stop () {

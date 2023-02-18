@@ -51,7 +51,12 @@ public class DriveTrain extends SubsystemBase {
 
     gyro = pigeon;
 
-    kinematics = new SwerveDriveKinematics(DriveTrainConstants.MODULE_POSITIONS);
+    kinematics = new SwerveDriveKinematics(
+      DriveTrainConstants.MODULE_POSITIONS[0],
+      DriveTrainConstants.MODULE_POSITIONS[1],
+      DriveTrainConstants.MODULE_POSITIONS[2],
+      DriveTrainConstants.MODULE_POSITIONS[3]
+    );
 
     DriveTrainConstants.KEEP_HEADING_PID_GAINS.bindToController(keepHeadingController);
     keepHeadingController.enableContinuousInput(0, 2 * Math.PI);
@@ -108,17 +113,18 @@ public class DriveTrain extends SubsystemBase {
     double vy,
     double omega
   ) {
-    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, omega, gyro.getYawAsRotation2d());
-    // speeds = this.adjustChassisSpeeds(speeds);
+    ChassisSpeeds speeds = new ChassisSpeeds(vx, vy, omega);
+    //speeds = this.ratelimitChassisSpeeds(speeds);
 
     SwerveModuleState[] desiredStates = kinematics.toSwerveModuleStates(speeds);
-    SwerveDriveKinematics.desaturateWheelSpeeds(
+    /*SwerveDriveKinematics.desaturateWheelSpeeds(
       desiredStates,
       lastChassisSpeeds,
       DriveTrainConstants.MAX_MODULE_SPEED,
       DriveTrainConstants.MAX_TRANSLATION_SPEED,
       DriveTrainConstants.MAX_STEER_SPEED
-    );
+    );*/
+    //SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveTrainConstants.MAX_MODULE_SPEED);
     this.setDesiredModuleStatesOpenLoop(desiredStates);
     lastChassisSpeeds = speeds;
   }

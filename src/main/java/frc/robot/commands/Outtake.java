@@ -26,10 +26,10 @@ public class Outtake extends CommandBase {
   @Override
   public void initialize() {
     rpmFilter.reset();
-    if(Intake.currentGamePiece == GamePieceType.CUBE) {
-      intake.runBackward();
-    } else if (Intake.currentGamePiece == GamePieceType.CONE){
-      intake.runForward();
+    if(intake.currentGamePiece == GamePieceType.CUBE) {
+      intake.setVoltage(-6);
+    } else if (intake.currentGamePiece == GamePieceType.CONE){
+      intake.setVoltage(6);
     }
   }
 
@@ -43,7 +43,7 @@ public class Outtake extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     if (this.isFinished()) {
-      Intake.currentGamePiece = GamePieceType.NONE;
+      intake.currentGamePiece = GamePieceType.NONE;
     }
     intake.stop();
   }

@@ -39,7 +39,7 @@ public final class Constants {
 
     public static final class DriverConstants {
         public static final int LEFT_JOYSTICK_PORT = 0;
-        public static final int RIGHT_JOYSTICK_PORT = 0;
+        public static final int RIGHT_JOYSTICK_PORT = 1;
 
         public static final double LEFT_JOYSTICK_DEADZONE = 0.075;
         public static final double RIGHT_JOYSTICK_DEADZONE = 0.075;
@@ -48,10 +48,10 @@ public final class Constants {
     public static final class DriveTrainConstants {
         public static final int[][] CANIDS = {
             // {steerID, driveID}
-            {1, 2},
-            {3, 4},
-            {5, 6},
-            {7, 8}
+            {2, 3},
+            {4, 5},
+            {6, 7},
+            {8, 9}
         };
 
         public static final double WIDTH = Units.inchesToMeters(26.5);
@@ -62,14 +62,14 @@ public final class Constants {
         public static final double DRIVE_GEAR_RATIO = 4.71429;
         public static final double STEER_GEAR_RATIO = 1;
 
-        public static final double MAX_TRANSLATION_SPEED = Units.inchesToMeters(3);
+        public static final double MAX_TRANSLATION_SPEED = Units.feetToMeters(3);
         public static final double MAX_STEER_SPEED = Units.degreesToRadians(360);
-        public static final double MAX_MODULE_SPEED = Units.inchesToMeters(4);
+        public static final double MAX_MODULE_SPEED = Units.feetToMeters(4);
         /** Minimum speed needed for module to move, mitigates jittering */
         public static final double MODULE_ACTIVATION_THRESHOLD = 0.05;
 
-        public static final PIDGains DRIVE_PID_GAINS = new TuneablePIDGains("SWERVE_DRIVE", 0.0, 0.0);
-        public static final PIDGains STEER_PID_GAINS = new TuneablePIDGains("SWERVE_DRIVE", 0.0, 0.0);
+        public static final PIDGains DRIVE_PID_GAINS = new TuneablePIDGains("SWERVE_DRIVE", 0.5, 0.0);
+        public static final PIDGains STEER_PID_GAINS = new TuneablePIDGains("SWERVE_STEER", 0.5, 0.0);
         public static final SimpleMotorFeedforward DRIVE_FF = new SimpleMotorFeedforward(0.0, 0.0, 0.0);
 
         public static final PIDGains AUTON_DRIVE_PID_GAINS = new PIDGains(3);
@@ -100,7 +100,7 @@ public final class Constants {
     }
 
     public static final class PigeonConstants {
-        public static final int CANID = 9;
+        public static final int CANID = 12;
     }
 
     public static final class ArmConstants {
@@ -109,18 +109,18 @@ public final class Constants {
         public static final int CURRENT_LIMIT = 40;
 
         public static final double GEAR_REDUCTION = 60;
-        public static final double MAX_POSITION = Units.degreesToRadians(120);
-        public static final double MIN_POSITION = Units.degreesToRadians(-35);
-        public static final double STARTING_POSITION = Units.degreesToRadians(-30);
+        public static final double MAX_POSITION = Units.degreesToRadians(180);
+        public static final double MIN_POSITION = Units.degreesToRadians(-180);
+        public static final double STARTING_POSITION = Units.degreesToRadians(0);
 
         public static final TuneablePIDGains PID_GAINS = new TuneablePIDGains("ARM", 5);
 
         public static final TrapezoidProfile.Constraints PROFILE_CONSTRAINTS = new TrapezoidProfile.Constraints(
-            Units.degreesToRadians(360),
-            Units.degreesToRadians(480)
+            Units.degreesToRadians(60),
+            Units.degreesToRadians(60)
         );
 
-        public static final ArmFeedforward FEEDFORWARD = new ArmFeedforward(0, 0, 0, 0);
+        public static final ArmFeedforward FEEDFORWARD = new ArmFeedforward(1, 2, 0.7, 0.1);
         public static final double SETPOINT_TOLERANCE = Units.degreesToRadians(0.5);
 
         public static final double ARM_ANGLE_TO_CB_ARM = Units.degreesToRadians(130);
@@ -135,7 +135,7 @@ public final class Constants {
         public static final double INTAKE_ANGLE_TO_HORIZONTAL = Units.degreesToRadians(80000000);
 
         public static enum ArmPositionPresets {
-            L1(Units.degreesToRadians(0)),
+            L1(Units.degreesToRadians(80)),
             L2(Units.degreesToRadians(0)),
             L3(Units.degreesToRadians(0)),
             DS(Units.degreesToRadians(0));
@@ -165,12 +165,12 @@ public final class Constants {
     }
 
     public static final class IntakeConstants {
-        public static final int CANID = 13;
+        public static final int CANID = 11;
         public static final int CURRENT_LIMIT = 20;
-        public static final int RPM_FILTER_TAPS = 12;
-        public static final double CONE_RPM_THRESHOLD = 10;
+        public static final int RPM_FILTER_TAPS = 50;
+        public static final double CONE_RPM_THRESHOLD = 5;
         public static final double CUBE_RPM_THRESHOLD = 20;
-        public static final double FREE_RPM_THRESHOLD = 50;
+        public static final double FREE_RPM_THRESHOLD = 250;
     }
 
     public static enum GamePieceType {

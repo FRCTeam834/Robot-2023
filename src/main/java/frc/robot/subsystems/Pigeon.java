@@ -18,6 +18,7 @@ public class Pigeon extends SubsystemBase {
 
   public Pigeon() {
     pigeon = new Pigeon2(PigeonConstants.CANID);
+    pigeon.setYaw(0);
   }
 
   public double getYaw () {
@@ -34,9 +35,10 @@ public class Pigeon extends SubsystemBase {
 
   @Override
   public void initSendable(SendableBuilder builder) {
-    if (!Constants.telemetryMode) return;
+    //if (Constants.telemetryMode == false) return;
 
     builder.setSmartDashboardType("Pigeon");
+    System.out.println("oweirgbweogeuibgwogubrgouwgbowrg\n\n\n\n\n\n\nwergwegewgewrgwergwergwerg\n\n\n\nergwegewrgwergewrgerge");
     builder.addDoubleProperty("Yaw", this::getYaw, null);
   }
 

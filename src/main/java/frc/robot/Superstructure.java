@@ -4,13 +4,21 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.ArmConstants.ArmPositionPresets;
 import frc.robot.autons.LinearPath;
+import frc.robot.commands.ArmToPreset;
 import frc.robot.commands.DriveWithSpeeds;
+import frc.robot.commands.IntakeCone;
+import frc.robot.commands.IntakeCube;
+import frc.robot.commands.Outtake;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
@@ -26,24 +34,23 @@ import frc.robot.subsystems.Vision;
  */
 public class Superstructure {
   /* Initialize subsystems */
-  OI oi = new OI();
   Pigeon pigeon = new Pigeon();
   DriveTrain driveTrain = new DriveTrain(pigeon);
   Arm arm = new Arm();
   Intake intake = new Intake();
-  Vision vision = new Vision();
+  /*Vision vision = new Vision();
   PoseEstimator poseEstimator = new PoseEstimator(
     driveTrain.getKinematics(),
     driveTrain,
     pigeon,
     vision
-  );
+  );*/
 
   SendableChooser<Command> autonChooser = new SendableChooser<>();
 
   public Superstructure() {
     autonChooser.setDefaultOption("Do nothing", new InstantCommand());
-    autonChooser.addOption("Linear test path", new LinearPath(driveTrain, poseEstimator));
+    //autonChooser.addOption("Linear test path", new LinearPath(driveTrain, poseEstimator));
 
     driveTrain.setDefaultCommand(new DriveWithSpeeds(
       driveTrain,
@@ -64,7 +71,12 @@ public class Superstructure {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-  private void configureBindings() {}
+  private void configureBindings() {
+    new JoystickButton(new Joystick(0), 2).onTrue(new IntakeCone(intake));
+    new JoystickButton(new Joystick(0), 3).onTrue(new IntakeCube(intake));
+    new JoystickButton(new Joystick(0), 4).onTrue(new Outtake(intake));
+    new JoystickButton(new Joystick(1), 3).onTrue(new ArmToPreset(arm, ArmPositionPresets.L1));
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
