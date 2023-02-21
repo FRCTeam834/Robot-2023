@@ -113,14 +113,14 @@ public final class Constants {
         public static final double MIN_POSITION = Units.degreesToRadians(-180);
         public static final double STARTING_POSITION = Units.degreesToRadians(0);
 
-        public static final TuneablePIDGains PID_GAINS = new TuneablePIDGains("ARM", 5);
+        public static final TuneablePIDGains PID_GAINS = new TuneablePIDGains("ARM", 20, 0);
 
         public static final TrapezoidProfile.Constraints PROFILE_CONSTRAINTS = new TrapezoidProfile.Constraints(
-            Units.degreesToRadians(60),
-            Units.degreesToRadians(60)
+            Units.degreesToRadians(30),
+            Units.degreesToRadians(30)
         );
 
-        public static final ArmFeedforward FEEDFORWARD = new ArmFeedforward(1, 2, 0.7, 0.1);
+        public static final ArmFeedforward FEEDFORWARD = new ArmFeedforward(0.24881, 1.9177, 1.295, 0.11294);
         public static final double SETPOINT_TOLERANCE = Units.degreesToRadians(0.5);
 
         public static final double ARM_ANGLE_TO_CB_ARM = Units.degreesToRadians(130);

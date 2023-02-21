@@ -108,17 +108,18 @@ public class DriveTrain extends SubsystemBase {
     double vy,
     double omega
   ) {
+    // Add correct slew rate limiting
     ChassisSpeeds speeds = new ChassisSpeeds(vx, vy, omega);
     //speeds = this.ratelimitChassisSpeeds(speeds);
 
     SwerveModuleState[] desiredStates = kinematics.toSwerveModuleStates(speeds);
-    /*SwerveDriveKinematics.desaturateWheelSpeeds(
+    SwerveDriveKinematics.desaturateWheelSpeeds(
       desiredStates,
       lastChassisSpeeds,
       DriveTrainConstants.MAX_MODULE_SPEED,
       DriveTrainConstants.MAX_TRANSLATION_SPEED,
       DriveTrainConstants.MAX_STEER_SPEED
-    );*/
+    );
     //SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveTrainConstants.MAX_MODULE_SPEED);
     this.setDesiredModuleStatesOpenLoop(desiredStates);
     lastChassisSpeeds = speeds;

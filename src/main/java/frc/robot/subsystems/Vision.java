@@ -47,6 +47,7 @@ public class Vision extends SubsystemBase {
     );
 
     SmartDashboard.putData("Vision Pose", telemetryField);
+    SmartDashboard.putData(this);
   }
 
   public void setReferencePose (Pose2d pose) {
@@ -62,7 +63,6 @@ public class Vision extends SubsystemBase {
     if (!Constants.telemetryMode) return;
     
     builder.setSmartDashboardType("Vision");
-    SmartDashboard.putData(this);
   }
 
   @Override

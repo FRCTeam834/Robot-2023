@@ -20,6 +20,8 @@ public class Pigeon extends SubsystemBase {
   public Pigeon() {
     pigeon = new Pigeon2(PigeonConstants.CANID);
     pigeon.setYaw(0);
+
+    SmartDashboard.putData(this);
   }
 
   public double getYaw () {
@@ -40,7 +42,6 @@ public class Pigeon extends SubsystemBase {
 
     builder.setSmartDashboardType("Pigeon");
     builder.addDoubleProperty("Yaw", this::getYaw, null);
-    SmartDashboard.putData(this);
   }
 
   @Override

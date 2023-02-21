@@ -17,6 +17,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -111,6 +112,8 @@ public class SwerveModule extends SubsystemBase {
       driveMotor.burnFlash();
       steerMotor.burnFlash();
     }
+
+    SmartDashboard.putData(this);
   }
 
   public SparkMaxPIDController getDriveController () {
@@ -185,7 +188,7 @@ public class SwerveModule extends SubsystemBase {
    * @param desiredState
    */
   public void setDesiredStateOpenLoop (SwerveModuleState desiredState) {
-    // desiredState = SwerveModule.optimize(desiredState, this.getAngleAsRotation2d(), Units.degreesToRadians(120.0));
+    desiredState = SwerveModule.optimize(desiredState, this.getAngleAsRotation2d(), Units.degreesToRadians(120.0));
 
     if (Math.abs(desiredState.speedMetersPerSecond) < DriveTrainConstants.MODULE_ACTIVATION_THRESHOLD) {
       this.stop();
@@ -208,7 +211,6 @@ public class SwerveModule extends SubsystemBase {
     builder.setSmartDashboardType("MAXSwerve " + this.name);
     builder.addDoubleProperty("Angle", this::getAngle, null);
     builder.addDoubleProperty("Velocity", this::getVelocity, null);
-    SmartDashboard.putData(this);
   }
 
   @Override

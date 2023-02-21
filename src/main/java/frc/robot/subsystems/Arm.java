@@ -54,6 +54,8 @@ public class Arm extends SubsystemBase {
     if (Constants.competitionMode) {
       motor.burnFlash();
     }
+
+    SmartDashboard.putData(this);
   }
 
   /**
@@ -153,6 +155,8 @@ public class Arm extends SubsystemBase {
       //feedforward.ka * this.getAccelerationFromCounterbalance() +
       controller.calculate(this.getPosition())
     );
+
+    System.out.println(controller.calculate(this.getPosition()));
   }
 
   @Override
@@ -161,6 +165,5 @@ public class Arm extends SubsystemBase {
 
     builder.setSmartDashboardType("Arm");
     builder.addDoubleProperty("Position", this::getPosition, null);
-    SmartDashboard.putData(this);
   }
 }
