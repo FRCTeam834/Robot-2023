@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ArmConstants.ArmPositionPresets;
@@ -76,6 +77,12 @@ public class Superstructure {
     new JoystickButton(new Joystick(0), 3).onTrue(new IntakeCube(intake));
     new JoystickButton(new Joystick(0), 4).onTrue(new Outtake(intake));
     new JoystickButton(new Joystick(1), 3).onTrue(new ArmToPreset(arm, ArmPositionPresets.L1));
+    new POVButton(new Joystick(0), 180).whileTrue(new InstantCommand(() -> {
+      arm.setVoltage(5);
+    }));
+    new POVButton(new Joystick(0), 0).whileTrue(new InstantCommand(() -> {
+      arm.setVoltage(-5);
+    }));
   }
 
   /**

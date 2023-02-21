@@ -78,9 +78,6 @@ public class Arm extends SubsystemBase {
    * @param velocity - arm velocity in rad/s
    */
   public void setDesiredState (double position, double velocity) {
-    /* Enforce soft limits */
-    position = Math.max(Math.min(position, ArmConstants.MAX_POSITION), ArmConstants.MIN_POSITION);
-
     isStopped = false;
     controller.reset(this.getPosition(), this.getVelocity());
     controller.setGoal(new TrapezoidProfile.State(position, velocity));
@@ -130,6 +127,10 @@ public class Arm extends SubsystemBase {
     return torque / getMomentOfInertia();
   }
 
+  public void setVoltage (double voltage) {
+    motor.setVoltage(voltage);
+  }
+
   /**
    * Stop arm motor
    */
@@ -150,13 +151,19 @@ public class Arm extends SubsystemBase {
 
     if (isStopped) return;
 
-    motor.setVoltage(
-      feedforward.calculate(controller.getGoal().position, controller.getGoal().velocity) +//-
-      //feedforward.ka * this.getAccelerationFromCounterbalance() +
-      controller.calculate(this.getPosition())
-    );
+    if (this.getPosition() > ArmConstants.MAX_POSITION || this.getPosition() < ArmConstants.MIN_POSITION) {
+      motor.set(0);
+    } else {
+      motor.setVoltage(
+        feedforward.calculate(controller.getGoal().position, controller.getGoal().velocity) +//-
+        //feedforward.ka * this.getAccelerationFromCounterbalance() +
+        controller.calculate(this.getPosition())
+      );
+    }
+  }
 
-    System.out.println(controller.calculate(this.getPosition()));
+  private double getPositionSetpoint () {
+    return controller.getGoal().position;
   }
 
   @Override
@@ -165,5 +172,7 @@ public class Arm extends SubsystemBase {
 
     builder.setSmartDashboardType("Arm");
     builder.addDoubleProperty("Position", this::getPosition, null);
+    builder.addDoubleProperty("Setpoint", this::getPositionSetpoint, null);
+    builder.addDoubleProperty("Applied Output", motor::getAppliedOutput, null);
   }
 }

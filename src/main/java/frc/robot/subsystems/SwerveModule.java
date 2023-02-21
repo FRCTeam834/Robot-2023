@@ -228,7 +228,7 @@ public class SwerveModule extends SubsystemBase {
     SwerveModuleState desiredState, Rotation2d currentAngle, double threshold
   ) {
     Rotation2d delta = desiredState.angle.minus(currentAngle);
-    if (Math.abs(delta.getDegrees()) > threshold) {
+    if (Math.abs(delta.getRadians()) > threshold) {
       return new SwerveModuleState(
         -desiredState.speedMetersPerSecond,
         desiredState.angle.rotateBy(Rotation2d.fromDegrees(180.0))

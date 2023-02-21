@@ -108,9 +108,13 @@ public class DriveTrain extends SubsystemBase {
     double vy,
     double omega
   ) {
-    // Add correct slew rate limiting
+    double angle = Math.atan2(vy, vx);
+    double mag = translationRateLimiter.calculate(Math.hypot(vx, vy));
+    vx = mag * Math.cos(angle);
+    vy = mag * Math.sin(angle);
+    omega = steerRateLimiter.calculate(omega);
+
     ChassisSpeeds speeds = new ChassisSpeeds(vx, vy, omega);
-    //speeds = this.ratelimitChassisSpeeds(speeds);
 
     SwerveModuleState[] desiredStates = kinematics.toSwerveModuleStates(speeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(
@@ -120,7 +124,7 @@ public class DriveTrain extends SubsystemBase {
       DriveTrainConstants.MAX_TRANSLATION_SPEED,
       DriveTrainConstants.MAX_STEER_SPEED
     );
-    //SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveTrainConstants.MAX_MODULE_SPEED);
+
     this.setDesiredModuleStatesOpenLoop(desiredStates);
     lastChassisSpeeds = speeds;
   }
@@ -150,27 +154,6 @@ public class DriveTrain extends SubsystemBase {
         DriveTrainConstants.STEER_PID_GAINS.bindToController(backRight.getSteerController());
       }
     }
-  }
-
-  /**
-   * Adjust chassis speeds with slewrate and keep-heading
-   * @param desiredSpeeds
-   * @return adjusted chassis speeds
-   */
-  private ChassisSpeeds adjustChassisSpeeds (ChassisSpeeds desiredSpeeds) {
-    return keepHeading(ratelimitChassisSpeeds(desiredSpeeds));
-  }
-
-  /**
-   * Apply slewrate to chassis speeds
-   * Limits the acceleration
-   * @param desiredSpeeds
-   */
-  private ChassisSpeeds ratelimitChassisSpeeds (ChassisSpeeds desiredSpeeds) {
-    desiredSpeeds.vxMetersPerSecond = translationRateLimiter.calculate(desiredSpeeds.vxMetersPerSecond);
-    desiredSpeeds.vyMetersPerSecond = translationRateLimiter.calculate(desiredSpeeds.vyMetersPerSecond);
-    desiredSpeeds.omegaRadiansPerSecond = steerRateLimiter.calculate(desiredSpeeds.omegaRadiansPerSecond);
-    return desiredSpeeds;
   }
 
   /**

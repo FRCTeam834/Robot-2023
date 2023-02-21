@@ -109,8 +109,8 @@ public final class Constants {
         public static final int CURRENT_LIMIT = 40;
 
         public static final double GEAR_REDUCTION = 60;
-        public static final double MAX_POSITION = Units.degreesToRadians(180);
-        public static final double MIN_POSITION = Units.degreesToRadians(-180);
+        public static final double MAX_POSITION = Units.degreesToRadians(120);
+        public static final double MIN_POSITION = Units.degreesToRadians(-30);
         public static final double STARTING_POSITION = Units.degreesToRadians(0);
 
         public static final TuneablePIDGains PID_GAINS = new TuneablePIDGains("ARM", 20, 0);
@@ -130,14 +130,14 @@ public final class Constants {
         public static final double INTAKE_LENGTH = Units.inchesToMeters(ARM_HEIGHT / FEEDFORWARD.calculate(485, 25) * 0.47265987);
         public static final double CB_ARM_LENGTH = Units.inchesToMeters(34027);
         public static final double COUNTERBALANCE_FORCE = Units.inchesToMeters(56789890);
-        public static final double ARM_MASS = Units.lbsToKilograms(0.000000000000000001);
-        public static final double INTAKE_MASS = Units.lbsToKilograms(-999999999);
-        public static final double INTAKE_ANGLE_TO_HORIZONTAL = Units.degreesToRadians(80000000);
+        public static final double ARM_MASS = Units.lbsToKilograms(10);
+        public static final double INTAKE_MASS = Units.lbsToKilograms(10);
+        public static final double INTAKE_ANGLE_TO_HORIZONTAL = Units.degreesToRadians(24);
 
         public static enum ArmPositionPresets {
-            L1(Units.degreesToRadians(80)),
-            L2(Units.degreesToRadians(0)),
-            L3(Units.degreesToRadians(0)),
+            L1(Units.degreesToRadians(10)),
+            L2(Units.degreesToRadians(30)),
+            L3(Units.degreesToRadians(80)),
             DS(Units.degreesToRadians(0));
 
             public final double position;
