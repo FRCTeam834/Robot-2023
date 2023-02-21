@@ -171,7 +171,7 @@ public class SwerveModule extends SubsystemBase {
    * @param desiredState
    */
   public void setDesiredState (SwerveModuleState desiredState) {
-    desiredState = SwerveModule.optimize(desiredState, this.getAngleAsRotation2d(), 120);
+    desiredState = SwerveModule.optimize(desiredState, this.getAngleAsRotation2d(), Units.degreesToRadians(120));
 
     if (Math.abs(desiredState.speedMetersPerSecond) < DriveTrainConstants.MODULE_ACTIVATION_THRESHOLD) {
       this.stop();

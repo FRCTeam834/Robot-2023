@@ -108,13 +108,14 @@ public class DriveTrain extends SubsystemBase {
     double vy,
     double omega
   ) {
+    // temp rate limit
     double angle = Math.atan2(vy, vx);
     double mag = translationRateLimiter.calculate(Math.hypot(vx, vy));
     vx = mag * Math.cos(angle);
     vy = mag * Math.sin(angle);
     omega = steerRateLimiter.calculate(omega);
 
-    ChassisSpeeds speeds = new ChassisSpeeds(vx, vy, omega);
+    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, omega, gyro.getYawAsRotation2d());
 
     SwerveModuleState[] desiredStates = kinematics.toSwerveModuleStates(speeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(

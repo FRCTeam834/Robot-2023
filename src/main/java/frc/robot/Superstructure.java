@@ -17,6 +17,7 @@ import frc.robot.Constants.ArmConstants.ArmPositionPresets;
 import frc.robot.autons.LinearPath;
 import frc.robot.commands.ArmToPreset;
 import frc.robot.commands.DriveWithSpeeds;
+import frc.robot.commands.DumbArm;
 import frc.robot.commands.IntakeCone;
 import frc.robot.commands.IntakeCube;
 import frc.robot.commands.Outtake;
@@ -53,12 +54,14 @@ public class Superstructure {
     autonChooser.setDefaultOption("Do nothing", new InstantCommand());
     //autonChooser.addOption("Linear test path", new LinearPath(driveTrain, poseEstimator));
 
-    driveTrain.setDefaultCommand(new DriveWithSpeeds(
+    /*driveTrain.setDefaultCommand(new DriveWithSpeeds(
       driveTrain,
       OI::getRightJoystickX,
       OI::getRightJoystickY,
       OI::getLeftJoystickX
-    ));
+    ));*/
+
+    arm.setDefaultCommand(new DumbArm(arm, OI::getRightJoystickY));
     // Configure the trigger bindings
     configureBindings();
   }
@@ -77,12 +80,6 @@ public class Superstructure {
     new JoystickButton(new Joystick(0), 3).onTrue(new IntakeCube(intake));
     new JoystickButton(new Joystick(0), 4).onTrue(new Outtake(intake));
     new JoystickButton(new Joystick(1), 3).onTrue(new ArmToPreset(arm, ArmPositionPresets.L1));
-    new POVButton(new Joystick(0), 180).whileTrue(new InstantCommand(() -> {
-      arm.setVoltage(5);
-    }));
-    new POVButton(new Joystick(0), 0).whileTrue(new InstantCommand(() -> {
-      arm.setVoltage(-5);
-    }));
   }
 
   /**

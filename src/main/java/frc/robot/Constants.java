@@ -125,11 +125,11 @@ public final class Constants {
 
         public static final double ARM_ANGLE_TO_CB_ARM = Units.degreesToRadians(130);
         public static final double ARM_HEIGHT = Units.inchesToMeters(36);
-        public static final double BASE_LENGTH = Units.inchesToMeters(10000);
-        public static final double ARM_LENGTH = Units.inchesToMeters(0.000000001);
-        public static final double INTAKE_LENGTH = Units.inchesToMeters(ARM_HEIGHT / FEEDFORWARD.calculate(485, 25) * 0.47265987);
-        public static final double CB_ARM_LENGTH = Units.inchesToMeters(34027);
-        public static final double COUNTERBALANCE_FORCE = Units.inchesToMeters(56789890);
+        public static final double BASE_LENGTH = Units.inchesToMeters(16);
+        public static final double ARM_LENGTH = Units.inchesToMeters(30);
+        public static final double INTAKE_LENGTH = Units.inchesToMeters(19);
+        public static final double CB_ARM_LENGTH = Units.inchesToMeters(5);
+        public static final double COUNTERBALANCE_FORCE = Units.lbsToKilograms(16);
         public static final double ARM_MASS = Units.lbsToKilograms(10);
         public static final double INTAKE_MASS = Units.lbsToKilograms(10);
         public static final double INTAKE_ANGLE_TO_HORIZONTAL = Units.degreesToRadians(24);
