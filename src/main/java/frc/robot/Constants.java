@@ -6,6 +6,8 @@ package frc.robot;
 
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 
+import com.pathplanner.lib.PathConstraints;
+
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.ArmFeedforward;
@@ -97,6 +99,8 @@ public final class Constants {
             new Translation2d(WIDTH / 2, -LENGTH / 2),
             new Translation2d(-WIDTH / 2, -LENGTH / 2)
         };
+
+        public static final PathConstraints ROTATION_PROFILE_CONSTRAINTS = new PathConstraints(3, 3); 
     }
 
     public static final class PigeonConstants {
