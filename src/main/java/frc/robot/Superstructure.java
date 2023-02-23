@@ -79,9 +79,10 @@ public class Superstructure {
     new JoystickButton(new Joystick(0), 2).onTrue(new IntakeCone(intake));
     new JoystickButton(new Joystick(0), 3).onTrue(new IntakeCube(intake));
     new JoystickButton(new Joystick(0), 4).onTrue(new Outtake(intake));
-    new JoystickButton(new Joystick(1), 3).onTrue(new ArmToPreset(arm, ArmPositionPresets.L1));
-    new JoystickButton(new Joystick(1), 4).onTrue(new ArmToPreset(arm, ArmPositionPresets.L2));
-    new JoystickButton(new Joystick(1), 5).onTrue(new ArmToPreset(arm, ArmPositionPresets.L3));
+    new JoystickButton(new Joystick(1), 3).onTrue(new ArmToPreset(arm, ArmPositionPresets.STOW));
+    new JoystickButton(new Joystick(1), 4).onTrue(new ArmToPreset(arm, ArmPositionPresets.L1));
+    new JoystickButton(new Joystick(1), 5).onTrue(new ArmToPreset(arm, ArmPositionPresets.L2));
+    new JoystickButton(new Joystick(1), 6).onTrue(new ArmToPreset(arm, ArmPositionPresets.L3));
   }
 
   /**

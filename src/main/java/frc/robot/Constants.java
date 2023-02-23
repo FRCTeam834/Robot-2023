@@ -142,10 +142,11 @@ public final class Constants {
         public static final double INTAKE_ANGLE_TO_HORIZONTAL = Units.degreesToRadians(23);
 
         public static enum ArmPositionPresets {
+            STOW(Units.degreesToRadians(-40)),
             L1(Units.degreesToRadians(0)),
-            L2(Units.degreesToRadians(-40)),
-            L3(Units.degreesToRadians(90)),
-            DS(Units.degreesToRadians(0));
+            L2(Units.degreesToRadians(90)),
+            L3(Units.degreesToRadians(110)),
+            DS(Units.degreesToRadians(80));
 
             public final double position;
 
