@@ -41,8 +41,8 @@ public final class Constants {
         public static final int LEFT_JOYSTICK_PORT = 0;
         public static final int RIGHT_JOYSTICK_PORT = 1;
 
-        public static final double LEFT_JOYSTICK_DEADZONE = 0.075;
-        public static final double RIGHT_JOYSTICK_DEADZONE = 0.075;
+        public static final double LEFT_JOYSTICK_DEADZONE = 0.1;
+        public static final double RIGHT_JOYSTICK_DEADZONE = 0.1;
     }
 
     public static final class DriveTrainConstants {
@@ -63,10 +63,10 @@ public final class Constants {
         public static final double STEER_GEAR_RATIO = 1;
 
         public static final double MAX_TRANSLATION_SPEED = Units.feetToMeters(3);
-        public static final double MAX_STEER_SPEED = Units.degreesToRadians(360);
+        public static final double MAX_STEER_SPEED = Units.degreesToRadians(90);
         public static final double MAX_MODULE_SPEED = Units.feetToMeters(4);
         /** Minimum speed needed for module to move, mitigates jittering */
-        public static final double MODULE_ACTIVATION_THRESHOLD = 0.05;
+        public static final double MODULE_ACTIVATION_THRESHOLD = 0.01;
 
         public static final PIDGains DRIVE_PID_GAINS = new TuneablePIDGains("SWERVE_DRIVE", 0.5, 0.0);
         public static final PIDGains STEER_PID_GAINS = new TuneablePIDGains("SWERVE_STEER", 0.5, 0.0);
@@ -78,8 +78,8 @@ public final class Constants {
         public static final TrapezoidProfile.Constraints AUTON_CONSTRAINTS = new TrapezoidProfile.Constraints(3, 3);
 
         /** Slewrate values for drivetrain (max acceleration) */
-        public static final double TRANSLATION_SLEWRATE = 5;
-        public static final double STEER_SLEWRATE = Units.degreesToRadians(360);
+        public static final double TRANSLATION_SLEWRATE = 3;
+        public static final double STEER_SLEWRATE = Units.degreesToRadians(1080);
 
         public static final PIDGains KEEP_HEADING_PID_GAINS = new PIDGains(Units.degreesToRadians(5));
         public static final double KEEP_HEADING_OMEGA_THRESHOLD = Units.degreesToRadians(5);
@@ -92,10 +92,17 @@ public final class Constants {
         public static final String[] MODULE_NAMES = { "FL", "FR", "BL", "BR" };
 
         public static final Translation2d[] MODULE_POSITIONS = {
-            new Translation2d(WIDTH / 2, LENGTH / 2),
-            new Translation2d(WIDTH / 2, -LENGTH / 2),
             new Translation2d(-WIDTH / 2, LENGTH / 2),
-            new Translation2d(-WIDTH / 2, -LENGTH / 2)
+            new Translation2d(WIDTH / 2, LENGTH / 2),
+            new Translation2d(-WIDTH / 2, -LENGTH / 2),
+            new Translation2d(WIDTH / 2, -LENGTH / 2)
+        };
+
+        public static final double[] ENCODER_OFFSETS = {
+            Units.degreesToRadians(180 - 180),
+            Units.degreesToRadians(-90 - 180),
+            Units.degreesToRadians(90 - 180),
+            Units.degreesToRadians(0 - 180)
         };
     }
 
@@ -108,36 +115,36 @@ public final class Constants {
 
         public static final int CURRENT_LIMIT = 40;
 
-        public static final double GEAR_REDUCTION = 60;
+        public static final double GEAR_REDUCTION = 180;
         public static final double MAX_POSITION = Units.degreesToRadians(120);
-        public static final double MIN_POSITION = Units.degreesToRadians(-30);
+        public static final double MIN_POSITION = Units.degreesToRadians(-50);
         public static final double STARTING_POSITION = Units.degreesToRadians(0);
 
-        public static final TuneablePIDGains PID_GAINS = new TuneablePIDGains("ARM", 20, 0);
+        public static final TuneablePIDGains PID_GAINS = new TuneablePIDGains("ARM", 55, 2, 5);
 
         public static final TrapezoidProfile.Constraints PROFILE_CONSTRAINTS = new TrapezoidProfile.Constraints(
-            Units.degreesToRadians(30),
-            Units.degreesToRadians(30)
+            Units.degreesToRadians(200),
+            Units.degreesToRadians(360)
         );
 
-        public static final ArmFeedforward FEEDFORWARD = new ArmFeedforward(0.24881, 1.9177, 1.295, 0.11294);
-        public static final double SETPOINT_TOLERANCE = Units.degreesToRadians(0.5);
+        public static final ArmFeedforward FEEDFORWARD = new ArmFeedforward(0.2, 0.44, 3.6403, 0.089329);//ks:0.18271  //new ArmFeedforward(0.24881, 0.9, 3.51, 0.14);// new ArmFeedforward(0.24881, 1.9177, 1.295, 0.11294);
+        public static final double SETPOINT_TOLERANCE = Units.degreesToRadians(0);
 
-        public static final double ARM_ANGLE_TO_CB_ARM = Units.degreesToRadians(130);
-        public static final double ARM_HEIGHT = Units.inchesToMeters(36);
-        public static final double BASE_LENGTH = Units.inchesToMeters(16);
+        public static final double ARM_ANGLE_TO_CB_ARM = Units.degreesToRadians(138);
+        public static final double ARM_HEIGHT = Units.inchesToMeters(33);
+        public static final double BASE_LENGTH = Units.inchesToMeters(9);
         public static final double ARM_LENGTH = Units.inchesToMeters(30);
-        public static final double INTAKE_LENGTH = Units.inchesToMeters(19);
-        public static final double CB_ARM_LENGTH = Units.inchesToMeters(5);
+        public static final double INTAKE_LENGTH = Units.inchesToMeters(22);
+        public static final double CB_ARM_LENGTH = Units.inchesToMeters(8.5);
         public static final double COUNTERBALANCE_FORCE = Units.lbsToKilograms(16);
         public static final double ARM_MASS = Units.lbsToKilograms(10);
         public static final double INTAKE_MASS = Units.lbsToKilograms(10);
-        public static final double INTAKE_ANGLE_TO_HORIZONTAL = Units.degreesToRadians(24);
+        public static final double INTAKE_ANGLE_TO_HORIZONTAL = Units.degreesToRadians(23);
 
         public static enum ArmPositionPresets {
-            L1(Units.degreesToRadians(10)),
-            L2(Units.degreesToRadians(30)),
-            L3(Units.degreesToRadians(80)),
+            L1(Units.degreesToRadians(0)),
+            L2(Units.degreesToRadians(-40)),
+            L3(Units.degreesToRadians(90)),
             DS(Units.degreesToRadians(0));
 
             public final double position;
@@ -167,9 +174,9 @@ public final class Constants {
     public static final class IntakeConstants {
         public static final int CANID = 11;
         public static final int CURRENT_LIMIT = 20;
-        public static final int RPM_FILTER_TAPS = 20;
-        public static final double CONE_RPM_THRESHOLD = 5;
-        public static final double CUBE_RPM_THRESHOLD = 20;
+        public static final int RPM_FILTER_TAPS = 30;
+        public static final double CONE_RPM_THRESHOLD = 3;
+        public static final double CUBE_RPM_THRESHOLD = 10;
         public static final double FREE_RPM_THRESHOLD = 250;
     }
 

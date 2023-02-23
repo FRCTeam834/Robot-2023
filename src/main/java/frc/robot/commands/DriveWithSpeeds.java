@@ -36,7 +36,7 @@ public class DriveWithSpeeds extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.driveOpenLoop(
+    driveTrain.drive(
       vxSupplier.getAsDouble(),
       vySupplier.getAsDouble(),
       omegaSupplier.getAsDouble()

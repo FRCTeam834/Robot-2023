@@ -42,8 +42,10 @@ public class IntakeCube extends CommandBase {
   public void end(boolean interrupted) {
     if (this.isFinished()) {
       intake.currentGamePiece = GamePieceType.CUBE;
+      intake.setVoltage(3);
+    } else {
+      intake.stop();
     }
-    intake.stop();
   }
 
   // Returns true when the command should end.

@@ -38,6 +38,8 @@ public class SwerveModule extends SubsystemBase {
 
   private final SimpleMotorFeedforward driveFeedforward;
 
+  private final double encoderOffset;
+
   /** Builder methods */
   public static final SwerveModule buildFrontLeft () {
     return new SwerveModule(0);
@@ -66,6 +68,8 @@ public class SwerveModule extends SubsystemBase {
 
     driveEncoder = driveMotor.getEncoder();
     steerEncoder = steerMotor.getAbsoluteEncoder(Type.kDutyCycle);
+
+    encoderOffset = DriveTrainConstants.ENCODER_OFFSETS[moduleID];
 
     driveMotor.restoreFactoryDefaults();
     steerMotor.restoreFactoryDefaults();
@@ -112,8 +116,6 @@ public class SwerveModule extends SubsystemBase {
       driveMotor.burnFlash();
       steerMotor.burnFlash();
     }
-
-    SmartDashboard.putData(this);
   }
 
   public SparkMaxPIDController getDriveController () {
@@ -171,7 +173,8 @@ public class SwerveModule extends SubsystemBase {
    * @param desiredState
    */
   public void setDesiredState (SwerveModuleState desiredState) {
-    desiredState = SwerveModule.optimize(desiredState, this.getAngleAsRotation2d(), Units.degreesToRadians(120));
+    desiredState.angle = desiredState.angle.plus(Rotation2d.fromRadians(encoderOffset));
+    desiredState = SwerveModule.optimize(desiredState, this.getAngleAsRotation2d(), Units.degreesToRadians(90.0));
 
     if (Math.abs(desiredState.speedMetersPerSecond) < DriveTrainConstants.MODULE_ACTIVATION_THRESHOLD) {
       this.stop();
@@ -188,7 +191,8 @@ public class SwerveModule extends SubsystemBase {
    * @param desiredState
    */
   public void setDesiredStateOpenLoop (SwerveModuleState desiredState) {
-    desiredState = SwerveModule.optimize(desiredState, this.getAngleAsRotation2d(), Units.degreesToRadians(120.0));
+    desiredState.angle = desiredState.angle.plus(Rotation2d.fromRadians(encoderOffset));
+    desiredState = SwerveModule.optimize(desiredState, this.getAngleAsRotation2d(), Units.degreesToRadians(90.0));
 
     if (Math.abs(desiredState.speedMetersPerSecond) < DriveTrainConstants.MODULE_ACTIVATION_THRESHOLD) {
       this.stop();
@@ -214,7 +218,9 @@ public class SwerveModule extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {}
+  public void periodic() {
+    SmartDashboard.putData(this);
+  }
 
   /**
    * 
