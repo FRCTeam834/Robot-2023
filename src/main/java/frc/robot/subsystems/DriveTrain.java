@@ -4,12 +4,17 @@
 
 package frc.robot.subsystems;
 
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.PathPoint;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -25,10 +30,10 @@ import frc.robot.Constants.DriveTrainConstants;
 
 public class DriveTrain extends SubsystemBase {
   /* Swerve modules */
-  private final SwerveModule frontLeft;
-  private final SwerveModule frontRight;
-  private final SwerveModule backLeft;
-  private final SwerveModule backRight;
+  public final SwerveModule frontLeft;
+  public final SwerveModule frontRight;
+  public final SwerveModule backLeft;
+  public final SwerveModule backRight;
 
   private final Pigeon gyro;
   private final SwerveDriveKinematics kinematics;
@@ -203,6 +208,23 @@ public class DriveTrain extends SubsystemBase {
     return convertedChassisSpeeds;
   }
 
+  public PathPlannerTrajectory generateThreePointTrajectory(Pose2d currentPosition, Pose2d secondPosition, Pose2d finalPosition) {
+    return PathPlanner.generatePath(
+    DriveTrainConstants.ROTATION_PROFILE_CONSTRAINTS, 
+    new PathPoint(currentPosition.getTranslation(), currentPosition.getRotation()),// position, heading
+    new PathPoint(secondPosition.getTranslation(), secondPosition.getRotation()), // position, heading
+    new PathPoint(finalPosition.getTranslation(), finalPosition.getRotation()) // position, heading
+  ); 
+  }
+
+  public PathPlannerTrajectory generateTwoPointTrajectory(Pose2d currentPosition, Pose2d finalPosition) {
+    return PathPlanner.generatePath(
+    DriveTrainConstants.ROTATION_PROFILE_CONSTRAINTS, 
+    new PathPoint(currentPosition.getTranslation(), currentPosition.getRotation()),// position, heading
+    new PathPoint(finalPosition.getTranslation(), finalPosition.getRotation()) // position, heading
+  ); 
+  }
+
   /**
    * Returns command that follows a pathplanner trajectory
    * @param trajectory - trajectory to follow
@@ -233,4 +255,8 @@ public class DriveTrain extends SubsystemBase {
       )
     );
   }
+
+  
+
+
 }
