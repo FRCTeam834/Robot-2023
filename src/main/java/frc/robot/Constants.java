@@ -41,8 +41,8 @@ public final class Constants {
         public static final int LEFT_JOYSTICK_PORT = 0;
         public static final int RIGHT_JOYSTICK_PORT = 1;
 
-        public static final double LEFT_JOYSTICK_DEADZONE = 0.1;
-        public static final double RIGHT_JOYSTICK_DEADZONE = 0.1;
+        public static final double LEFT_JOYSTICK_DEADZONE = 0.2;
+        public static final double RIGHT_JOYSTICK_DEADZONE = 0.2;
     }
 
     public static final class DriveTrainConstants {
@@ -62,14 +62,14 @@ public final class Constants {
         public static final double DRIVE_GEAR_RATIO = 4.71429;
         public static final double STEER_GEAR_RATIO = 1;
 
-        public static final double MAX_TRANSLATION_SPEED = Units.feetToMeters(3);
-        public static final double MAX_STEER_SPEED = Units.degreesToRadians(90);
-        public static final double MAX_MODULE_SPEED = Units.feetToMeters(4);
+        public static final double MAX_TRANSLATION_SPEED = Units.feetToMeters(16);
+        public static final double MAX_STEER_SPEED = Units.degreesToRadians(360);
+        public static final double MAX_MODULE_SPEED = Units.feetToMeters(16);
         /** Minimum speed needed for module to move, mitigates jittering */
         public static final double MODULE_ACTIVATION_THRESHOLD = 0.01;
 
         public static final PIDGains DRIVE_PID_GAINS = new TuneablePIDGains("SWERVE_DRIVE", 0.5, 0.0);
-        public static final PIDGains STEER_PID_GAINS = new TuneablePIDGains("SWERVE_STEER", 0.5, 0.0);
+        public static final PIDGains STEER_PID_GAINS = new TuneablePIDGains("SWERVE_STEER", 0.6, 0.0);
         public static final SimpleMotorFeedforward DRIVE_FF = new SimpleMotorFeedforward(0.0, 0.0, 0.0);
 
         public static final PIDGains AUTON_DRIVE_PID_GAINS = new PIDGains(3);
@@ -78,7 +78,7 @@ public final class Constants {
         public static final TrapezoidProfile.Constraints AUTON_CONSTRAINTS = new TrapezoidProfile.Constraints(3, 3);
 
         /** Slewrate values for drivetrain (max acceleration) */
-        public static final double TRANSLATION_SLEWRATE = 3;
+        public static final double TRANSLATION_SLEWRATE = Units.feetToMeters(32);
         public static final double STEER_SLEWRATE = Units.degreesToRadians(1080);
 
         public static final PIDGains KEEP_HEADING_PID_GAINS = new PIDGains(Units.degreesToRadians(5));
@@ -117,7 +117,7 @@ public final class Constants {
 
         public static final double GEAR_REDUCTION = 180;
         public static final double MAX_POSITION = Units.degreesToRadians(120);
-        public static final double MIN_POSITION = Units.degreesToRadians(-50);
+        public static final double MIN_POSITION = Units.degreesToRadians(-40);
         public static final double STARTING_POSITION = Units.degreesToRadians(0);
 
         public static final TuneablePIDGains PID_GAINS = new TuneablePIDGains("ARM", 55, 2, 5);
@@ -142,10 +142,10 @@ public final class Constants {
         public static final double INTAKE_ANGLE_TO_HORIZONTAL = Units.degreesToRadians(23);
 
         public static enum ArmPositionPresets {
-            STOW(Units.degreesToRadians(-40)),
-            L1(Units.degreesToRadians(0)),
+            STOW(Units.degreesToRadians(-30)),
+            L1(Units.degreesToRadians(2)),
             L2(Units.degreesToRadians(90)),
-            L3(Units.degreesToRadians(110)),
+            L3(Units.degreesToRadians(103.9)),
             DS(Units.degreesToRadians(80));
 
             public final double position;

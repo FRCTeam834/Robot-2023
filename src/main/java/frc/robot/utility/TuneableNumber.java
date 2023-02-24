@@ -50,6 +50,7 @@ public class TuneableNumber extends SubsystemBase {
      * @return The current value
      */
     public double get() {
+      changed = false;
       double currentValue = tuningMode ? entry.getDouble(defaultValue) : defaultValue;
       return currentValue;
     }
@@ -60,11 +61,13 @@ public class TuneableNumber extends SubsystemBase {
      * @return
      */
     public boolean hasChanged() {
-      return changed || get() != lastValue;
+      return changed;
     }
 
     @Override
     public void periodic () {
+      if (changed) return;
+
       double current = get();
       if (lastValue != current) {
         changed = true;

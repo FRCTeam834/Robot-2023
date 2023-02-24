@@ -28,7 +28,7 @@ public class IntakeCone extends CommandBase {
     /* Artifically inflate filter so intake has time to spin up */
     rpmFilter.reset();
     rpmFilter.calculate(-834834834);
-    intake.setVoltage(-6);
+    intake.setVoltage(-12);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

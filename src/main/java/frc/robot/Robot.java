@@ -79,7 +79,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     m_robotContainer.pigeon.resetYaw(0);
-    m_robotContainer.arm.encoder.setPosition(Units.degreesToRadians(0));
+    m_robotContainer.arm.encoder.setPosition(Units.degreesToRadians(2));
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
