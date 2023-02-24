@@ -18,12 +18,21 @@ public class BoundingBox {
         this.y1 = y1;
         this.y2 = y2;
 
-        
     }
 
-    public boolean isInBox(double robotX1, double robotY1,double robotX2, double robotY2){
-        
+    public boolean isInBox(double robotX1, double robotY1, double robotX2, double robotY2){
+        // Polygon()
 
         return true;
     }
+
+    public boolean lineSementInersect(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4){
+        if ((x1 == x2 && y1 == y2) || (x3 == x4 && y3 == y4)){
+            return false;
+        }
+
+
+        return true;
+    }
+
 }
