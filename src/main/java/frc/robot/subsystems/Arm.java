@@ -150,10 +150,7 @@ public class Arm extends SubsystemBase {
         ArmConstants.PID_GAINS.bindToController(controller);
       }
     }
-  }
 
-  /** Called every 10ms */
-  public void periodic10() {
     if (isStopped) return;
 
     if (this.getPosition() > ArmConstants.MAX_POSITION || this.getPosition() < ArmConstants.MIN_POSITION) {
@@ -169,6 +166,11 @@ public class Arm extends SubsystemBase {
       controller.calculate(this.getPosition()));*/
     }
     //this.getAccelerationFromCounterbalance();
+  }
+
+  /** Called every 10ms */
+  public void periodic10() {
+    
   }
 
   private double getPositionSetpoint () {

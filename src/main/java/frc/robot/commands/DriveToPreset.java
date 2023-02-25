@@ -17,6 +17,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.PoseEstimator;
 import frc.robot.Constants.DriveTrainConstants;
@@ -26,18 +27,15 @@ public class DriveToPreset extends CommandBase {
 
   private final DriveTrain driveTrain;
   private final PoseEstimator poseEstimator;
-  private final Pair<Pose2d, Pose2d[][]> preset;
   
   private Command followTrajectoryCommand;
 
   public DriveToPreset(
     DriveTrain driveTrain,
-    PoseEstimator poseEstimator,
-    Pair<Pose2d, Pose2d[][]> preset
+    PoseEstimator poseEstimator
   ) {
     this.driveTrain = driveTrain;
     this.poseEstimator = poseEstimator;
-    this.preset = preset;
   }
 
   private static Pose2d chooseWaypointFromStep (Pose2d robotPose, Pose2d[] waypoints, Pose2d destination) {
@@ -59,6 +57,7 @@ public class DriveToPreset extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Pair<Pose2d, Pose2d[][]> preset = OnTheFlyConstants.PRESETS.get("ColumnTwoAlign");
     Pose2d robotPose = poseEstimator.getEstimatedPose();
     ArrayList<PathPoint> pathPoints = new ArrayList<PathPoint>();
     
@@ -94,7 +93,7 @@ public class DriveToPreset extends CommandBase {
     );
 
     followTrajectoryCommand = driveTrain.followTrajectoryCommand(trajectory, poseEstimator, false);
-    followTrajectoryCommand.execute();
+    CommandScheduler.getInstance().schedule(followTrajectoryCommand);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

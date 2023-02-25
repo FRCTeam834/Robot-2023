@@ -57,13 +57,11 @@ public class Superstructure {
     autonChooser.setDefaultOption("Do nothing", new InstantCommand());
     //autonChooser.addOption("Linear test path", new LinearPath(driveTrain, poseEstimator));
 
-    driveTrain.setDefaultCommand(new DriveAbsoluteAngle(
+    driveTrain.setDefaultCommand(new DriveWithSpeeds(
       driveTrain,
-      pigeon,
       OI::getRightJoystickX,
       OI::getRightJoystickY,
-      OI::getLeftJoystickX,
-      OI::getLeftJoystickY
+      OI::getLeftJoystickX
     ));
 
     //arm.setDefaultCommand(new DumbArm(arm, OI::getRightJoystickY));
@@ -88,7 +86,7 @@ public class Superstructure {
     new JoystickButton(new Joystick(1), 4).onTrue(new ArmToPreset(arm, ArmPositionPresets.L1));
     new JoystickButton(new Joystick(1), 5).onTrue(new ArmToPreset(arm, ArmPositionPresets.L2));
     new JoystickButton(new Joystick(1), 6).onTrue(new ArmToPreset(arm, ArmPositionPresets.L3));
-    new JoystickButton(new Joystick(1), 8).whileTrue(new DriveToPreset(driveTrain, poseEstimator, OnTheFlyConstants.PRESETS.get("ColumnTwoAlign")));
+    new JoystickButton(new Joystick(1), 8).whileTrue(new DriveToPreset(driveTrain, poseEstimator));
   }
 
   /** Runs every 10ms */

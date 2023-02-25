@@ -67,14 +67,14 @@ public class PoseEstimator extends SubsystemBase {
     poseEstimator.updateWithTime(Timer.getFPGATimestamp(), gyro.getYawAsRotation2d(), driveTrain.getModulePositions());
 
     /* Update with vision measurements */
-    vision.setReferencePose(this.getEstimatedPose());
+    /*vision.setReferencePose(this.getEstimatedPose());
     Optional<EstimatedRobotPose> visionMeasurement = vision.getEstimatedPose();
     if (visionMeasurement.isPresent()) {
       poseEstimator.addVisionMeasurement(
         visionMeasurement.get().estimatedPose.toPose2d(),
         visionMeasurement.get().timestampSeconds
       );
-    }
+    }*/
 
     telemetryField.setRobotPose(this.getEstimatedPose());
   }

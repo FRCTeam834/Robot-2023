@@ -82,13 +82,13 @@ public final class Constants {
         public static final double MODULE_ACTIVATION_THRESHOLD = 0.01;
 
         public static final PIDGains DRIVE_PID_GAINS = new TuneablePIDGains("SWERVE_DRIVE", 0.5, 0.0);
-        public static final PIDGains STEER_PID_GAINS = new TuneablePIDGains("SWERVE_STEER", 0.6, 0.0);
-        public static final SimpleMotorFeedforward DRIVE_FF = new SimpleMotorFeedforward(0.0, 2.0, 0.0);
+        public static final PIDGains STEER_PID_GAINS = new TuneablePIDGains("SWERVE_STEER", 0.5, 0.0);
+        public static final SimpleMotorFeedforward DRIVE_FF = new SimpleMotorFeedforward(0.0, 0.0, 0.0);
 
         public static final PIDGains AUTON_DRIVE_PID_GAINS = new PIDGains(1);
         public static final PIDGains AUTON_STEER_PID_GAINS = new PIDGains(2);
 
-        public static final TrapezoidProfile.Constraints AUTON_DRIVE_CONSTRAINTS = new TrapezoidProfile.Constraints(3, 3);
+        public static final TrapezoidProfile.Constraints AUTON_DRIVE_CONSTRAINTS = new TrapezoidProfile.Constraints(0.5, 1);
         public static final TrapezoidProfile.Constraints AUTON_STEER_CONSTRAINTS = new TrapezoidProfile.Constraints(Units.degreesToRadians(180), Units.degreesToRadians(360));
 
         /** Slewrate values for drivetrain (max acceleration) */
@@ -161,7 +161,7 @@ public final class Constants {
                 PRESETS = new HashMap<String, Pair<Pose2d, Pose2d[][]>>() {{
                     put("ColumnTwoAlign", new Pair<Pose2d, Pose2d[][]>(
                         WAYPOINTS.get("ColumnTwoAlign"), // Final destination
-                        PATHS.get("Grid") // Path
+                        PATHS.get("IntoGriddy") // Path
                     ));
                 }};
             }
