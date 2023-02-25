@@ -4,12 +4,18 @@
 
 package frc.robot;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 
 import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -18,6 +24,8 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.utility.PIDGains;
 import frc.robot.utility.TuneablePIDGains;
 
@@ -37,9 +45,14 @@ public final class Constants {
 
     /** All units are metric */
 
+    public static final double WIDTH = Units.inchesToMeters(35.5);
+    public static final double LENGTH = Units.inchesToMeters(35);
+
     public static final class DriverConstants {
         public static final int LEFT_JOYSTICK_PORT = 0;
         public static final int RIGHT_JOYSTICK_PORT = 1;
+        public static final int NUMPAD_PORT = 2;
+        public static final int XBOX_PORT = 3;
 
         public static final double LEFT_JOYSTICK_DEADZONE = 0.2;
         public static final double RIGHT_JOYSTICK_DEADZONE = 0.2;
@@ -70,12 +83,13 @@ public final class Constants {
 
         public static final PIDGains DRIVE_PID_GAINS = new TuneablePIDGains("SWERVE_DRIVE", 0.5, 0.0);
         public static final PIDGains STEER_PID_GAINS = new TuneablePIDGains("SWERVE_STEER", 0.6, 0.0);
-        public static final SimpleMotorFeedforward DRIVE_FF = new SimpleMotorFeedforward(0.0, 0.0, 0.0);
+        public static final SimpleMotorFeedforward DRIVE_FF = new SimpleMotorFeedforward(0.0, 2.0, 0.0);
 
-        public static final PIDGains AUTON_DRIVE_PID_GAINS = new PIDGains(3);
-        public static final PIDGains AUTON_STEER_PID_GAINS = new PIDGains(1);
+        public static final PIDGains AUTON_DRIVE_PID_GAINS = new PIDGains(1);
+        public static final PIDGains AUTON_STEER_PID_GAINS = new PIDGains(2);
 
-        public static final TrapezoidProfile.Constraints AUTON_CONSTRAINTS = new TrapezoidProfile.Constraints(3, 3);
+        public static final TrapezoidProfile.Constraints AUTON_DRIVE_CONSTRAINTS = new TrapezoidProfile.Constraints(3, 3);
+        public static final TrapezoidProfile.Constraints AUTON_STEER_CONSTRAINTS = new TrapezoidProfile.Constraints(Units.degreesToRadians(180), Units.degreesToRadians(360));
 
         /** Slewrate values for drivetrain (max acceleration) */
         public static final double TRANSLATION_SLEWRATE = Units.feetToMeters(32);
@@ -104,8 +118,56 @@ public final class Constants {
             Units.degreesToRadians(90 - 180),
             Units.degreesToRadians(0 - 180)
         };
-    }
 
+        public static final class OnTheFlyConstants {
+
+            public static Map<String, Pose2d> WAYPOINTS;
+            public static Map<String, Pose2d[][]> PATHS;
+            public static Map<String, Pair<Pose2d, Pose2d[][]>> PRESETS;
+
+            public static final void init () {
+                WAYPOINTS = new HashMap<String, Pose2d>() {{
+                    put("OuterCommunityTop", new Pose2d(5.5, 4.76, Rotation2d.fromDegrees(0)));
+                    put("OuterCommunityBottom", new Pose2d(5.5, 0.75, Rotation2d.fromDegrees(0)));
+                    put("InnerCommunityTop", new Pose2d(2.32, 4.76, Rotation2d.fromDegrees(0)));
+                    put("InnerCommunityBottom", new Pose2d(2.32, 0.75, Rotation2d.fromDegrees(0)));
+                    put("ColumnTwoAlign", new Pose2d(2.32, 1.05, Rotation2d.fromDegrees(180)));
+                    put("ColumnNineL13", new Pose2d(1.88, 4.92, Rotation2d.fromDegrees(0)));
+                    
+                    put("ColumnOneL2", new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
+                }};
+
+                // Flip waypoint values if red alliance
+                if (DriverStation.getAlliance() == Alliance.Red) {
+                    for (Pose2d waypoint : WAYPOINTS.values()) {
+                        waypoint.getTranslation().plus(new Translation2d(8.27, 0));
+                        waypoint.getRotation().rotateBy(Rotation2d.fromDegrees(180));
+                    }
+                }
+
+                PATHS = new HashMap<String, Pose2d[][]>() {{
+                    put("IntoGriddy", new Pose2d[][]{
+                        {
+                            WAYPOINTS.get("OuterCommunityTop"),
+                            WAYPOINTS.get("OuterCommunityBottom"),
+                        },
+                        {
+                            WAYPOINTS.get("InnerCommunityTop"),
+                            WAYPOINTS.get("InnerCommunityBottom"),
+                        }
+                    });
+                }};
+
+                PRESETS = new HashMap<String, Pair<Pose2d, Pose2d[][]>>() {{
+                    put("ColumnTwoAlign", new Pair<Pose2d, Pose2d[][]>(
+                        WAYPOINTS.get("ColumnTwoAlign"), // Final destination
+                        PATHS.get("Grid") // Path
+                    ));
+                }};
+            }
+        }
+    }
+    
     public static final class PigeonConstants {
         public static final int CANID = 12;
     }
@@ -123,7 +185,7 @@ public final class Constants {
         public static final TuneablePIDGains PID_GAINS = new TuneablePIDGains("ARM", 55, 2, 5);
 
         public static final TrapezoidProfile.Constraints PROFILE_CONSTRAINTS = new TrapezoidProfile.Constraints(
-            Units.degreesToRadians(200),
+            Units.degreesToRadians(240),
             Units.degreesToRadians(360)
         );
 

@@ -23,10 +23,9 @@ public class LinearPath extends SequentialCommandGroup {
   ) {
     PathPlannerTrajectory trajectory = PathPlanner.loadPath(
       "Linear Path",
-      DriveTrainConstants.AUTON_CONSTRAINTS.maxVelocity,
-      DriveTrainConstants.AUTON_CONSTRAINTS.maxAcceleration
+      DriveTrainConstants.AUTON_DRIVE_CONSTRAINTS.maxVelocity,
+      DriveTrainConstants.AUTON_DRIVE_CONSTRAINTS.maxAcceleration
     );
-
     addCommands(
       driveTrain.followTrajectoryCommand(trajectory, poseEstimator, true)
     );

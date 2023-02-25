@@ -14,8 +14,11 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ArmConstants.ArmPositionPresets;
+import frc.robot.Constants.DriveTrainConstants.OnTheFlyConstants;
 import frc.robot.autons.LinearPath;
 import frc.robot.commands.ArmToPreset;
+import frc.robot.commands.DriveAbsoluteAngle;
+import frc.robot.commands.DriveToPreset;
 import frc.robot.commands.DriveWithSpeeds;
 import frc.robot.commands.DumbArm;
 import frc.robot.commands.IntakeCone;
@@ -40,13 +43,13 @@ public class Superstructure {
   DriveTrain driveTrain = new DriveTrain(pigeon);
   Arm arm = new Arm();
   Intake intake = new Intake();
-  /*Vision vision = new Vision();
+  Vision vision = new Vision();
   PoseEstimator poseEstimator = new PoseEstimator(
     driveTrain.getKinematics(),
     driveTrain,
     pigeon,
     vision
-  );*/
+  );
 
   SendableChooser<Command> autonChooser = new SendableChooser<>();
 
@@ -54,11 +57,13 @@ public class Superstructure {
     autonChooser.setDefaultOption("Do nothing", new InstantCommand());
     //autonChooser.addOption("Linear test path", new LinearPath(driveTrain, poseEstimator));
 
-    driveTrain.setDefaultCommand(new DriveWithSpeeds(
+    driveTrain.setDefaultCommand(new DriveAbsoluteAngle(
       driveTrain,
+      pigeon,
       OI::getRightJoystickX,
       OI::getRightJoystickY,
-      OI::getLeftJoystickX
+      OI::getLeftJoystickX,
+      OI::getLeftJoystickY
     ));
 
     //arm.setDefaultCommand(new DumbArm(arm, OI::getRightJoystickY));
@@ -83,6 +88,12 @@ public class Superstructure {
     new JoystickButton(new Joystick(1), 4).onTrue(new ArmToPreset(arm, ArmPositionPresets.L1));
     new JoystickButton(new Joystick(1), 5).onTrue(new ArmToPreset(arm, ArmPositionPresets.L2));
     new JoystickButton(new Joystick(1), 6).onTrue(new ArmToPreset(arm, ArmPositionPresets.L3));
+    new JoystickButton(new Joystick(1), 8).whileTrue(new DriveToPreset(driveTrain, poseEstimator, OnTheFlyConstants.PRESETS.get("ColumnTwoAlign")));
+  }
+
+  /** Runs every 10ms */
+  public void periodic10 () {
+    arm.periodic10();
   }
 
   /**

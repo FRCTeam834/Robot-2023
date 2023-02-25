@@ -38,7 +38,7 @@ public class DriveTrain extends SubsystemBase {
 
   private ChassisSpeeds lastChassisSpeeds;
 
-  private final ProfiledPIDController keepHeadingController = new ProfiledPIDController(0.0, 0.0, 0.0, DriveTrainConstants.AUTON_CONSTRAINTS);
+  private final ProfiledPIDController keepHeadingController = new ProfiledPIDController(0.0, 0.0, 0.0, DriveTrainConstants.AUTON_DRIVE_CONSTRAINTS);
   /* Current rotation2d to keep maintain heading to */
   private Rotation2d keepHeading = new Rotation2d();
   private double lastKeepHeadingTime = Timer.getFPGATimestamp();
@@ -98,7 +98,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   /**
-   * Drive open loop
+   * Drive closed loop
    * @param vx - x velocity
    * @param vy - y velocity
    * @param omega - angular velocity
@@ -111,7 +111,6 @@ public class DriveTrain extends SubsystemBase {
     omega *= DriveTrainConstants.MAX_STEER_SPEED;
     vx *= DriveTrainConstants.MAX_TRANSLATION_SPEED;
     vy *= DriveTrainConstants.MAX_TRANSLATION_SPEED;
-    System.out.println(vx);
     vx = -vx;
 
     if (Math.abs(vx) > DriveTrainConstants.MODULE_ACTIVATION_THRESHOLD || Math.abs(vy) > DriveTrainConstants.MODULE_ACTIVATION_THRESHOLD) {

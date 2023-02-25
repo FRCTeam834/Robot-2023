@@ -12,6 +12,8 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PoseEstimatorConstants;
 
@@ -20,6 +22,8 @@ public class PoseEstimator extends SubsystemBase {
   private final DriveTrain driveTrain;
   private final Pigeon gyro;
   private final Vision vision;
+
+  private final Field2d telemetryField = new Field2d();
 
   public PoseEstimator(
     SwerveDriveKinematics kinematics,
@@ -39,6 +43,8 @@ public class PoseEstimator extends SubsystemBase {
     this.driveTrain = driveTrain;
     this.gyro = gyro;
     this.vision = vision;
+
+    SmartDashboard.putData("Pose Estimator Pose", telemetryField);
   }
 
   /**
@@ -69,5 +75,7 @@ public class PoseEstimator extends SubsystemBase {
         visionMeasurement.get().timestampSeconds
       );
     }
+
+    telemetryField.setRobotPose(this.getEstimatedPose());
   }
 }

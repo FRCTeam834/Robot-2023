@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -50,6 +51,9 @@ public class Arm extends SubsystemBase {
     encoder.setVelocityConversionFactor(2 * Math.PI / (ArmConstants.GEAR_REDUCTION * 60));
 
     encoder.setPosition(ArmConstants.STARTING_POSITION);
+
+    motor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 10);
+    motor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 10);
 
     if (Constants.competitionMode) {
       motor.burnFlash();
@@ -138,16 +142,18 @@ public class Arm extends SubsystemBase {
     motor.set(0);
   }
 
-  /** Called every 20ms */
   @Override
-  public void periodic() {
+  public void periodic () {
     if (Constants.tuningMode) {
       /* Real time PID tuning */
       if (ArmConstants.PID_GAINS.hasChanged()) {
         ArmConstants.PID_GAINS.bindToController(controller);
       }
     }
+  }
 
+  /** Called every 10ms */
+  public void periodic10() {
     if (isStopped) return;
 
     if (this.getPosition() > ArmConstants.MAX_POSITION || this.getPosition() < ArmConstants.MIN_POSITION) {
