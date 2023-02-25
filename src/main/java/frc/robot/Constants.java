@@ -127,10 +127,10 @@ public final class Constants {
 
             public static final void init () {
                 WAYPOINTS = new HashMap<String, Pose2d>() {{
-                    put("OuterCommunityTop", new Pose2d(5.5, 4.76, Rotation2d.fromDegrees(0)));
-                    put("OuterCommunityBottom", new Pose2d(5.5, 0.75, Rotation2d.fromDegrees(0)));
-                    put("InnerCommunityTop", new Pose2d(2.32, 4.76, Rotation2d.fromDegrees(0)));
-                    put("InnerCommunityBottom", new Pose2d(2.32, 0.75, Rotation2d.fromDegrees(0)));
+                    put("OuterCommunityTop", new Pose2d(5.5, 4.76, Rotation2d.fromDegrees(180)));
+                    put("OuterCommunityBottom", new Pose2d(5.5, 0.75, Rotation2d.fromDegrees(180)));
+                    put("InnerCommunityTop", new Pose2d(2.32, 4.76, Rotation2d.fromDegrees(180)));
+                    put("InnerCommunityBottom", new Pose2d(2.32, 0.75, Rotation2d.fromDegrees(180)));
                     put("ColumnTwoAlign", new Pose2d(2.32, 1.05, Rotation2d.fromDegrees(180)));
                     put("ColumnNineL13", new Pose2d(1.88, 4.92, Rotation2d.fromDegrees(0)));
                     

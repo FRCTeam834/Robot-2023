@@ -59,7 +59,7 @@ public class DriveToPreset extends CommandBase {
   public void initialize() {
     Pair<Pose2d, Pose2d[][]> preset = OnTheFlyConstants.PRESETS.get("ColumnTwoAlign");
     Pose2d robotPose = poseEstimator.getEstimatedPose();
-    ArrayList<PathPoint> pathPoints = new ArrayList<PathPoint>();
+    List<PathPoint> pathPoints = new ArrayList<PathPoint>();
     
     // Path begins at current robot position
     pathPoints.add(new PathPoint(

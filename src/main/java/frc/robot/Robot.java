@@ -27,7 +27,7 @@ public class Robot extends TimedRobot {
   public Robot () {
     addPeriodic(() -> {
       m_robotContainer.periodic10();
-    }, 10);
+    }, 0.01);
   }
 
   /**

@@ -23,7 +23,7 @@ public class DriveAbsoluteAngle extends CommandBase {
   private final DoubleSupplier angleXSupplier;
   private final DoubleSupplier angleYSupplier;
 
-  private final PIDController angleController = DriveTrainConstants.AUTON_STEER_PID_GAINS.derivePIDController();
+  private final ProfiledPIDController angleController = new ProfiledPIDController(0, 0, 0, DriveTrainConstants.AUTON_STEER_CONSTRAINTS);
 
   public DriveAbsoluteAngle(
     DriveTrain driveTrain,
@@ -56,7 +56,6 @@ public class DriveAbsoluteAngle extends CommandBase {
     if (Math.hypot(angleXSupplier.getAsDouble(), angleYSupplier.getAsDouble()) > 0.1) {
       omega = Math.atan2(angleYSupplier.getAsDouble(), angleXSupplier.getAsDouble());
       omega = angleController.calculate(gyro.getYaw(), omega);
-      omega = Math.max(Math.min(omega, DriveTrainConstants.AUTON_STEER_CONSTRAINTS.maxVelocity), -DriveTrainConstants.AUTON_STEER_CONSTRAINTS.maxVelocity);
     }
 
     driveTrain.drive(
