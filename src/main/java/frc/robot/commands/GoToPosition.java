@@ -4,77 +4,76 @@
 
 package frc.robot.commands;
 
+import java.util.ArrayList;
+
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.PathPoint;
+
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
+import frc.robot.Constants.DriveTrainConstants;
+import frc.robot.Constants.scoringLocation;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Pigeon;
-import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.PoseEstimator;
 
-
-
-public class GoToPosition extends CommandBase {
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+public class GoToPosition extends SequentialCommandGroup {
   /** Creates a new GoToPosition. */
-  private final Vision vision;
-  private final Pigeon pigeon;
-
-  private final DriveTrain driveTrain;
-
-  Pose2d[] listOfEntryLocations = {new Pose2d(0.0, 0.0, new Rotation2d(0)), new Pose2d(0.0, 0.0, new Rotation2d(0))};
-  // Pose2d[] scoringLocation = {new Pose2d(0.0, 0.0, new Rotation2d(0)), new Pose2d(0.0, 0.0, new Rotation2d(0))};
   
+  ArrayList<PathPoint> waypoints = new ArrayList<PathPoint>();
 
-  public GoToPosition(Vision vision, Pigeon pigeon, DriveTrain driveTrain) {
-    this.vision = vision;
-    this.pigeon = pigeon;
-    this.driveTrain = driveTrain;
-    
-    addRequirements(vision, pigeon, driveTrain);
-    }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    final Pose2d robotPosition = vision.getEstimatedPose().get().estimatedPose.toPose2d();
-
-    if (robotPosition.getY() > )
-
-    double distanceFromEntryOne = Math.sqrt(
-      Math.pow(listOfEntryLocations[0].getX() - robotPosition.getX(), 2) 
-      + 
-      Math.pow(listOfEntryLocations[0].getY() - robotPosition.getY(), 2));
-
-    double distanceFromEntryTwo = Math.sqrt(
-      Math.pow(listOfEntryLocations[1].getX() - robotPosition.getX(), 2) 
-      + 
-      Math.pow(listOfEntryLocations[1].getY() - robotPosition.getY(), 2));
-
-    //TODO Change Scroing Point
-    if (distanceFromEntryOne <= distanceFromEntryTwo){
-      driveTrain.generateThreePointTrajectory(robotPosition, listOfEntryLocations[0], new Pose2d());
-    }else{
-      driveTrain.generateThreePointTrajectory(robotPosition, listOfEntryLocations[1], new Pose2d());
+  public GoToPosition(   
+     DriveTrain driveTrain,
+     PoseEstimator poseEstimator,
+     scoringLocation preset
+    ) {
+      
+      final Pose2d robotPosition = poseEstimator.getEstimatedPose();
+      waypoints.add(new PathPoint(robotPosition.getTranslation(), robotPosition.getRotation()));
   
-    }
+      if (robotPosition.getY() > 0) {
+        Pose2d farEntryPoint1 = Constants.entryWaypoints[0][0];
+        Pose2d farEntryPoint2 = Constants.entryWaypoints[0][1];
+  
+        //TODO Change Scroing Point
+  
+        if(driveTrain.isDistanceOneGreater(robotPosition, farEntryPoint1, farEntryPoint2)){
+          waypoints.add(new PathPoint(farEntryPoint1.getTranslation(), farEntryPoint1.getRotation()));
+        }else{
+          waypoints.add(new PathPoint(farEntryPoint2.getTranslation(), farEntryPoint2.getRotation()));
+        } 
+  
+        } 
+        if(robotPosition.getY() > 0){
+          Pose2d closeEntryPoint1 = Constants.entryWaypoints[1][0];
+          Pose2d closeEntryPoint2 = Constants.entryWaypoints[1][1];
+          
+          
+          if(driveTrain.isDistanceOneGreater(robotPosition, closeEntryPoint1, closeEntryPoint2)){
+            waypoints.add(new PathPoint(closeEntryPoint1.getTranslation(), closeEntryPoint1.getRotation()));
+          }else{
+            waypoints.add(new PathPoint(closeEntryPoint2.getTranslation(), closeEntryPoint2.getRotation()));
+          } 
+        }
 
-    
+        waypoints.add(preset.positions);
 
-  }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    ;
 
-  }
+        
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
+    // Add your commands in the addCommands() call, e.g.
+    // addCommands(new FooCommand(), new BarCommand());
+    PathPlannerTrajectory trajectory = PathPlanner.generatePath(
+      DriveTrainConstants.PATH_CONSTRAINTS, 
+      waypoints);
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
+    addCommands(
+      driveTrain.followTrajectoryCommand(trajectory, poseEstimator, false)
+      );
   }
 }

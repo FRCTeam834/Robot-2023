@@ -208,21 +208,19 @@ public class DriveTrain extends SubsystemBase {
     return convertedChassisSpeeds;
   }
 
-  public PathPlannerTrajectory generateThreePointTrajectory(Pose2d currentPosition, Pose2d secondPosition, Pose2d finalPosition) {
-    return PathPlanner.generatePath(
-    DriveTrainConstants.ROTATION_PROFILE_CONSTRAINTS, 
-    new PathPoint(currentPosition.getTranslation(), currentPosition.getRotation()),// position, heading
-    new PathPoint(secondPosition.getTranslation(), secondPosition.getRotation()), // position, heading
-    new PathPoint(finalPosition.getTranslation(), finalPosition.getRotation()) // position, heading
-  ); 
-  }
+  public boolean isDistanceOneGreater(Pose2d currentPostition, Pose2d postion1, Pose2d position2){
+    double distanceOne = Math.sqrt(
+          Math.pow(postion1.getX() - currentPostition.getX(), 2)
+              +
+              Math.pow(postion1.getY() - currentPostition.getY(), 2));
 
-  public PathPlannerTrajectory generateTwoPointTrajectory(Pose2d currentPosition, Pose2d finalPosition) {
-    return PathPlanner.generatePath(
-    DriveTrainConstants.ROTATION_PROFILE_CONSTRAINTS, 
-    new PathPoint(currentPosition.getTranslation(), currentPosition.getRotation()),// position, heading
-    new PathPoint(finalPosition.getTranslation(), finalPosition.getRotation()) // position, heading
-  ); 
+    double distanceTwo = Math.sqrt(
+        Math.pow(position2.getX() - currentPostition.getX(), 2)
+            +
+            Math.pow(position2.getY() - currentPostition.getY(), 2));
+      
+    return distanceOne >= distanceTwo;
+
   }
 
   /**

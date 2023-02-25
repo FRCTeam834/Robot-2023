@@ -7,11 +7,14 @@ package frc.robot;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 
 import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPoint;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -20,6 +23,7 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.utility.PIDGains;
 import frc.robot.utility.TuneablePIDGains;
 
@@ -36,6 +40,34 @@ public final class Constants {
 
     public static final boolean telemetryMode = true && !competitionMode;
     public static final boolean tuningMode = true && !competitionMode;
+
+    public static DriverStation.Alliance alliance;
+    
+    public static double translateX = 0;
+
+
+    
+
+    public static Pose2d[][] entryWaypoints = { 
+        { 
+          new Pose2d(translateX - 0.0, 0.0, new Rotation2d(0)), 
+          new Pose2d(translateX - 0.0, 0.0, new Rotation2d(0))
+        },
+        { 
+          new Pose2d(translateX - 0.0, 0.0, new Rotation2d(0)), 
+          new Pose2d(translateX - 0.0, 0.0, new Rotation2d(0)), 
+        } };
+    
+    public static enum scoringLocation {
+       OneHigh(new PathPoint(new Translation2d(translateX - 0, 0), new Rotation2d(0))),
+       OneMid(new PathPoint(new Translation2d(translateX - 0, 0), new Rotation2d(0)));
+
+       public final PathPoint positions;
+
+       scoringLocation (PathPoint positions){
+        this.positions = positions;
+       }
+    };
 
     /** All units are metric */
 
@@ -100,7 +132,7 @@ public final class Constants {
             new Translation2d(-WIDTH / 2, -LENGTH / 2)
         };
 
-        public static final PathConstraints ROTATION_PROFILE_CONSTRAINTS = new PathConstraints(3, 3); 
+        public static final PathConstraints PATH_CONSTRAINTS = new PathConstraints(3, 3); 
     }
 
     public static final class PigeonConstants {
