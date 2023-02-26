@@ -5,7 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.simulation.GenericHIDSim;
+import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.DriverConstants;
 import frc.robot.utility.UnitQuad;
 
@@ -13,6 +13,8 @@ public class OI {
     public static final Joystick leftJoystick = new Joystick(DriverConstants.LEFT_JOYSTICK_PORT);
     public static final Joystick rightJoystick = new Joystick(DriverConstants.RIGHT_JOYSTICK_PORT);
     public static final Joystick numpad = new Joystick(DriverConstants.NUMPAD_PORT);
+    public static final XboxController xbox = new XboxController(DriverConstants.XBOX_PORT);
+
     /**
      * @return left joystick x input
      */
@@ -47,5 +49,11 @@ public class OI {
         double raw = rightJoystick.getY();
         if (Math.abs(raw) < DriverConstants.RIGHT_JOYSTICK_DEADZONE) raw = 0.0;
         return UnitQuad.calculate(raw);
+    }
+
+    public static final double getXboxLeftJoystickY () {
+        double raw = xbox.getLeftY();
+        if (Math.abs(raw) < DriverConstants.XBOX_JOYSTICK_DEADZONE) raw = 0.0;
+        return raw;
     }
 }

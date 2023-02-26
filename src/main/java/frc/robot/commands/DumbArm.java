@@ -26,7 +26,7 @@ public class DumbArm extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    this.arm.setVoltage(supplier.getAsDouble() * 12);
+    this.arm.setVoltage(supplier.getAsDouble() * 6);
   }
 
   // Called once the command ends or is interrupted.

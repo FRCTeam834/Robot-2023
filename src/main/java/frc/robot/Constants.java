@@ -54,8 +54,9 @@ public final class Constants {
         public static final int NUMPAD_PORT = 2;
         public static final int XBOX_PORT = 3;
 
-        public static final double LEFT_JOYSTICK_DEADZONE = 0.2;
-        public static final double RIGHT_JOYSTICK_DEADZONE = 0.2;
+        public static final double LEFT_JOYSTICK_DEADZONE = 0.075;
+        public static final double RIGHT_JOYSTICK_DEADZONE = 0.075;
+        public static final double XBOX_JOYSTICK_DEADZONE = 0.1;
     }
 
     public static final class DriveTrainConstants {
@@ -237,6 +238,7 @@ public final class Constants {
     public static final class IntakeConstants {
         public static final int CANID = 11;
         public static final int CURRENT_LIMIT = 20;
+        public static final double GEAR_RATIO = 5;
         public static final int RPM_FILTER_TAPS = 30;
         public static final double CONE_RPM_THRESHOLD = 3;
         public static final double CUBE_RPM_THRESHOLD = 10;

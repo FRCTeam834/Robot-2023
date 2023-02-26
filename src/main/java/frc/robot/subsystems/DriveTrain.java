@@ -108,11 +108,10 @@ public class DriveTrain extends SubsystemBase {
     double vy,
     double omega
   ) {
-    omega *= DriveTrainConstants.MAX_STEER_SPEED;
-    vx *= DriveTrainConstants.MAX_TRANSLATION_SPEED;
-    vy *= DriveTrainConstants.MAX_TRANSLATION_SPEED;
+    // x velocity is just reversed for some reason
     vx = -vx;
 
+    // Ratelimiter, do not ratelimit if vx or vy are too low as it makes the angle volatile
     if (Math.abs(vx) > DriveTrainConstants.MODULE_ACTIVATION_THRESHOLD || Math.abs(vy) > DriveTrainConstants.MODULE_ACTIVATION_THRESHOLD) {
       double angle = Math.atan2(vy, vx);
       double mag = translationRateLimiter.calculate(Math.hypot(vx, vy));
@@ -122,8 +121,6 @@ public class DriveTrain extends SubsystemBase {
     omega = steerRateLimiter.calculate(omega);
 
     ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, omega, gyro.getYawAsRotation2d());
-
-    //ChassisSpeeds speeds = new ChassisSpeeds(vx, vy, omega);
 
     SwerveModuleState[] desiredStates = kinematics.toSwerveModuleStates(speeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(

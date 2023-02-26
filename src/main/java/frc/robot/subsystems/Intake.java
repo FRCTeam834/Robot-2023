@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.GamePieceType;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.commands.IntakeCone;
 
 public class Intake extends SubsystemBase {
   
@@ -29,6 +30,8 @@ public class Intake extends SubsystemBase {
     motor.setInverted(false);
     motor.enableVoltageCompensation(12.0);
     motor.setSmartCurrentLimit(IntakeConstants.CURRENT_LIMIT);
+
+    encoder.setVelocityConversionFactor(1.0 / IntakeConstants.GEAR_RATIO);
 
     if (Constants.competitionMode) {
       motor.burnFlash();

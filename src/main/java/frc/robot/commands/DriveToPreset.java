@@ -27,24 +27,35 @@ public class DriveToPreset extends CommandBase {
 
   private final DriveTrain driveTrain;
   private final PoseEstimator poseEstimator;
+  private final String presetName;
   
   private Command followTrajectoryCommand;
 
   public DriveToPreset(
     DriveTrain driveTrain,
-    PoseEstimator poseEstimator
+    PoseEstimator poseEstimator,
+    String presetName
   ) {
     this.driveTrain = driveTrain;
     this.poseEstimator = poseEstimator;
+    this.presetName = presetName;
   }
 
+  /**
+   * Choose the best waypoint for a step in a path
+   * @param robotPose
+   * @param waypoints
+   * @param destination
+   * @return
+   */
   private static Pose2d chooseWaypointFromStep (Pose2d robotPose, Pose2d[] waypoints, Pose2d destination) {
     Pose2d candidate = null;
     double candidateDistance = Double.POSITIVE_INFINITY;
     
     for (Pose2d waypoint : waypoints) {
+      // Bad waypoint if it brings us farther away from the final destination
       if (destination.getX() < robotPose.getX() != waypoint.getX() < robotPose.getX()) continue;
-      // check distance
+      // Choose closest waypoint
       double distance = Math.hypot(waypoint.getX() - robotPose.getX(), waypoint.getY() - robotPose.getY());
       if(distance < candidateDistance){
         candidate = waypoint;
@@ -57,7 +68,7 @@ public class DriveToPreset extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Pair<Pose2d, Pose2d[][]> preset = OnTheFlyConstants.PRESETS.get("ColumnTwoAlign");
+    Pair<Pose2d, Pose2d[][]> preset = OnTheFlyConstants.PRESETS.get(presetName);
     Pose2d robotPose = poseEstimator.getEstimatedPose();
     List<PathPoint> pathPoints = new ArrayList<PathPoint>();
     

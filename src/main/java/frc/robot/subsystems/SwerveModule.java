@@ -131,7 +131,7 @@ public class SwerveModule extends SubsystemBase {
    * @return current wheel angle
    */
   public double getAngle () {
-    return steerEncoder.getPosition();
+    return Rotation2d.fromRadians(steerEncoder.getPosition()).minus(Rotation2d.fromRadians(encoderOffset)).getRadians();
   }
 
   public Rotation2d getAngleAsRotation2d () {

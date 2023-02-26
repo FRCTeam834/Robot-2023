@@ -7,6 +7,7 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.subsystems.DriveTrain;
 
 public class DriveWithSpeeds extends CommandBase {
@@ -16,6 +17,13 @@ public class DriveWithSpeeds extends CommandBase {
   private final DoubleSupplier vySupplier;
   private final DoubleSupplier omegaSupplier;
 
+  /**
+   * 
+   * @param driveTrain
+   * @param vxSupplier - Supplies [-1, 1]
+   * @param vySupplier - Supplies [-1, 1]
+   * @param omegaSupplier - Supplies [-1, 1]
+   */
   public DriveWithSpeeds(
     DriveTrain driveTrain,
     DoubleSupplier vxSupplier,
@@ -37,9 +45,9 @@ public class DriveWithSpeeds extends CommandBase {
   @Override
   public void execute() {
     driveTrain.drive(
-      vxSupplier.getAsDouble(),
-      vySupplier.getAsDouble(),
-      omegaSupplier.getAsDouble()
+      vxSupplier.getAsDouble() * DriveTrainConstants.MAX_TRANSLATION_SPEED,
+      vySupplier.getAsDouble() * DriveTrainConstants.MAX_TRANSLATION_SPEED,
+      omegaSupplier.getAsDouble() * DriveTrainConstants.MAX_STEER_SPEED
     );
   }
 

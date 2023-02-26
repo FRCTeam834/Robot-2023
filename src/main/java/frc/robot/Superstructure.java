@@ -64,6 +64,11 @@ public class Superstructure {
       OI::getLeftJoystickX
     ));
 
+    arm.setDefaultCommand(new DumbArm(
+      arm,
+      OI::getXboxLeftJoystickY
+    ));
+
     //arm.setDefaultCommand(new DumbArm(arm, OI::getRightJoystickY));
     // Configure the trigger bindings
     configureBindings();
@@ -86,7 +91,7 @@ public class Superstructure {
     new JoystickButton(new Joystick(1), 4).onTrue(new ArmToPreset(arm, ArmPositionPresets.L1));
     new JoystickButton(new Joystick(1), 5).onTrue(new ArmToPreset(arm, ArmPositionPresets.L2));
     new JoystickButton(new Joystick(1), 6).onTrue(new ArmToPreset(arm, ArmPositionPresets.L3));
-    new JoystickButton(new Joystick(1), 8).whileTrue(new DriveToPreset(driveTrain, poseEstimator));
+    new JoystickButton(new Joystick(1), 8).whileTrue(new DriveToPreset(driveTrain, poseEstimator, "ColumnTwoAlign"));
   }
 
   /** Runs every 10ms */
