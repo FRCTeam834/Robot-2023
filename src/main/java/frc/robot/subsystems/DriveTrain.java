@@ -151,18 +151,18 @@ public class DriveTrain extends SubsystemBase {
   public void periodic() {
     if (Constants.tuningMode) {
       /* Real time PID tuning -- same PID gains for each module */
-      if (DriveTrainConstants.DRIVE_PID_GAINS.hasChanged()) {
+      //if (DriveTrainConstants.DRIVE_PID_GAINS.hasChanged()) {
         DriveTrainConstants.DRIVE_PID_GAINS.bindToController(frontLeft.getDriveController());
         DriveTrainConstants.DRIVE_PID_GAINS.bindToController(frontRight.getDriveController());
         DriveTrainConstants.DRIVE_PID_GAINS.bindToController(backLeft.getDriveController());
         DriveTrainConstants.DRIVE_PID_GAINS.bindToController(backRight.getDriveController());
-      }
-      if (DriveTrainConstants.STEER_PID_GAINS.hasChanged()) {
+      //}
+      //if (DriveTrainConstants.STEER_PID_GAINS.hasChanged()) {
         DriveTrainConstants.STEER_PID_GAINS.bindToController(frontLeft.getSteerController());
         DriveTrainConstants.STEER_PID_GAINS.bindToController(frontRight.getSteerController());
         DriveTrainConstants.STEER_PID_GAINS.bindToController(backLeft.getSteerController());
         DriveTrainConstants.STEER_PID_GAINS.bindToController(backRight.getSteerController());
-      }
+      //}
     }
   }
 

@@ -113,12 +113,12 @@ public final class Constants {
             new Translation2d(WIDTH / 2, -LENGTH / 2)
         };
 
-        public static final double[] ENCODER_OFFSETS = {
+        /*public static final double[] ENCODER_OFFSETS = {
             Units.degreesToRadians(180 - 180),
             Units.degreesToRadians(-90 - 180),
             Units.degreesToRadians(90 - 180),
             Units.degreesToRadians(0 - 180)
-        };
+        };*/
 
         public static final class OnTheFlyConstants {
 

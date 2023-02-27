@@ -38,7 +38,7 @@ public class SwerveModule extends SubsystemBase {
 
   private final SimpleMotorFeedforward driveFeedforward;
 
-  private final double encoderOffset;
+  //private final double encoderOffset;
 
   /** Builder methods */
   public static final SwerveModule buildFrontLeft () {
@@ -69,7 +69,7 @@ public class SwerveModule extends SubsystemBase {
     driveEncoder = driveMotor.getEncoder();
     steerEncoder = steerMotor.getAbsoluteEncoder(Type.kDutyCycle);
 
-    encoderOffset = DriveTrainConstants.ENCODER_OFFSETS[moduleID];
+    //encoderOffset = DriveTrainConstants.ENCODER_OFFSETS[moduleID];
 
     driveMotor.restoreFactoryDefaults();
     steerMotor.restoreFactoryDefaults();
@@ -116,6 +116,8 @@ public class SwerveModule extends SubsystemBase {
       driveMotor.burnFlash();
       steerMotor.burnFlash();
     }
+
+    SmartDashboard.putData("MAXSwerve " + this.name, this);
   }
 
   public SparkMaxPIDController getDriveController () {
@@ -131,7 +133,7 @@ public class SwerveModule extends SubsystemBase {
    * @return current wheel angle
    */
   public double getAngle () {
-    return Rotation2d.fromRadians(steerEncoder.getPosition()).minus(Rotation2d.fromRadians(encoderOffset)).getRadians();
+    return steerEncoder.getPosition();
   }
 
   public Rotation2d getAngleAsRotation2d () {
@@ -173,7 +175,7 @@ public class SwerveModule extends SubsystemBase {
    * @param desiredState
    */
   public void setDesiredState (SwerveModuleState desiredState) {
-    desiredState.angle = desiredState.angle.plus(Rotation2d.fromRadians(encoderOffset));
+    //desiredState.angle = desiredState.angle.plus(Rotation2d.fromRadians(encoderOffset));
     desiredState = SwerveModule.optimize(desiredState, this.getAngleAsRotation2d(), Units.degreesToRadians(90.0));
 
     if (Math.abs(desiredState.speedMetersPerSecond) < DriveTrainConstants.MODULE_ACTIVATION_THRESHOLD) {
@@ -191,7 +193,7 @@ public class SwerveModule extends SubsystemBase {
    * @param desiredState
    */
   public void setDesiredStateOpenLoop (SwerveModuleState desiredState) {
-    desiredState.angle = desiredState.angle.plus(Rotation2d.fromRadians(encoderOffset));
+    //desiredState.angle = desiredState.angle.plus(Rotation2d.fromRadians(encoderOffset));
     desiredState = SwerveModule.optimize(desiredState, this.getAngleAsRotation2d(), Units.degreesToRadians(90.0));
 
     if (Math.abs(desiredState.speedMetersPerSecond) < DriveTrainConstants.MODULE_ACTIVATION_THRESHOLD) {
@@ -212,15 +214,13 @@ public class SwerveModule extends SubsystemBase {
   public void initSendable(SendableBuilder builder) {
     if (Constants.telemetryMode == false) return;
 
-    builder.setSmartDashboardType("MAXSwerve " + this.name);
+    builder.setSmartDashboardType("Swerve");
     builder.addDoubleProperty("Angle", this::getAngle, null);
     builder.addDoubleProperty("Velocity", this::getVelocity, null);
   }
 
   @Override
-  public void periodic() {
-    SmartDashboard.putData(this);
-  }
+  public void periodic() {}
 
   /**
    * 
