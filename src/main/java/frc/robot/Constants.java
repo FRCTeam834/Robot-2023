@@ -24,6 +24,7 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.util.InterpolatingTreeMap;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.utility.PIDGains;
@@ -107,10 +108,10 @@ public final class Constants {
         public static final String[] MODULE_NAMES = { "FL", "FR", "BL", "BR" };
 
         public static final Translation2d[] MODULE_POSITIONS = {
-            new Translation2d(-WIDTH / 2, LENGTH / 2),
             new Translation2d(WIDTH / 2, LENGTH / 2),
-            new Translation2d(-WIDTH / 2, -LENGTH / 2),
-            new Translation2d(WIDTH / 2, -LENGTH / 2)
+            new Translation2d(-WIDTH / 2, LENGTH / 2),
+            new Translation2d(WIDTH / 2, -LENGTH / 2),
+            new Translation2d(-WIDTH / 2, -LENGTH / 2)
         };
 
         /*public static final double[] ENCODER_OFFSETS = {
@@ -205,6 +206,16 @@ public final class Constants {
         public static final double ARM_MASS = Units.lbsToKilograms(10);
         public static final double INTAKE_MASS = Units.lbsToKilograms(10);
         public static final double INTAKE_ANGLE_TO_HORIZONTAL = Units.degreesToRadians(23);
+
+        /** Lerp table for counterbalance angular acceleration */
+        public static final InterpolatingTreeMap<Double, Double> INIT_CB_LERP_TABLE () {
+            InterpolatingTreeMap<Double, Double> table = new InterpolatingTreeMap<>();
+            // Angle of arm, Angular acceleration
+            table.put(Units.degreesToRadians(0), Units.degreesToRadians(0));
+            return table;
+        }
+
+        public static final InterpolatingTreeMap<Double, Double> CB_LERP_TABLE = INIT_CB_LERP_TABLE();
 
         public static enum ArmPositionPresets {
             STOW(Units.degreesToRadians(-30)),

@@ -124,8 +124,8 @@ public class Arm extends SubsystemBase {
   /**
    * @return angular acceleration from arm counterbalancing
    */
-  /*public double getAccelerationFromCounterbalance () {
-    double beta = ArmConstants.ARM_ANGLE_TO_CB_ARM - this.getPosition() - Units.degreesToRadians(90);
+  public double getAccelerationFromCounterbalance () {
+    /*double beta = ArmConstants.ARM_ANGLE_TO_CB_ARM - this.getPosition() - Units.degreesToRadians(90);
     // Location where force is applied
     double Fx = ArmConstants.BASE_LENGTH - (ArmConstants.CB_ARM_LENGTH * Math.cos(beta));
     double Fy = ArmConstants.ARM_HEIGHT - (ArmConstants.CB_ARM_LENGTH * Math.sin(beta));
@@ -134,8 +134,9 @@ public class Arm extends SubsystemBase {
     
     double torque = ArmConstants.COUNTERBALANCE_FORCE * ArmConstants.CB_ARM_LENGTH * Math.sin(theta);
     // torque = Ia; a = torque / I
-    return torque / getMomentOfInertia();
-  }*/
+    return torque / getMomentOfInertia();*/
+    return ArmConstants.CB_LERP_TABLE.get(this.getPosition());
+  }
 
   public void setVoltage (double voltage) {
     motor.setVoltage(voltage);
