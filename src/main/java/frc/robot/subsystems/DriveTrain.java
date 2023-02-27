@@ -101,6 +101,12 @@ public class DriveTrain extends SubsystemBase {
     backRight.setDesiredStateOpenLoop(desiredStates[3]);
   }
 
+  public void ppsetDesiredModuleStates (SwerveModuleState[] desiredStates) {
+    ChassisSpeeds speeds = kinematics.toChassisSpeeds(desiredStates);
+    ChassisSpeeds convertedSpeeds = new ChassisSpeeds(speeds.vyMetersPerSecond, speeds.vxMetersPerSecond, speeds.omegaRadiansPerSecond);
+    this.setDesiredModuleStates(kinematics.toSwerveModuleStates(convertedSpeeds));
+  }
+
   /**
    * Drive closed loop
    * @param vx - x velocity
@@ -219,12 +225,12 @@ public class DriveTrain extends SubsystemBase {
       }),
       new PPSwerveControllerCommand(
         trajectory,
-        poseEstimator::getEstimatedPose,
+        poseEstimator::ppgetEstimatedPose,
         kinematics,
         DriveTrainConstants.AUTON_DRIVE_PID_GAINS.derivePIDController(),
         DriveTrainConstants.AUTON_DRIVE_PID_GAINS.derivePIDController(),
         DriveTrainConstants.AUTON_STEER_PID_GAINS.derivePIDController(),
-        this::setDesiredModuleStates,
+        this::ppsetDesiredModuleStates,
         this
       )
     );

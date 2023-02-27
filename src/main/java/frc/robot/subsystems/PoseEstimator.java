@@ -61,6 +61,12 @@ public class PoseEstimator extends SubsystemBase {
     return poseEstimator.getEstimatedPosition();
   }
 
+  public Pose2d ppgetEstimatedPose () {
+    Pose2d pose = this.getEstimatedPose();
+    Pose2d convertedPose = new Pose2d(pose.getY(), pose.getX(), pose.getRotation());
+    return convertedPose;
+  }
+
   @Override
   public void periodic() {
     /* Update the odometry */
