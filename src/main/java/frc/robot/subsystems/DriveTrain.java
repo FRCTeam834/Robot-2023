@@ -225,7 +225,7 @@ public class DriveTrain extends SubsystemBase {
       }),
       new PPSwerveControllerCommand(
         trajectory,
-        poseEstimator::ppgetEstimatedPose,
+        poseEstimator::getEstimatedPose,
         kinematics,
         DriveTrainConstants.AUTON_DRIVE_PID_GAINS.derivePIDController(),
         DriveTrainConstants.AUTON_DRIVE_PID_GAINS.derivePIDController(),
