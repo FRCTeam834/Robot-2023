@@ -27,7 +27,7 @@ public class DriveToPreset extends CommandBase {
 
   private final DriveTrain driveTrain;
   private final PoseEstimator poseEstimator;
-  private final String presetName;
+  private String presetName;
   
   private Command followTrajectoryCommand;
 
@@ -69,14 +69,12 @@ public class DriveToPreset extends CommandBase {
   @Override
   public void initialize() {
     Pair<Pose2d, Pose2d[][]> preset = OnTheFlyConstants.PRESETS.get(presetName);
+
     Pose2d robotPose = poseEstimator.getEstimatedPose();
     List<PathPoint> pathPoints = new ArrayList<PathPoint>();
     
     // Path begins at current robot position
-    pathPoints.add(new PathPoint(
-      robotPose.getTranslation(),
-      robotPose.getRotation()
-    ));
+    pathPoints.add(PathPoint.fromCurrentHolonomicState(robotPose, driveTrain.getLastChassisSpeeds()));
 
     for (Pose2d[] step : preset.getSecond()){
       Pose2d chosenWaypoint = DriveToPreset.chooseWaypointFromStep(robotPose, step, preset.getFirst());

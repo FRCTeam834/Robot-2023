@@ -62,6 +62,10 @@ public class DriveTrain extends SubsystemBase {
     return kinematics;
   }
 
+  public ChassisSpeeds getLastChassisSpeeds () {
+    return lastChassisSpeeds;
+  }
+
   /**
    * @return current module positions
    */

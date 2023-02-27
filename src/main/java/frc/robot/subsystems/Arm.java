@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.ArmConstants.ArmPositionPresets;
 
 public class Arm extends SubsystemBase {
   private final CANSparkMax motor;
@@ -35,6 +36,7 @@ public class Arm extends SubsystemBase {
 
     /* Set PID Gains */
     ArmConstants.PID_GAINS.bindToController(controller);
+    controller.setTolerance(ArmConstants.SETPOINT_TOLERANCE);
 
     feedforward = ArmConstants.FEEDFORWARD;
 
@@ -60,6 +62,7 @@ public class Arm extends SubsystemBase {
     }
 
     SmartDashboard.putData(this);
+    SmartDashboard.putData(controller);
   }
 
   /**
@@ -74,6 +77,10 @@ public class Arm extends SubsystemBase {
    */
   public double getVelocity () {
     return this.encoder.getVelocity();
+  }
+
+  public boolean atSetpoint () {
+    return controller.atSetpoint();
   }
 
   /**

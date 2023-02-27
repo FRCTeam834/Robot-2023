@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -19,6 +22,7 @@ import frc.robot.autons.LinearPath;
 import frc.robot.commands.ArmToPreset;
 import frc.robot.commands.DriveAbsoluteAngle;
 import frc.robot.commands.DriveToPreset;
+import frc.robot.commands.DriveToWaypoint;
 import frc.robot.commands.DriveWithSpeeds;
 import frc.robot.commands.DumbArm;
 import frc.robot.commands.IntakeCone;
@@ -92,6 +96,17 @@ public class Superstructure {
     new JoystickButton(new Joystick(1), 5).onTrue(new ArmToPreset(arm, ArmPositionPresets.L2));
     new JoystickButton(new Joystick(1), 6).onTrue(new ArmToPreset(arm, ArmPositionPresets.L3));
     new JoystickButton(new Joystick(1), 8).whileTrue(new DriveToPreset(driveTrain, poseEstimator, "ColumnTwoAlign"));
+
+    // Temp auto score L3
+    new JoystickButton(new Joystick(1), 10).onTrue(new SequentialCommandGroup(
+      new DriveToPreset(driveTrain, poseEstimator, "ColumnTwoAlign"),
+      new ArmToPreset(arm, ArmPositionPresets.L3).until(() -> arm.getPosition() > ArmPositionPresets.L2.position),
+      new ParallelCommandGroup(
+        new DriveWithSpeeds(driveTrain, () -> -0.2, () -> 0.0, () -> 0.0).withTimeout(1),
+        new WaitUntilCommand(arm::atSetpoint)
+      ),
+      new Outtake(intake)
+    ));
   }
 
   /** Runs every 10ms */

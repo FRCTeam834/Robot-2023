@@ -132,8 +132,9 @@ public final class Constants {
                     put("OuterCommunityBottom", new Pose2d(5.5, 0.75, Rotation2d.fromDegrees(180)));
                     put("InnerCommunityTop", new Pose2d(2.32, 4.76, Rotation2d.fromDegrees(180)));
                     put("InnerCommunityBottom", new Pose2d(2.32, 0.75, Rotation2d.fromDegrees(180)));
+
                     put("ColumnTwoAlign", new Pose2d(2.32, 1.05, Rotation2d.fromDegrees(180)));
-                    put("ColumnNineL13", new Pose2d(1.88, 4.92, Rotation2d.fromDegrees(0)));
+                    put("ColumnTwoL13", new Pose2d(1.88, 1.05, Rotation2d.fromDegrees(180)));
                     
                     put("ColumnOneL2", new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
                 }};
@@ -176,7 +177,7 @@ public final class Constants {
     public static final class ArmConstants {
         public static final int CANID = 10;
 
-        public static final int CURRENT_LIMIT = 40;
+        public static final int CURRENT_LIMIT = 50;
 
         public static final double GEAR_REDUCTION = 180;
         public static final double MAX_POSITION = Units.degreesToRadians(120);
@@ -190,8 +191,9 @@ public final class Constants {
             Units.degreesToRadians(360)
         );
 
-        public static final ArmFeedforward FEEDFORWARD = new ArmFeedforward(0.2, 0.44, 3.6403, 0.089329);//ks:0.18271  //new ArmFeedforward(0.24881, 0.9, 3.51, 0.14);// new ArmFeedforward(0.24881, 1.9177, 1.295, 0.11294);
-        public static final double SETPOINT_TOLERANCE = Units.degreesToRadians(0);
+        // https://www.reca.lc/arm?armMass=%7B%22s%22%3A20%2C%22u%22%3A%22lbs%22%7D&comLength=%7B%22s%22%3A28.25%2C%22u%22%3A%22in%22%7D&currentLimit=%7B%22s%22%3A40%2C%22u%22%3A%22A%22%7D&efficiency=85&endAngle=%7B%22s%22%3A0%2C%22u%22%3A%22deg%22%7D&iterationLimit=10000&motor=%7B%22quantity%22%3A1%2C%22name%22%3A%22NEO%22%7D&ratio=%7B%22magnitude%22%3A70%2C%22ratioType%22%3A%22Reduction%22%7D&startAngle=%7B%22s%22%3A-90%2C%22u%22%3A%22deg%22%7D
+        public static final ArmFeedforward FEEDFORWARD = new ArmFeedforward(0.2, 2.77, 1.36, 0.28);
+        public static final double SETPOINT_TOLERANCE = Units.degreesToRadians(0.5);
 
         public static final double ARM_ANGLE_TO_CB_ARM = Units.degreesToRadians(138);
         public static final double ARM_HEIGHT = Units.inchesToMeters(33);
@@ -221,8 +223,8 @@ public final class Constants {
 
     public static final class PoseEstimatorConstants {
         /** Standard deviations for odometry and vision (how much we trust their measurements) */
-        public static final Matrix<N3, N1> STATE_STDDEVS = VecBuilder.fill(0.1, 0.1, 0.05); // [x, y, theta]
-        public static final Matrix<N3, N1> VISION_STDDEVS = VecBuilder.fill(0.9, 0.9, 10); // [x, y, theta]
+        public static final Matrix<N3, N1> STATE_STDDEVS = VecBuilder.fill(0.1, 0.1, Units.degreesToRadians(5)); // [x, y, theta]
+        public static final Matrix<N3, N1> VISION_STDDEVS = VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(10)); // [x, y, theta]
     }
 
     public static final class VisionConstants {
