@@ -149,7 +149,7 @@ public class SwerveModule extends SubsystemBase {
   }
 
   public SwerveModulePosition getModulePosition () {
-    return new SwerveModulePosition(driveEncoder.getPosition(), this.getAngleAsRotation2d());
+    return new SwerveModulePosition(driveEncoder.getPosition(), this.getAngleAsRotation2d().rotateBy(Rotation2d.fromDegrees(90)));
   }
 
   public void setDesiredAngle (double angle) {
@@ -215,7 +215,7 @@ public class SwerveModule extends SubsystemBase {
     if (Constants.telemetryMode == false) return;
 
     builder.setSmartDashboardType("Swerve");
-    builder.addDoubleProperty("Angle", this::getAngle, null);
+    builder.addDoubleProperty("Angle", () -> this.getAngleAsRotation2d().getDegrees(), null);
     builder.addDoubleProperty("Velocity", this::getVelocity, null);
   }
 

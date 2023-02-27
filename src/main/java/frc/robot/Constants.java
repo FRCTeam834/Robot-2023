@@ -87,10 +87,10 @@ public final class Constants {
         public static final PIDGains STEER_PID_GAINS = new TuneablePIDGains("SWERVE_STEER", 0.5, 0.0);
         public static final SimpleMotorFeedforward DRIVE_FF = new SimpleMotorFeedforward(0.0, 0.0, 0.0);
 
-        public static final PIDGains AUTON_DRIVE_PID_GAINS = new PIDGains(1);
-        public static final PIDGains AUTON_STEER_PID_GAINS = new PIDGains(2);
+        public static final PIDGains AUTON_DRIVE_PID_GAINS = new PIDGains(0.1);
+        public static final PIDGains AUTON_STEER_PID_GAINS = new PIDGains(0.1);
 
-        public static final TrapezoidProfile.Constraints AUTON_DRIVE_CONSTRAINTS = new TrapezoidProfile.Constraints(0.5, 1);
+        public static final TrapezoidProfile.Constraints AUTON_DRIVE_CONSTRAINTS = new TrapezoidProfile.Constraints(0.1, 0.2);
         public static final TrapezoidProfile.Constraints AUTON_STEER_CONSTRAINTS = new TrapezoidProfile.Constraints(Units.degreesToRadians(180), Units.degreesToRadians(360));
 
         /** Slewrate values for drivetrain (max acceleration) */
@@ -108,10 +108,10 @@ public final class Constants {
         public static final String[] MODULE_NAMES = { "FL", "FR", "BL", "BR" };
 
         public static final Translation2d[] MODULE_POSITIONS = {
-            new Translation2d(WIDTH / 2, LENGTH / 2),
-            new Translation2d(-WIDTH / 2, LENGTH / 2),
             new Translation2d(WIDTH / 2, -LENGTH / 2),
-            new Translation2d(-WIDTH / 2, -LENGTH / 2)
+            new Translation2d(-WIDTH / 2, -LENGTH / 2),
+            new Translation2d(WIDTH / 2, LENGTH / 2),
+            new Translation2d(-WIDTH / 2, LENGTH / 2)
         };
 
         /*public static final double[] ENCODER_OFFSETS = {
@@ -132,7 +132,7 @@ public final class Constants {
                     put("OuterCommunityTop", new Pose2d(5.5, 4.76, Rotation2d.fromDegrees(180)));
                     put("OuterCommunityBottom", new Pose2d(5.5, 0.75, Rotation2d.fromDegrees(180)));
                     put("InnerCommunityTop", new Pose2d(2.32, 4.76, Rotation2d.fromDegrees(180)));
-                    put("InnerCommunityBottom", new Pose2d(2.32, 0.75, Rotation2d.fromDegrees(180)));
+                    put("InnerCommunityBottom", new Pose2d(2.32, 0.75, Rotation2d.fromDegrees(0)));
 
                     put("ColumnTwoAlign", new Pose2d(2.32, 1.05, Rotation2d.fromDegrees(180)));
                     put("ColumnTwoL13", new Pose2d(1.88, 1.05, Rotation2d.fromDegrees(180)));
@@ -215,7 +215,7 @@ public final class Constants {
             return table;
         }
 
-        public static final InterpolatingTreeMap<Double, Double> CB_LERP_TABLE = INIT_CB_LERP_TABLE();
+        //public static final InterpolatingTreeMap<Double, Double> CB_LERP_TABLE = INIT_CB_LERP_TABLE();
 
         public static enum ArmPositionPresets {
             STOW(Units.degreesToRadians(-30)),

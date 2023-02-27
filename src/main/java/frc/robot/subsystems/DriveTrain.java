@@ -112,8 +112,9 @@ public class DriveTrain extends SubsystemBase {
     double vy,
     double omega
   ) {
-    // x velocity is just reversed for some reason
+    // x velocity and omega is just reversed for some reason
     vx = -vx;
+    omega = -omega;
 
     // Ratelimiter, do not ratelimit if vx or vy are too low as it makes the angle volatile
     if (Math.abs(vx) > DriveTrainConstants.MODULE_ACTIVATION_THRESHOLD || Math.abs(vy) > DriveTrainConstants.MODULE_ACTIVATION_THRESHOLD) {
@@ -152,16 +153,16 @@ public class DriveTrain extends SubsystemBase {
     if (Constants.tuningMode) {
       /* Real time PID tuning -- same PID gains for each module */
       //if (DriveTrainConstants.DRIVE_PID_GAINS.hasChanged()) {
-        DriveTrainConstants.DRIVE_PID_GAINS.bindToController(frontLeft.getDriveController());
-        DriveTrainConstants.DRIVE_PID_GAINS.bindToController(frontRight.getDriveController());
-        DriveTrainConstants.DRIVE_PID_GAINS.bindToController(backLeft.getDriveController());
-        DriveTrainConstants.DRIVE_PID_GAINS.bindToController(backRight.getDriveController());
+        //DriveTrainConstants.DRIVE_PID_GAINS.bindToController(frontLeft.getDriveController());
+        //DriveTrainConstants.DRIVE_PID_GAINS.bindToController(frontRight.getDriveController());
+        //DriveTrainConstants.DRIVE_PID_GAINS.bindToController(backLeft.getDriveController());
+        //DriveTrainConstants.DRIVE_PID_GAINS.bindToController(backRight.getDriveController());
       //}
       //if (DriveTrainConstants.STEER_PID_GAINS.hasChanged()) {
-        DriveTrainConstants.STEER_PID_GAINS.bindToController(frontLeft.getSteerController());
-        DriveTrainConstants.STEER_PID_GAINS.bindToController(frontRight.getSteerController());
-        DriveTrainConstants.STEER_PID_GAINS.bindToController(backLeft.getSteerController());
-        DriveTrainConstants.STEER_PID_GAINS.bindToController(backRight.getSteerController());
+        //DriveTrainConstants.STEER_PID_GAINS.bindToController(frontLeft.getSteerController());
+        //DriveTrainConstants.STEER_PID_GAINS.bindToController(frontRight.getSteerController());
+        //DriveTrainConstants.STEER_PID_GAINS.bindToController(backLeft.getSteerController());
+        //DriveTrainConstants.STEER_PID_GAINS.bindToController(backRight.getSteerController());
       //}
     }
   }
