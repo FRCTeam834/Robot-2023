@@ -143,7 +143,7 @@ public final class Constants {
                 // Flip waypoint values if red alliance
                 if (DriverStation.getAlliance() == Alliance.Red) {
                     for (Pose2d waypoint : WAYPOINTS.values()) {
-                        waypoint.getTranslation().plus(new Translation2d(8.27, 0));
+                        waypoint.getTranslation().plus(new Translation2d(16.54 - 2 * waypoint.getTranslation().getX(), 0));
                         waypoint.getRotation().rotateBy(Rotation2d.fromDegrees(180));
                     }
                 }
