@@ -87,11 +87,11 @@ public final class Constants {
         public static final PIDGains STEER_PID_GAINS = new TuneablePIDGains("SWERVE_STEER", 0.5, 0.0);
         public static final SimpleMotorFeedforward DRIVE_FF = new SimpleMotorFeedforward(0.0, 0.0, 0.0);
 
-        public static final PIDGains AUTON_DRIVE_PID_GAINS = new PIDGains(0.1);
-        public static final PIDGains AUTON_STEER_PID_GAINS = new PIDGains(0.1);
+        public static final PIDGains AUTON_DRIVE_PID_GAINS = new PIDGains(1);
+        public static final PIDGains AUTON_STEER_PID_GAINS = new PIDGains(1);
 
-        public static final TrapezoidProfile.Constraints AUTON_DRIVE_CONSTRAINTS = new TrapezoidProfile.Constraints(0.1, 0.2);
-        public static final TrapezoidProfile.Constraints AUTON_STEER_CONSTRAINTS = new TrapezoidProfile.Constraints(Units.degreesToRadians(180), Units.degreesToRadians(360));
+        public static final TrapezoidProfile.Constraints AUTON_DRIVE_CONSTRAINTS = new TrapezoidProfile.Constraints(0.2, 0.2);
+        public static final TrapezoidProfile.Constraints AUTON_STEER_CONSTRAINTS = new TrapezoidProfile.Constraints(Units.degreesToRadians(90), Units.degreesToRadians(90));
 
         /** Slewrate values for drivetrain (max acceleration) */
         public static final double TRANSLATION_SLEWRATE = Units.feetToMeters(32);
@@ -193,7 +193,7 @@ public final class Constants {
         );
 
         // https://www.reca.lc/arm?armMass=%7B%22s%22%3A20%2C%22u%22%3A%22lbs%22%7D&comLength=%7B%22s%22%3A28.25%2C%22u%22%3A%22in%22%7D&currentLimit=%7B%22s%22%3A40%2C%22u%22%3A%22A%22%7D&efficiency=85&endAngle=%7B%22s%22%3A0%2C%22u%22%3A%22deg%22%7D&iterationLimit=10000&motor=%7B%22quantity%22%3A1%2C%22name%22%3A%22NEO%22%7D&ratio=%7B%22magnitude%22%3A70%2C%22ratioType%22%3A%22Reduction%22%7D&startAngle=%7B%22s%22%3A-90%2C%22u%22%3A%22deg%22%7D
-        public static final ArmFeedforward FEEDFORWARD = new ArmFeedforward(0.2, 2.77, 1.36, 0.28);
+        public static final ArmFeedforward FEEDFORWARD = new ArmFeedforward(0.2, 0.44, 3.6403, 0.089329);
         public static final double SETPOINT_TOLERANCE = Units.degreesToRadians(0.5);
 
         public static final double ARM_ANGLE_TO_CB_ARM = Units.degreesToRadians(138);

@@ -103,7 +103,7 @@ public class DriveTrain extends SubsystemBase {
 
   public void ppsetDesiredModuleStates (SwerveModuleState[] desiredStates) {
     ChassisSpeeds speeds = kinematics.toChassisSpeeds(desiredStates);
-    ChassisSpeeds convertedSpeeds = new ChassisSpeeds(speeds.vyMetersPerSecond, speeds.vxMetersPerSecond, speeds.omegaRadiansPerSecond);
+    ChassisSpeeds convertedSpeeds = new ChassisSpeeds(speeds.vyMetersPerSecond, -speeds.vxMetersPerSecond, speeds.omegaRadiansPerSecond);
     this.setDesiredModuleStates(kinematics.toSwerveModuleStates(convertedSpeeds));
   }
 
@@ -119,8 +119,7 @@ public class DriveTrain extends SubsystemBase {
     double omega
   ) {
     // x velocity and omega is just reversed for some reason
-    vx = -vx;
-    omega = -omega;
+    vy = -vy;
 
     // Ratelimiter, do not ratelimit if vx or vy are too low as it makes the angle volatile
     if (Math.abs(vx) > DriveTrainConstants.MODULE_ACTIVATION_THRESHOLD || Math.abs(vy) > DriveTrainConstants.MODULE_ACTIVATION_THRESHOLD) {
