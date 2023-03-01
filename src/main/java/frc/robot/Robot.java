@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -74,7 +75,6 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link Superstructure} class. */
   @Override
   public void autonomousInit() {
-    OnTheFlyConstants.init();
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -89,7 +89,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    OnTheFlyConstants.init();
     m_robotContainer.pigeon.resetYaw(0);
     m_robotContainer.arm.encoder.setPosition(Units.degreesToRadians(2));
     m_robotContainer.poseEstimator.resetOdometry(new Pose2d(6, 2.75, new Rotation2d(0)));

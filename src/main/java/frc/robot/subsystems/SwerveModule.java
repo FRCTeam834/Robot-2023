@@ -69,6 +69,8 @@ public class SwerveModule extends SubsystemBase {
     driveEncoder = driveMotor.getEncoder();
     steerEncoder = steerMotor.getAbsoluteEncoder(Type.kDutyCycle);
 
+    steerEncoder.setZeroOffset(DriveTrainConstants.ENCODER_OFFSETS[moduleID]);
+
     //encoderOffset = DriveTrainConstants.ENCODER_OFFSETS[moduleID];
 
     driveMotor.restoreFactoryDefaults();

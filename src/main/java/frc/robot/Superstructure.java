@@ -24,7 +24,7 @@ import frc.robot.Constants.DriveTrainConstants.OnTheFlyConstants;
 import frc.robot.autons.LinearPath;
 import frc.robot.commands.ArmToPreset;
 import frc.robot.commands.DriveAbsoluteAngle;
-import frc.robot.commands.DriveToPreset;
+import frc.robot.commands.DriveIntoGriddy;
 import frc.robot.commands.DriveToWaypoint;
 import frc.robot.commands.DriveWithSpeeds;
 import frc.robot.commands.DumbArm;
@@ -99,12 +99,11 @@ public class Superstructure {
     new JoystickButton(new Joystick(1), 4).onTrue(new ArmToPreset(arm, ArmPositionPresets.L1));
     new JoystickButton(new Joystick(1), 5).onTrue(new ArmToPreset(arm, ArmPositionPresets.L2));
     new JoystickButton(new Joystick(1), 6).onTrue(new ArmToPreset(arm, ArmPositionPresets.L3));
-    new JoystickButton(new Joystick(1), 8).whileTrue(new DriveToPreset(driveTrain, poseEstimator, "ColumnTwoAlign"));
    // new JoystickButton(new Joystick(1), 9).whileTrue(new DriveToWaypoint(driveTrain, poseEstimator, new Pose2d(2.32, 1.05, Rotation2d.fromDegrees(180))));
 
     // Temp auto score L3
     new JoystickButton(new Joystick(1), 10).onTrue(new SequentialCommandGroup(
-      new DriveToPreset(driveTrain, poseEstimator, "ColumnTwoAlign"),
+      new DriveIntoGriddy(driveTrain, poseEstimator, "ColumnTwoAlign"),
       new ArmToPreset(arm, ArmPositionPresets.L3).until(() -> arm.getPosition() > ArmPositionPresets.L2.position),
       new ParallelCommandGroup(
         new DriveWithSpeeds(driveTrain, () -> -0.2, () -> 0.0, () -> 0.0).withTimeout(1),

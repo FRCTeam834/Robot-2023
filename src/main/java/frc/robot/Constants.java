@@ -114,60 +114,26 @@ public final class Constants {
             new Translation2d(-WIDTH / 2, LENGTH / 2)
         };
 
-        /*public static final double[] ENCODER_OFFSETS = {
-            Units.degreesToRadians(180 - 180),
-            Units.degreesToRadians(-90 - 180),
-            Units.degreesToRadians(90 - 180),
-            Units.degreesToRadians(0 - 180)
-        };*/
+        public static final double[] ENCODER_OFFSETS = {
+            Units.degreesToRadians(0),
+            Units.degreesToRadians(0),
+            Units.degreesToRadians(0),
+            Units.degreesToRadians(0)
+        };
 
         public static final class OnTheFlyConstants {
+            // Default: blue alliance locations
+            public static Map<String, Pose2d> WAYPOINTS = new HashMap<String, Pose2d>() {{
+                put("OuterCommunityTop", new Pose2d(5.5, 4.76, Rotation2d.fromDegrees(180)));
+                put("OuterCommunityBottom", new Pose2d(5.5, 0.75, Rotation2d.fromDegrees(180)));
+                put("InnerCommunityTop", new Pose2d(2.32, 4.76, Rotation2d.fromDegrees(180)));
+                put("InnerCommunityBottom", new Pose2d(2.32, 0.75, Rotation2d.fromDegrees(0)));
 
-            public static Map<String, Pose2d> WAYPOINTS;
-            public static Map<String, Pose2d[][]> PATHS;
-            public static Map<String, Pair<Pose2d, Pose2d[][]>> PRESETS;
-
-            public static final void init () {
-                WAYPOINTS = new HashMap<String, Pose2d>() {{
-                    put("OuterCommunityTop", new Pose2d(5.5, 4.76, Rotation2d.fromDegrees(180)));
-                    put("OuterCommunityBottom", new Pose2d(5.5, 0.75, Rotation2d.fromDegrees(180)));
-                    put("InnerCommunityTop", new Pose2d(2.32, 4.76, Rotation2d.fromDegrees(180)));
-                    put("InnerCommunityBottom", new Pose2d(2.32, 0.75, Rotation2d.fromDegrees(0)));
-
-                    put("ColumnTwoAlign", new Pose2d(2.32, 1.05, Rotation2d.fromDegrees(180)));
-                    put("ColumnTwoL13", new Pose2d(1.88, 1.05, Rotation2d.fromDegrees(180)));
-                    
-                    put("ColumnOneL2", new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
-                }};
-
-                // Flip waypoint values if red alliance
-                if (DriverStation.getAlliance() == Alliance.Red) {
-                    for (Pose2d waypoint : WAYPOINTS.values()) {
-                        waypoint.getTranslation().plus(new Translation2d(16.54 - 2 * waypoint.getTranslation().getX(), 0));
-                        waypoint.getRotation().rotateBy(Rotation2d.fromDegrees(180));
-                    }
-                }
-
-                PATHS = new HashMap<String, Pose2d[][]>() {{
-                    put("IntoGriddy", new Pose2d[][]{
-                        {
-                            WAYPOINTS.get("OuterCommunityTop"),
-                            WAYPOINTS.get("OuterCommunityBottom"),
-                        },
-                        {
-                            WAYPOINTS.get("InnerCommunityTop"),
-                            WAYPOINTS.get("InnerCommunityBottom"),
-                        }
-                    });
-                }};
-
-                PRESETS = new HashMap<String, Pair<Pose2d, Pose2d[][]>>() {{
-                    put("ColumnTwoAlign", new Pair<Pose2d, Pose2d[][]>(
-                        WAYPOINTS.get("ColumnTwoAlign"), // Final destination
-                        PATHS.get("IntoGriddy") // Path
-                    ));
-                }};
-            }
+                put("ColumnTwoAlign", new Pose2d(2.32, 1.05, Rotation2d.fromDegrees(180)));
+                put("ColumnTwoL13", new Pose2d(1.88, 1.05, Rotation2d.fromDegrees(180)));
+                
+                put("ColumnOneL2", new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
+            }};
         }
     }
     
