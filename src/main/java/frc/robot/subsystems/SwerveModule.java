@@ -69,8 +69,6 @@ public class SwerveModule extends SubsystemBase {
     driveEncoder = driveMotor.getEncoder();
     steerEncoder = steerMotor.getAbsoluteEncoder(Type.kDutyCycle);
 
-    steerEncoder.setZeroOffset(DriveTrainConstants.ENCODER_OFFSETS[moduleID]);
-
     //encoderOffset = DriveTrainConstants.ENCODER_OFFSETS[moduleID];
 
     driveMotor.restoreFactoryDefaults();
@@ -102,9 +100,6 @@ public class SwerveModule extends SubsystemBase {
     steerEncoder.setInverted(true); // MAXSwerve module steer gearing is reversed
     driveEncoder.setPosition(0);
 
-    driveController.setFeedbackDevice(driveEncoder);
-    steerController.setFeedbackDevice(steerEncoder);
-
     DriveTrainConstants.DRIVE_PID_GAINS.bindToController(driveController);
     DriveTrainConstants.STEER_PID_GAINS.bindToController(steerController);
 
@@ -113,9 +108,15 @@ public class SwerveModule extends SubsystemBase {
     steerController.setPositionPIDWrappingMinInput(0);
     steerController.setPositionPIDWrappingMaxInput(2 * Math.PI);
 
+    steerEncoder.setZeroOffset(DriveTrainConstants.ENCODER_OFFSETS[moduleID]);
+
+    driveController.setFeedbackDevice(driveEncoder);
+    steerController.setFeedbackDevice(steerEncoder);
+
     /* Burn flash so configurations are saved if brownout */
     if (Constants.competitionMode) {
-      driveMotor.burnFlash();
+      System.out.println(steerEncoder.getZeroOffset());
+      System.out.println(driveMotor.burnFlash());
       steerMotor.burnFlash();
     }
 

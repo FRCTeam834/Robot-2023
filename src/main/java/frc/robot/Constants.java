@@ -39,7 +39,7 @@ import frc.robot.utility.TuneablePIDGains;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static final boolean competitionMode = false;
+    public static final boolean competitionMode = true;
 
     public static final boolean telemetryMode = true && !competitionMode;
     public static final boolean tuningMode = true && !competitionMode;
@@ -108,17 +108,17 @@ public final class Constants {
         public static final String[] MODULE_NAMES = { "FL", "FR", "BL", "BR" };
 
         public static final Translation2d[] MODULE_POSITIONS = {
-            new Translation2d(WIDTH / 2, -LENGTH / 2),
-            new Translation2d(-WIDTH / 2, -LENGTH / 2),
             new Translation2d(WIDTH / 2, LENGTH / 2),
-            new Translation2d(-WIDTH / 2, LENGTH / 2)
+            new Translation2d(WIDTH / 2, -LENGTH / 2),
+            new Translation2d(-WIDTH / 2, LENGTH / 2),
+            new Translation2d(-WIDTH / 2, -LENGTH / 2)
         };
 
         public static final double[] ENCODER_OFFSETS = {
-            Units.degreesToRadians(0),
-            Units.degreesToRadians(0),
-            Units.degreesToRadians(0),
-            Units.degreesToRadians(0)
+            2.8255298 + Units.degreesToRadians(90),
+            5.2846947 + Units.degreesToRadians(-180),
+            5.3150279 + Units.degreesToRadians(0),
+            5.8668175 + Units.degreesToRadians(-90)
         };
 
         public static final class OnTheFlyConstants {
