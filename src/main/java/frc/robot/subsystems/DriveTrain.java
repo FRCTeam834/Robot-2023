@@ -106,7 +106,8 @@ public class DriveTrain extends SubsystemBase {
 
   public void ppsetDesiredModuleStates (SwerveModuleState[] desiredStates) {
     ChassisSpeeds speeds = kinematics.toChassisSpeeds(desiredStates);
-    ChassisSpeeds convertedSpeeds = new ChassisSpeeds(speeds.vyMetersPerSecond, -speeds.vxMetersPerSecond, speeds.omegaRadiansPerSecond);
+    ChassisSpeeds convertedSpeeds = new ChassisSpeeds(-speeds.vxMetersPerSecond, -speeds.vyMetersPerSecond, -speeds.omegaRadiansPerSecond);
+    System.out.println(convertedSpeeds);
     this.setDesiredModuleStates(kinematics.toSwerveModuleStates(convertedSpeeds));
   }
 
