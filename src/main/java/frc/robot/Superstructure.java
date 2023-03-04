@@ -37,6 +37,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Pigeon;
 import frc.robot.subsystems.PoseEstimator;
 import frc.robot.subsystems.Vision;
+import io.github.oblarg.oblog.annotations.Config;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -58,6 +59,18 @@ public class Superstructure {
     vision
   );
 
+  @Config.ToggleButton(defaultValue = false, tabName = "Operator Interface", name = "Joe Bibutton")
+  void enableLEDS(boolean enabled) {
+    
+  }
+
+  @Config.ToggleButtons({
+    @Config.ToggleButton(defaultValue = false, tabName = "Operator Interface", name = "Joe Bibutton1", methodName = "enableLEDS"),
+    @Config.ToggleButton(defaultValue = false, tabName = "Operator Interface", name = "Joe Bibutton2", methodName = "enableLEDS"),
+    @Config.ToggleButton(defaultValue = false, tabName = "Operator Interface", name = "Joe Bibutton3", methodName = "enableLEDS")
+    })
+
+  
   SendableChooser<Command> autonChooser = new SendableChooser<>();
 
   public Superstructure() {

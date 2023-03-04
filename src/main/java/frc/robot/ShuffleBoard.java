@@ -8,13 +8,6 @@ import io.github.oblarg.oblog.annotations.Config;
 /** does things and stuff */
 public class ShuffleBoard {
     
-    @Config.ToggleButton(defaultValue = false, width = 400, height = 400)
-    void enableLEDs(boolean enabled) {
-        
-    }
-
-
-
     
 
 }
