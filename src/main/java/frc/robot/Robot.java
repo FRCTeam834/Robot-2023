@@ -32,7 +32,6 @@ public class Robot extends TimedRobot {
       m_robotContainer.periodic10();
     }, 0.01);
 
-    Logger.configureLoggingAndConfig(m_robotContainer, false);
   }
 
   /**
@@ -44,6 +43,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new Superstructure();
+    Logger.configureLoggingAndConfig(m_robotContainer, false);
   }
 
   /**

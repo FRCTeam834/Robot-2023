@@ -60,7 +60,7 @@ public class Superstructure {
   );
 
 
-  @Config.ToggleButton(defaultValue = false, tabName = "Operator Interface", name = "Joe Bibutton")
+  //@Config.ToggleButton(defaultValue = false, tabName = "Operator Interface", name = "Joe Bibutton")
 
 
   // @Config.ToggleButtons({
@@ -69,11 +69,12 @@ public class Superstructure {
   //   @Config.ToggleButton(defaultValue = false, tabName = "Operator Interface", name = "Joe Bibutton3", methodName = "enableLEDS")
   //   }, multiArgLayoutType = "gridLayout"
   //   )
-    
-    @Config.ToggleButton(defaultValue = false, tabName = "Operator Interface", name = "Joe Bibutton")
-    void enableLEDS(boolean enabled, boolean enabled2, boolean enabled3) {
-      
-    }
+    // @Config()  
+
+    // @Log(multiArgLayoutType = "")
+    // @Config.ToggleButton(defaultValue
+    //  = false, tabName = "Operator Interface", name = "Joe Bibutton")
+   
 
 
   SendableChooser<Command> autonChooser = new SendableChooser<>();
