@@ -28,6 +28,7 @@ public class Arm extends SubsystemBase {
   private final ProfiledPIDController controller = new ProfiledPIDController(0.0, 0.0, 0.0, ArmConstants.PROFILE_CONSTRAINTS);
 
   private boolean isStopped = true;
+  private boolean resetToggled = false;
 
   /** Constructor */
   public Arm() {
@@ -90,6 +91,7 @@ public class Arm extends SubsystemBase {
    */
   public void setDesiredState (double position, double velocity) {
     isStopped = false;
+    resetToggled = false;
     controller.reset(this.getPosition(), this.getVelocity());
     controller.setGoal(new TrapezoidProfile.State(position, velocity));
   }
@@ -167,6 +169,10 @@ public class Arm extends SubsystemBase {
     if (this.getPosition() > ArmConstants.MAX_POSITION || this.getPosition() < ArmConstants.MIN_POSITION) {
       motor.set(0);
     } else {
+      if (resetToggled == false && Math.abs(this.getPosition() - controller.getGoal().position) < 0.03) {
+        resetToggled = true;
+        controller.reset(getPosition(), getVelocity());
+      }
       motor.setVoltage(
         feedforward.calculate(controller.getGoal().position, controller.getGoal().velocity) +//-
         //feedforward.ka * this.getAccelerationFromCounterbalance() +
@@ -188,8 +194,9 @@ public class Arm extends SubsystemBase {
     if (Constants.telemetryMode == false) return;
 
     builder.setSmartDashboardType("Arm");
-    builder.addDoubleProperty("Position", this::getPosition, null);
-    builder.addDoubleProperty("Setpoint", this::getPositionSetpoint, null);
+    builder.addDoubleProperty("Position", () -> Units.radiansToDegrees(this.getPosition()), null);
+    builder.addDoubleProperty("Setpoint", () -> Units.radiansToDegrees(this.getPositionSetpoint()), null);
+    builder.addDoubleProperty("Error", () -> Units.radiansToDegrees(this.getPosition()) - Units.radiansToDegrees(this.getPositionSetpoint()), null);
     builder.addDoubleProperty("Applied Output", motor::getAppliedOutput, null);
   }
 }

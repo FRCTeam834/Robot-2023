@@ -53,6 +53,7 @@ public class OI {
 
     public static final double getXboxLeftJoystickY () {
         double raw = xbox.getLeftY();
+        System.out.println(raw);
         if (Math.abs(raw) < DriverConstants.XBOX_JOYSTICK_DEADZONE) raw = 0.0;
         return raw;
     }

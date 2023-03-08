@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -22,6 +23,7 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ArmConstants.ArmPositionPresets;
 import frc.robot.Constants.DriveTrainConstants.OnTheFlyConstants;
 import frc.robot.autons.LinearPath;
+import frc.robot.autons.OnePlusOne;
 import frc.robot.commands.ArmToPreset;
 import frc.robot.commands.DriveAbsoluteAngle;
 import frc.robot.commands.DriveIntoGriddy;
@@ -62,7 +64,8 @@ public class Superstructure {
 
   public Superstructure() {
     autonChooser.setDefaultOption("Do nothing", new InstantCommand());
-    autonChooser.addOption("Linear test path", new LinearPath(driveTrain, poseEstimator));
+    autonChooser.addOption("Linear test path", new LinearPath(driveTrain, arm, intake, poseEstimator));
+    autonChooser.addOption("1 + 1 path", new OnePlusOne(driveTrain, arm, intake, poseEstimator));
     SmartDashboard.putData(autonChooser);
 
     driveTrain.setDefaultCommand(new DriveWithSpeeds(
@@ -92,14 +95,17 @@ public class Superstructure {
    * joysticks}.
    */
   private void configureBindings() {
-    new JoystickButton(new Joystick(0), 2).onTrue(new IntakeCone(intake));
-    new JoystickButton(new Joystick(0), 3).onTrue(new IntakeCube(intake));
-    new JoystickButton(new Joystick(0), 4).onTrue(new Outtake(intake));
+    new JoystickButton(new XboxController(2), 4).onTrue(new IntakeCone(intake));
+    new JoystickButton(new XboxController(2), 3).onTrue(new IntakeCube(intake));
+    new JoystickButton(new XboxController(2), 2).onTrue(new Outtake(intake));
+    //new JoystickButton(new Joystick(0), 2).onTrue(new IntakeCone(intake));
+    //new JoystickButton(new Joystick(0), 3).onTrue(new IntakeCube(intake));
+    //new JoystickButton(new Joystick(0), 4).onTrue(new Outtake(intake));
     new JoystickButton(new Joystick(1), 3).onTrue(new ArmToPreset(arm, ArmPositionPresets.STOW));
     new JoystickButton(new Joystick(1), 4).onTrue(new ArmToPreset(arm, ArmPositionPresets.L1));
     new JoystickButton(new Joystick(1), 5).onTrue(new ArmToPreset(arm, ArmPositionPresets.L2));
     new JoystickButton(new Joystick(1), 6).onTrue(new ArmToPreset(arm, ArmPositionPresets.L3));
-   // new JoystickButton(new Joystick(1), 9).whileTrue(new DriveToWaypoint(driveTrain, poseEstimator, new Pose2d(2.32, 1.05, Rotation2d.fromDegrees(180))));
+    //new JoystickButton(new Joystick(1), 9).whileTrue(new DriveToWaypoint(driveTrain, poseEstimator, new Pose2d(2.32, 1.05, Rotation2d.fromDegrees(180))));
 
     // Temp auto score L3
     new JoystickButton(new Joystick(1), 10).onTrue(new SequentialCommandGroup(

@@ -106,9 +106,10 @@ public class DriveTrain extends SubsystemBase {
 
   public void ppsetDesiredModuleStates (SwerveModuleState[] desiredStates) {
     ChassisSpeeds speeds = kinematics.toChassisSpeeds(desiredStates);
-    ChassisSpeeds convertedSpeeds = new ChassisSpeeds(-speeds.vxMetersPerSecond, -speeds.vyMetersPerSecond, -speeds.omegaRadiansPerSecond);
-    System.out.println(convertedSpeeds);
+    ChassisSpeeds convertedSpeeds = new ChassisSpeeds(speeds.vyMetersPerSecond, -speeds.vxMetersPerSecond, -speeds.omegaRadiansPerSecond);
+    //System.out.println(convertedSpeeds);
     this.setDesiredModuleStates(kinematics.toSwerveModuleStates(convertedSpeeds));
+    //this.setDesiredModuleStates(desiredStates);
   }
 
   /**
@@ -122,6 +123,7 @@ public class DriveTrain extends SubsystemBase {
     double vy,
     double omega
   ) {
+    vx = -vx;
     // Ratelimiter, do not ratelimit if vx or vy are too low as it makes the angle volatile
     if (Math.abs(vx) > DriveTrainConstants.MODULE_ACTIVATION_THRESHOLD || Math.abs(vy) > DriveTrainConstants.MODULE_ACTIVATION_THRESHOLD) {
       double angle = Math.atan2(vy, vx);
@@ -131,7 +133,7 @@ public class DriveTrain extends SubsystemBase {
     }
     omega = steerRateLimiter.calculate(omega);
 
-    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(vy, vx, omega, gyro.getYawAsRotation2d());
+    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, omega, gyro.getYawAsRotation2d());
     //ChassisSpeeds speeds = new ChassisSpeeds(vx, vy, omega);
 
     SwerveModuleState[] desiredStates = kinematics.toSwerveModuleStates(speeds);

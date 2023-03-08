@@ -39,7 +39,7 @@ import frc.robot.utility.TuneablePIDGains;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static final boolean competitionMode = true;
+    public static final boolean competitionMode = false;
 
     public static final boolean telemetryMode = true && !competitionMode;
     public static final boolean tuningMode = true && !competitionMode;
@@ -52,10 +52,10 @@ public final class Constants {
     public static final class DriverConstants {
         public static final int LEFT_JOYSTICK_PORT = 0;
         public static final int RIGHT_JOYSTICK_PORT = 1;
-        public static final int NUMPAD_PORT = 2;
-        public static final int XBOX_PORT = 3;
+        public static final int NUMPAD_PORT = 3;
+        public static final int XBOX_PORT = 2;
 
-        public static final double LEFT_JOYSTICK_DEADZONE = 0.075;
+        public static final double LEFT_JOYSTICK_DEADZONE = 0.15;
         public static final double RIGHT_JOYSTICK_DEADZONE = 0.075;
         public static final double XBOX_JOYSTICK_DEADZONE = 0.1;
     }
@@ -83,15 +83,15 @@ public final class Constants {
         /** Minimum speed needed for module to move, mitigates jittering */
         public static final double MODULE_ACTIVATION_THRESHOLD = 0.01;
 
-        public static final PIDGains DRIVE_PID_GAINS = new TuneablePIDGains("SWERVE_DRIVE", 0.5, 0.0);
-        public static final PIDGains STEER_PID_GAINS = new TuneablePIDGains("SWERVE_STEER", 0.5, 0.0);
-        public static final SimpleMotorFeedforward DRIVE_FF = new SimpleMotorFeedforward(0.0, 0.0, 0.0);
+        public static final PIDGains DRIVE_PID_GAINS = new TuneablePIDGains("SWERVE_DRIVE", 0.6, 0.0);
+        public static final PIDGains STEER_PID_GAINS = new TuneablePIDGains("SWERVE_STEER", 0.6, 0.0);
+        public static final SimpleMotorFeedforward DRIVE_FF = new SimpleMotorFeedforward(0.31437, 0.7, 0.0); // 0.59408
 
-        public static final PIDGains AUTON_DRIVE_PID_GAINS = new PIDGains(1);
-        public static final PIDGains AUTON_STEER_PID_GAINS = new PIDGains(1);
+        public static final PIDGains AUTON_DRIVE_PID_GAINS = new PIDGains(0.1);
+        public static final PIDGains AUTON_STEER_PID_GAINS = new PIDGains(0.1);
 
-        public static final TrapezoidProfile.Constraints AUTON_DRIVE_CONSTRAINTS = new TrapezoidProfile.Constraints(0.2, 0.2);
-        public static final TrapezoidProfile.Constraints AUTON_STEER_CONSTRAINTS = new TrapezoidProfile.Constraints(Units.degreesToRadians(90), Units.degreesToRadians(90));
+        public static final TrapezoidProfile.Constraints AUTON_DRIVE_CONSTRAINTS = new TrapezoidProfile.Constraints(0.5, 0.5);
+        public static final TrapezoidProfile.Constraints AUTON_STEER_CONSTRAINTS = new TrapezoidProfile.Constraints(Units.degreesToRadians(60), Units.degreesToRadians(60));
 
         /** Slewrate values for drivetrain (max acceleration) */
         public static final double TRANSLATION_SLEWRATE = Units.feetToMeters(32);
@@ -107,18 +107,25 @@ public final class Constants {
         
         public static final String[] MODULE_NAMES = { "FL", "FR", "BL", "BR" };
 
-        public static final Translation2d[] MODULE_POSITIONS = {
+        /*public static final Translation2d[] MODULE_POSITIONS = {
             new Translation2d(WIDTH / 2, LENGTH / 2),
             new Translation2d(WIDTH / 2, -LENGTH / 2),
             new Translation2d(-WIDTH / 2, LENGTH / 2),
             new Translation2d(-WIDTH / 2, -LENGTH / 2)
+        };*/
+
+        public static final Translation2d[] MODULE_POSITIONS = {
+            new Translation2d(-WIDTH / 2, LENGTH / 2),
+            new Translation2d(WIDTH / 2, LENGTH / 2),
+            new Translation2d(-WIDTH / 2, -LENGTH / 2),
+            new Translation2d(WIDTH / 2, -LENGTH / 2)
         };
 
         public static final double[] ENCODER_OFFSETS = {
-            2.8255298 + Units.degreesToRadians(90),
-            5.2846947 + Units.degreesToRadians(-180),
-            5.3150279 + Units.degreesToRadians(0),
-            5.8668175 + Units.degreesToRadians(-90)
+            2.8255298 + Units.degreesToRadians(90 - 90),
+            5.2846947 + Units.degreesToRadians(-180 - 90),
+            5.3150279 + Units.degreesToRadians(0 - 90),
+            5.8668175 + Units.degreesToRadians(-90 - 90)
         };
 
         public static final class OnTheFlyConstants {
@@ -144,23 +151,23 @@ public final class Constants {
     public static final class ArmConstants {
         public static final int CANID = 10;
 
-        public static final int CURRENT_LIMIT = 50;
+        public static final int CURRENT_LIMIT = 40;
 
-        public static final double GEAR_REDUCTION = 180;
-        public static final double MAX_POSITION = Units.degreesToRadians(120);
+        public static final double GEAR_REDUCTION = 60 * 64.0 / 22.0;
+        public static final double MAX_POSITION = Units.degreesToRadians(125);
         public static final double MIN_POSITION = Units.degreesToRadians(-40);
         public static final double STARTING_POSITION = Units.degreesToRadians(0);
 
-        public static final TuneablePIDGains PID_GAINS = new TuneablePIDGains("ARM", 55, 2, 5);
+        public static final TuneablePIDGains PID_GAINS = new TuneablePIDGains("ARM", 20, 3, 25);
 
         public static final TrapezoidProfile.Constraints PROFILE_CONSTRAINTS = new TrapezoidProfile.Constraints(
-            Units.degreesToRadians(240),
-            Units.degreesToRadians(360)
+            Units.degreesToRadians(120),
+            Units.degreesToRadians(75)
         );
 
         // https://www.reca.lc/arm?armMass=%7B%22s%22%3A20%2C%22u%22%3A%22lbs%22%7D&comLength=%7B%22s%22%3A28.25%2C%22u%22%3A%22in%22%7D&currentLimit=%7B%22s%22%3A40%2C%22u%22%3A%22A%22%7D&efficiency=85&endAngle=%7B%22s%22%3A0%2C%22u%22%3A%22deg%22%7D&iterationLimit=10000&motor=%7B%22quantity%22%3A1%2C%22name%22%3A%22NEO%22%7D&ratio=%7B%22magnitude%22%3A70%2C%22ratioType%22%3A%22Reduction%22%7D&startAngle=%7B%22s%22%3A-90%2C%22u%22%3A%22deg%22%7D
-        public static final ArmFeedforward FEEDFORWARD = new ArmFeedforward(0.2, 0.44, 3.6403, 0.089329);
-        public static final double SETPOINT_TOLERANCE = Units.degreesToRadians(0.5);
+        public static final ArmFeedforward FEEDFORWARD = new ArmFeedforward(0.25, 0.5, 3.6403, 0.089329);
+        public static final double SETPOINT_TOLERANCE = Units.degreesToRadians(3);
 
         public static final double ARM_ANGLE_TO_CB_ARM = Units.degreesToRadians(138);
         public static final double ARM_HEIGHT = Units.inchesToMeters(33);
@@ -184,11 +191,13 @@ public final class Constants {
         //public static final InterpolatingTreeMap<Double, Double> CB_LERP_TABLE = INIT_CB_LERP_TABLE();
 
         public static enum ArmPositionPresets {
-            STOW(Units.degreesToRadians(-30)),
-            L1(Units.degreesToRadians(2)),
+            ESCAPE(Units.degreesToRadians(-31)),
+            HOOK(Units.degreesToRadians(-30.4)),
+            STOW(Units.degreesToRadians(-19.9)),
+            L1(Units.degreesToRadians(0)),
             L2(Units.degreesToRadians(90)),
-            L3(Units.degreesToRadians(103.9)),
-            DS(Units.degreesToRadians(80));
+            L3(Units.degreesToRadians(120)),
+            DS(Units.degreesToRadians(110.6));
 
             public final double position;
 
@@ -219,7 +228,7 @@ public final class Constants {
         public static final int CURRENT_LIMIT = 20;
         public static final double GEAR_RATIO = 5;
         public static final int RPM_FILTER_TAPS = 30;
-        public static final double CONE_RPM_THRESHOLD = 3;
+        public static final double CONE_RPM_THRESHOLD = 5;
         public static final double CUBE_RPM_THRESHOLD = 10;
         public static final double FREE_RPM_THRESHOLD = 250;
     }

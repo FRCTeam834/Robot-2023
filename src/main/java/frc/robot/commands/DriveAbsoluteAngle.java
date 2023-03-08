@@ -23,7 +23,7 @@ public class DriveAbsoluteAngle extends CommandBase {
   private final DoubleSupplier angleXSupplier;
   private final DoubleSupplier angleYSupplier;
 
-  private final ProfiledPIDController angleController = new ProfiledPIDController(0, 0, 0, DriveTrainConstants.AUTON_STEER_CONSTRAINTS);
+  private final ProfiledPIDController angleController = new ProfiledPIDController(0.5, 0, 0, DriveTrainConstants.AUTON_STEER_CONSTRAINTS);
 
   public DriveAbsoluteAngle(
     DriveTrain driveTrain,

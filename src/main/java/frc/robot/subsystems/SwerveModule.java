@@ -38,6 +38,9 @@ public class SwerveModule extends SubsystemBase {
 
   private final SimpleMotorFeedforward driveFeedforward;
 
+  private double velocitySetpoint = 0.0;
+  private double angleSetpoint = 0.0;
+
   //private final double encoderOffset;
 
   /** Builder methods */
@@ -157,10 +160,12 @@ public class SwerveModule extends SubsystemBase {
 
   public void setDesiredAngle (double angle) {
     steerController.setReference(angle, ControlType.kPosition);
+    angleSetpoint = angle;
   }
 
   public void setDesiredSpeed (double speed) {
     driveController.setReference(speed, ControlType.kVelocity, 0, driveFeedforward.calculate(speed));
+    velocitySetpoint = speed;
   }
 
   /**
@@ -218,8 +223,10 @@ public class SwerveModule extends SubsystemBase {
     if (Constants.telemetryMode == false) return;
 
     builder.setSmartDashboardType("Swerve");
-    builder.addDoubleProperty("Angle", () -> this.getAngleAsRotation2d().getDegrees(), null);
+    builder.addDoubleProperty("Angle", () -> this.getAngleAsRotation2d().getRadians(), null);
     builder.addDoubleProperty("Velocity", this::getVelocity, null);
+    builder.addDoubleProperty("Angle Setpoint", () -> angleSetpoint, null);
+    builder.addDoubleProperty("Velocity Setpoint", () -> velocitySetpoint, null);
   }
 
   @Override
