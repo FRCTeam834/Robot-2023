@@ -101,10 +101,16 @@ public class Superstructure {
     //new JoystickButton(new Joystick(0), 2).onTrue(new IntakeCone(intake));
     //new JoystickButton(new Joystick(0), 3).onTrue(new IntakeCube(intake));
     //new JoystickButton(new Joystick(0), 4).onTrue(new Outtake(intake));
-    new JoystickButton(new Joystick(1), 3).onTrue(new ArmToPreset(arm, ArmPositionPresets.STOW));
-    new JoystickButton(new Joystick(1), 4).onTrue(new ArmToPreset(arm, ArmPositionPresets.L1));
-    new JoystickButton(new Joystick(1), 5).onTrue(new ArmToPreset(arm, ArmPositionPresets.L2));
-    new JoystickButton(new Joystick(1), 6).onTrue(new ArmToPreset(arm, ArmPositionPresets.L3));
+    new JoystickButton(new XboxController(3), 5).onTrue(new ArmToPreset(arm, ArmPositionPresets.L3));
+    new JoystickButton(new XboxController(4), 3).onTrue(new ArmToPreset(arm, ArmPositionPresets.DS));
+    new JoystickButton(new XboxController(5), 2).onTrue(new ArmToPreset(arm, ArmPositionPresets.L2));
+    new JoystickButton(new XboxController(3), 1).onTrue(new ArmToPreset(arm, ArmPositionPresets.L1));
+    new JoystickButton(new XboxController(5), 5).onTrue(new ArmToPreset(arm, ArmPositionPresets.STOW));
+    //new JoystickButton(new Joystick(1), 4).onTrue(new ArmToPreset(arm, ArmPositionPresets.L1));
+    //new JoystickButton(new Joystick(1), 5).onTrue(new ArmToPreset(arm, ArmPositionPresets.L2));
+    //new JoystickButton(new Joystick(1), 6).onTrue(new ArmToPreset(arm, ArmPositionPresets.L3));
+
+
     //new JoystickButton(new Joystick(1), 9).whileTrue(new DriveToWaypoint(driveTrain, poseEstimator, new Pose2d(2.32, 1.05, Rotation2d.fromDegrees(180))));
 
     // Temp auto score L3

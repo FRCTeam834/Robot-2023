@@ -77,9 +77,9 @@ public final class Constants {
         public static final double DRIVE_GEAR_RATIO = 4.71429;
         public static final double STEER_GEAR_RATIO = 1;
 
-        public static final double MAX_TRANSLATION_SPEED = Units.feetToMeters(16);
+        public static final double MAX_TRANSLATION_SPEED = Units.feetToMeters(15);
         public static final double MAX_STEER_SPEED = Units.degreesToRadians(360);
-        public static final double MAX_MODULE_SPEED = Units.feetToMeters(16);
+        public static final double MAX_MODULE_SPEED = Units.feetToMeters(15);
         /** Minimum speed needed for module to move, mitigates jittering */
         public static final double MODULE_ACTIVATION_THRESHOLD = 0.01;
 
@@ -158,7 +158,7 @@ public final class Constants {
         public static final double MIN_POSITION = Units.degreesToRadians(-40);
         public static final double STARTING_POSITION = Units.degreesToRadians(0);
 
-        public static final TuneablePIDGains PID_GAINS = new TuneablePIDGains("ARM", 20, 3, 25);
+        public static final TuneablePIDGains PID_GAINS = new TuneablePIDGains("ARM", 40, 0, 0);
 
         public static final TrapezoidProfile.Constraints PROFILE_CONSTRAINTS = new TrapezoidProfile.Constraints(
             Units.degreesToRadians(120),
@@ -166,8 +166,8 @@ public final class Constants {
         );
 
         // https://www.reca.lc/arm?armMass=%7B%22s%22%3A20%2C%22u%22%3A%22lbs%22%7D&comLength=%7B%22s%22%3A28.25%2C%22u%22%3A%22in%22%7D&currentLimit=%7B%22s%22%3A40%2C%22u%22%3A%22A%22%7D&efficiency=85&endAngle=%7B%22s%22%3A0%2C%22u%22%3A%22deg%22%7D&iterationLimit=10000&motor=%7B%22quantity%22%3A1%2C%22name%22%3A%22NEO%22%7D&ratio=%7B%22magnitude%22%3A70%2C%22ratioType%22%3A%22Reduction%22%7D&startAngle=%7B%22s%22%3A-90%2C%22u%22%3A%22deg%22%7D
-        public static final ArmFeedforward FEEDFORWARD = new ArmFeedforward(0.25, 0.5, 3.6403, 0.089329);
-        public static final double SETPOINT_TOLERANCE = Units.degreesToRadians(3);
+        public static final ArmFeedforward FEEDFORWARD = new ArmFeedforward(0.25, 0.6, 3.6403, 0.089329);
+        public static final double SETPOINT_TOLERANCE = Units.degreesToRadians(0.5);
 
         public static final double ARM_ANGLE_TO_CB_ARM = Units.degreesToRadians(138);
         public static final double ARM_HEIGHT = Units.inchesToMeters(33);
@@ -193,11 +193,11 @@ public final class Constants {
         public static enum ArmPositionPresets {
             ESCAPE(Units.degreesToRadians(-31)),
             HOOK(Units.degreesToRadians(-30.4)),
-            STOW(Units.degreesToRadians(-19.9)),
+            STOW(Units.degreesToRadians(-29)),
             L1(Units.degreesToRadians(0)),
             L2(Units.degreesToRadians(90)),
             L3(Units.degreesToRadians(120)),
-            DS(Units.degreesToRadians(110.6));
+            DS(Units.degreesToRadians(110.5));
 
             public final double position;
 

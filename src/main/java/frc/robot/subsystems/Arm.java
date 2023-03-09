@@ -169,10 +169,10 @@ public class Arm extends SubsystemBase {
     if (this.getPosition() > ArmConstants.MAX_POSITION || this.getPosition() < ArmConstants.MIN_POSITION) {
       motor.set(0);
     } else {
-      if (resetToggled == false && Math.abs(this.getPosition() - controller.getGoal().position) < 0.03) {
-        resetToggled = true;
-        controller.reset(getPosition(), getVelocity());
-      }
+      //if (resetToggled == false && Math.abs(this.getPosition() - controller.getGoal().position) < 0.05) {
+      //  resetToggled = true;
+      //  controller.reset(getPosition(), getVelocity());
+      //}
       motor.setVoltage(
         feedforward.calculate(controller.getGoal().position, controller.getGoal().velocity) +//-
         //feedforward.ka * this.getAccelerationFromCounterbalance() +

@@ -36,7 +36,7 @@ public class OnePlusOne extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     PathPlannerTrajectory trajectory1 = PathPlanner.loadPath(
-      "1 + 1 Part 1",
+      "Cone Test",
       DriveTrainConstants.AUTON_DRIVE_CONSTRAINTS.maxVelocity,
       DriveTrainConstants.AUTON_DRIVE_CONSTRAINTS.maxAcceleration
     );
