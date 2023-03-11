@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.HashMap;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Joystick;
@@ -62,7 +64,15 @@ public class Superstructure {
 
   SendableChooser<Command> autonChooser = new SendableChooser<>();
 
+  public static final HashMap<String, Command> eventMap = new HashMap<>();
+
   public Superstructure() {
+    eventMap.put("HOOK", new ArmToPreset(arm, ArmPositionPresets.ESCAPE));
+    eventMap.put("STOW", new ArmToPreset(arm, ArmPositionPresets.STOW));
+    eventMap.put("L3", new ArmToPreset(arm, ArmPositionPresets.L3));
+    eventMap.put("CONE", new IntakeCone(intake));
+    eventMap.put("OUT", new Outtake(intake));
+    
     autonChooser.setDefaultOption("Do nothing", new InstantCommand());
     autonChooser.addOption("Linear test path", new LinearPath(driveTrain, arm, intake, poseEstimator));
     autonChooser.addOption("1 + 1 path", new OnePlusOne(driveTrain, arm, intake, poseEstimator));

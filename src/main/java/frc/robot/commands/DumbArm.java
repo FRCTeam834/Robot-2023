@@ -12,6 +12,7 @@ import frc.robot.subsystems.Arm;
 public class DumbArm extends CommandBase {
   private final Arm arm;
   private final DoubleSupplier supplier;
+  private boolean active = false;
 
   public DumbArm(Arm arm, DoubleSupplier supplier) {
     this.arm = arm;
@@ -21,19 +22,27 @@ public class DumbArm extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    active = false;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (active == false && supplier.getAsDouble() != 0) {
+      active = true;
+      arm.isStopped = true;
+    }
     //System.out.println(supplier.getAsDouble() * 6);
-    this.arm.setVoltage(supplier.getAsDouble() * -6);
+    if (active) {
+      this.arm.setVoltage(supplier.getAsDouble() * -6);
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    this.arm.setVoltage(0);
+    // this.arm.setVoltage(0);
   }
 
   // Returns true when the command should end.

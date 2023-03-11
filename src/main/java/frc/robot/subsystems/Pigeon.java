@@ -28,6 +28,10 @@ public class Pigeon extends SubsystemBase {
     return Units.degreesToRadians(pigeon.getYaw());
   }
 
+  public double getPitch () {
+    return Units.degreesToRadians(pigeon.getPitch());
+  }
+
   public Rotation2d getYawAsRotation2d () {
     return Rotation2d.fromRadians(this.getYaw());
   }

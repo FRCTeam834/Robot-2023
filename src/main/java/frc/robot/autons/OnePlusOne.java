@@ -35,43 +35,14 @@ public class OnePlusOne extends SequentialCommandGroup {
   ) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    PathPlannerTrajectory trajectory1 = PathPlanner.loadPath(
-      "Cone Test",
-      DriveTrainConstants.AUTON_DRIVE_CONSTRAINTS.maxVelocity,
-      DriveTrainConstants.AUTON_DRIVE_CONSTRAINTS.maxAcceleration
-    );
-    PathPlannerTrajectory trajectory2 = PathPlanner.loadPath(
-      "1 + 1 Part 2",
+    PathPlannerTrajectory trajectory = PathPlanner.loadPath(
+      "1 + 1",
       DriveTrainConstants.AUTON_DRIVE_CONSTRAINTS.maxVelocity,
       DriveTrainConstants.AUTON_DRIVE_CONSTRAINTS.maxAcceleration
     );
 
     addCommands(
-      new IntakeCone(intake),
-      //new ArmToPreset(arm, ArmPositionPresets.ESCAPE),
-      new ArmToPreset(arm, ArmPositionPresets.L3).until(() -> arm.getPosition() > ArmPositionPresets.L2.position),
-      driveTrain.followTrajectoryCommand(trajectory1, poseEstimator, true),
-      new Outtake(intake)
-      
-      /*new ParallelCommandGroup(
-        driveTrain.followTrajectoryCommand(trajectory2, poseEstimator, true),
-        new IntakeCone(intake),
-        new SequentialCommandGroup(
-          new RepeatCommand(new InstantCommand())
-            .until(() -> poseEstimator.getEstimatedPose().getX() > 3.5)
-            .andThen(new ArmToPreset(arm, ArmPositionPresets.STOW)),
-          new RepeatCommand(new InstantCommand())
-            .until(() -> poseEstimator.getEstimatedPose().getX() > 5.5)
-            .andThen(new ArmToPreset(arm, ArmPositionPresets.L1)),
-          new RepeatCommand(new InstantCommand())
-            .until(() -> poseEstimator.getEstimatedPose().getX() < 5.5)
-            .andThen(new ArmToPreset(arm, ArmPositionPresets.STOW))
-        )
-       
-      ),
-
-      new ArmToPreset(arm, ArmPositionPresets.L3).until(() -> arm.getPosition() > ArmPositionPresets.L2.position),
-      new Outtake(intake)*/
+      driveTrain.followEventTrajectoryCommand(trajectory, poseEstimator, isFinished())
     );
   }
 }

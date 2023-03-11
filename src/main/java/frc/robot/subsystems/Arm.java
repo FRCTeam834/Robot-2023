@@ -27,7 +27,7 @@ public class Arm extends SubsystemBase {
   private final ArmFeedforward feedforward;
   private final ProfiledPIDController controller = new ProfiledPIDController(0.0, 0.0, 0.0, ArmConstants.PROFILE_CONSTRAINTS);
 
-  private boolean isStopped = true;
+  public boolean isStopped = true;
   private boolean resetToggled = false;
 
   /** Constructor */

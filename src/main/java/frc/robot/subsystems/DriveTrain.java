@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.commands.FollowPathWithEvents;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -21,7 +22,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Superstructure;
 import frc.robot.Constants.DriveTrainConstants;
+import frc.robot.commands.ArmToPreset;
 
 public class DriveTrain extends SubsystemBase {
   /* Swerve modules */
@@ -236,6 +239,18 @@ public class DriveTrain extends SubsystemBase {
         this::ppsetDesiredModuleStates,
         this
       )
+    );
+  }
+
+  public Command followEventTrajectoryCommand (
+    PathPlannerTrajectory trajectory,
+    PoseEstimator poseEstimator,
+    boolean resetOdometry
+  ) {
+    return new FollowPathWithEvents(
+      this.followTrajectoryCommand(trajectory, poseEstimator, resetOdometry),
+      trajectory.getMarkers(),
+      Superstructure.eventMap
     );
   }
 }
