@@ -168,16 +168,22 @@ public class Arm extends SubsystemBase {
 
     if (this.getPosition() > ArmConstants.MAX_POSITION || this.getPosition() < ArmConstants.MIN_POSITION) {
       motor.set(0);
+      //if (controller.getGoal().position == ArmPositionPresets.ESCAPE.position) {
+      //  setDesiredState(ArmPositionPresets.STOW.position, 0);
+      //}
     } else {
       //if (resetToggled == false && Math.abs(this.getPosition() - controller.getGoal().position) < 0.05) {
       //  resetToggled = true;
       //  controller.reset(getPosition(), getVelocity());
       //}
-      motor.setVoltage(
-        feedforward.calculate(controller.getGoal().position, controller.getGoal().velocity) +//-
-        //feedforward.ka * this.getAccelerationFromCounterbalance() +
-        controller.calculate(this.getPosition())
-      );
+      double voltage = feedforward.calculate(controller.getGoal().position, controller.getGoal().velocity) + controller.calculate(this.getPosition());
+
+      if (controller.getGoal().position == ArmPositionPresets.ESCAPE.position) {
+        voltage -= 6;
+      }
+
+      motor.setVoltage(voltage);
+
       /*System.out.println(feedforward.calculate(controller.getGoal().position, controller.getGoal().velocity) +//-
       feedforward.ka * this.getAccelerationFromCounterbalance() +
       controller.calculate(this.getPosition()));*/

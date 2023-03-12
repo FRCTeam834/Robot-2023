@@ -37,6 +37,6 @@ public class ArmToPreset extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(arm.getPosition() - preset.position) < ArmConstants.SETPOINT_TOLERANCE;
+    return true; //return Math.abs(arm.getPosition() - preset.position) < ArmConstants.SETPOINT_TOLERANCE;
   }
 }

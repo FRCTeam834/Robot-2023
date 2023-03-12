@@ -42,7 +42,7 @@ public class IntakeCone extends CommandBase {
   public void end(boolean interrupted) {
     if (this.isFinished()) {
       intake.currentGamePiece = GamePieceType.CONE;
-      intake.setVoltage(-6);
+      intake.setVoltage(-9);
     } else {
       intake.stop();
     }

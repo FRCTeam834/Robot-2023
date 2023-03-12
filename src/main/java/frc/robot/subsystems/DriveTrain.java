@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.auto.PIDConstants;
+import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import com.pathplanner.lib.commands.FollowPathWithEvents;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
@@ -247,10 +249,19 @@ public class DriveTrain extends SubsystemBase {
     PoseEstimator poseEstimator,
     boolean resetOdometry
   ) {
-    return new FollowPathWithEvents(
-      this.followTrajectoryCommand(trajectory, poseEstimator, resetOdometry),
-      trajectory.getMarkers(),
-      Superstructure.eventMap
+
+    SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
+      poseEstimator::getEstimatedPose,
+      poseEstimator::resetOdometry,
+      kinematics,
+      new PIDConstants(DriveTrainConstants.AUTON_DRIVE_PID_GAINS.getP(), 0, 0),
+      new PIDConstants(DriveTrainConstants.AUTON_STEER_PID_GAINS.getP(), 0, 0),
+      this::ppsetDesiredModuleStates,
+      Superstructure.eventMap,
+      true,
+      this
     );
+
+    return autoBuilder.fullAuto(trajectory);
   }
 }

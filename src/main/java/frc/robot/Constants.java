@@ -155,21 +155,21 @@ public final class Constants {
 
         public static final int CURRENT_LIMIT = 40;
 
-        public static final double GEAR_REDUCTION = 60 * 64.0 / 40.0;
+        public static final double GEAR_REDUCTION = 60 * 64.0 / 36.0;
         public static final double MAX_POSITION = Units.degreesToRadians(125);
-        public static final double MIN_POSITION = Units.degreesToRadians(-40);
+        public static final double MIN_POSITION = Units.degreesToRadians(-46);
         public static final double STARTING_POSITION = Units.degreesToRadians(0);
 
-        public static final TuneablePIDGains PID_GAINS = new TuneablePIDGains("ARM", 10, 0, 0);
+        public static final TuneablePIDGains PID_GAINS = new TuneablePIDGains("ARM", 35, 3, 0);
 
         public static final TrapezoidProfile.Constraints PROFILE_CONSTRAINTS = new TrapezoidProfile.Constraints(
-            Units.degreesToRadians(120),
-            Units.degreesToRadians(75)
+            Units.degreesToRadians(120), // 120
+            Units.degreesToRadians(60) // 75
         );
 
         // https://www.reca.lc/arm?armMass=%7B%22s%22%3A20%2C%22u%22%3A%22lbs%22%7D&comLength=%7B%22s%22%3A28.25%2C%22u%22%3A%22in%22%7D&currentLimit=%7B%22s%22%3A40%2C%22u%22%3A%22A%22%7D&efficiency=85&endAngle=%7B%22s%22%3A0%2C%22u%22%3A%22deg%22%7D&iterationLimit=10000&motor=%7B%22quantity%22%3A1%2C%22name%22%3A%22NEO%22%7D&ratio=%7B%22magnitude%22%3A70%2C%22ratioType%22%3A%22Reduction%22%7D&startAngle=%7B%22s%22%3A-90%2C%22u%22%3A%22deg%22%7D
-        public static final ArmFeedforward FEEDFORWARD = new ArmFeedforward(0.25, 2.02, 1.87, 0.2);
-        public static final double SETPOINT_TOLERANCE = Units.degreesToRadians(0.5);
+        public static final ArmFeedforward FEEDFORWARD = new ArmFeedforward(0.196, 0.72, 1.964, 0.2);
+        public static final double SETPOINT_TOLERANCE = Units.degreesToRadians(0);
 
         public static final double ARM_ANGLE_TO_CB_ARM = Units.degreesToRadians(138);
         public static final double ARM_HEIGHT = Units.inchesToMeters(33);
@@ -193,13 +193,13 @@ public final class Constants {
         //public static final InterpolatingTreeMap<Double, Double> CB_LERP_TABLE = INIT_CB_LERP_TABLE();
 
         public static enum ArmPositionPresets {
-            ESCAPE(Units.degreesToRadians(-31)),
-            HOOK(Units.degreesToRadians(-30.4)),
-            STOW(Units.degreesToRadians(-29)),
-            L1(Units.degreesToRadians(0)),
+            ESCAPE(Units.degreesToRadians(-44)),
+            HOOK(Units.degreesToRadians(-38)),
+            STOW(Units.degreesToRadians(-30)),
+            L1(Units.degreesToRadians(-3)),
             L2(Units.degreesToRadians(90)),
             L3(Units.degreesToRadians(120)),
-            DS(Units.degreesToRadians(110.5));
+            DS(Units.degreesToRadians(105.5));
 
             public final double position;
 

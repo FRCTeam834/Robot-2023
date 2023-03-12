@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -67,7 +68,10 @@ public class Superstructure {
   public static final HashMap<String, Command> eventMap = new HashMap<>();
 
   public Superstructure() {
-    eventMap.put("HOOK", new ArmToPreset(arm, ArmPositionPresets.ESCAPE));
+    eventMap.put("ESCAPE", new ParallelCommandGroup(
+      new ArmToPreset(arm, ArmPositionPresets.ESCAPE),
+      new RepeatCommand(new InstantCommand()).withTimeout(1)
+    ));
     eventMap.put("STOW", new ArmToPreset(arm, ArmPositionPresets.STOW));
     eventMap.put("L3", new ArmToPreset(arm, ArmPositionPresets.L3));
     eventMap.put("CONE", new IntakeCone(intake));
@@ -115,7 +119,7 @@ public class Superstructure {
     new JoystickButton(new XboxController(4), 3).onTrue(new ArmToPreset(arm, ArmPositionPresets.DS));
     new JoystickButton(new XboxController(5), 2).onTrue(new ArmToPreset(arm, ArmPositionPresets.L2));
     new JoystickButton(new XboxController(3), 1).onTrue(new ArmToPreset(arm, ArmPositionPresets.L1));
-    new JoystickButton(new XboxController(5), 5).onTrue(new ArmToPreset(arm, ArmPositionPresets.STOW));
+    new JoystickButton(new XboxController(5), 5).onTrue(new ArmToPreset(arm, ArmPositionPresets.ESCAPE));
     //new JoystickButton(new Joystick(1), 4).onTrue(new ArmToPreset(arm, ArmPositionPresets.L1));
     //new JoystickButton(new Joystick(1), 5).onTrue(new ArmToPreset(arm, ArmPositionPresets.L2));
     //new JoystickButton(new Joystick(1), 6).onTrue(new ArmToPreset(arm, ArmPositionPresets.L3));

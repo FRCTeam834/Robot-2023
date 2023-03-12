@@ -27,7 +27,7 @@ public class IntakeCube extends CommandBase {
   public void initialize() {
     rpmFilter.reset();
     rpmFilter.calculate(834834834);
-    intake.setVoltage(8);
+    intake.setVoltage(6);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,7 +42,7 @@ public class IntakeCube extends CommandBase {
   public void end(boolean interrupted) {
     if (this.isFinished()) {
       intake.currentGamePiece = GamePieceType.CUBE;
-      intake.setVoltage(3);
+      intake.setVoltage(6);
     } else {
       intake.stop();
     }

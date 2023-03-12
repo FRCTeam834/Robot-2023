@@ -29,12 +29,12 @@ public class DumbArm extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (active == false && supplier.getAsDouble() != 0) {
+    if (active == false && supplier.getAsDouble() != 0.0) {
       active = true;
       arm.isStopped = true;
     }
     //System.out.println(supplier.getAsDouble() * 6);
-    if (active) {
+    if (active == true) {
       this.arm.setVoltage(supplier.getAsDouble() * -6);
     }
   }
