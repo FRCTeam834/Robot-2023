@@ -70,10 +70,10 @@ public class Superstructure {
   public Superstructure() {
     eventMap.put("ESCAPE", new ParallelCommandGroup(
       new ArmToPreset(arm, ArmPositionPresets.ESCAPE),
-      new RepeatCommand(new InstantCommand()).withTimeout(1)
+      new RepeatCommand(new InstantCommand()).withTimeout(0.5)
     ));
-    eventMap.put("STOW", new ArmToPreset(arm, ArmPositionPresets.STOW));
-    eventMap.put("L3", new ArmToPreset(arm, ArmPositionPresets.L3));
+    eventMap.put("STOW", new ArmToPreset(arm, ArmPositionPresets.STOW).until(() -> arm.getPosition() < ArmPositionPresets.L1.position));
+    eventMap.put("L3", new ArmToPreset(arm, ArmPositionPresets.L3).until(() -> arm.getPosition() > ArmPositionPresets.L2.position));
     eventMap.put("CONE", new IntakeCone(intake));
     eventMap.put("OUT", new Outtake(intake));
     
@@ -112,6 +112,13 @@ public class Superstructure {
     new JoystickButton(new XboxController(2), 4).onTrue(new IntakeCone(intake));
     new JoystickButton(new XboxController(2), 3).onTrue(new IntakeCube(intake));
     new JoystickButton(new XboxController(2), 2).onTrue(new Outtake(intake));
+    
+    // Zero the arm manually when both triggers are pressed
+    new JoystickButton(new XboxController(2), 5)
+      .and(new JoystickButton(new XboxController(2), 6))
+      .onTrue(new InstantCommand(() -> {
+        arm.encoder.setPosition(0);
+      }));
     //new JoystickButton(new Joystick(0), 2).onTrue(new IntakeCone(intake));
     //new JoystickButton(new Joystick(0), 3).onTrue(new IntakeCube(intake));
     //new JoystickButton(new Joystick(0), 4).onTrue(new Outtake(intake));
