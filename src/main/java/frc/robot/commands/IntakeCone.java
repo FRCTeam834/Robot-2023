@@ -9,17 +9,19 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.Intake;
 import frc.robot.Constants.GamePieceType;
+import frc.robot.Superstructure;
 
 public class IntakeCone extends CommandBase {
   
   private final Intake intake;
   private final LinearFilter rpmFilter;
   private double rpm;
-  
+
   public IntakeCone(Intake intake) {
     this.intake = intake;
     rpmFilter = LinearFilter.movingAverage(IntakeConstants.RPM_FILTER_TAPS);
     addRequirements(intake);
+    addRequirements(Superstructure.leds);
   }
 
   // Called when the command is initially scheduled.
@@ -29,6 +31,7 @@ public class IntakeCone extends CommandBase {
     rpmFilter.reset();
     rpmFilter.calculate(-834834834);
     intake.setVoltage(-9);
+    Superstructure.leds.set(LEDColors.YELLOW);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

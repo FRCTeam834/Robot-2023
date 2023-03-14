@@ -51,6 +51,7 @@ import frc.robot.subsystems.Vision;
  */
 public class Superstructure {
   /* Initialize subsystems */
+  
   Pigeon pigeon = new Pigeon();
   DriveTrain driveTrain = new DriveTrain(pigeon);
   Arm arm = new Arm();
@@ -62,6 +63,8 @@ public class Superstructure {
     pigeon,
     vision
   );
+
+  public static LEDs leds = new LEDs();
 
   SendableChooser<Command> autonChooser = new SendableChooser<>();
 

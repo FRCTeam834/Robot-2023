@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.GamePieceType;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.Intake;
+import frc.robot.Superstructure;
 
 public class IntakeCube extends CommandBase {
   /** Creates a new IntakeCube. */
@@ -20,6 +21,7 @@ public class IntakeCube extends CommandBase {
     this.intake = intake;
     rpmFilter = LinearFilter.movingAverage(IntakeConstants.RPM_FILTER_TAPS);
     addRequirements(intake);
+    addRequirements(Superstructure.leds);
   }
 
   // Called when the command is initially scheduled.
@@ -28,6 +30,7 @@ public class IntakeCube extends CommandBase {
     rpmFilter.reset();
     rpmFilter.calculate(834834834);
     intake.setVoltage(6);
+    Superstructure.leds.set(LEDColors.PURPLE);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
