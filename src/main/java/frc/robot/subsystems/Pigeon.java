@@ -29,7 +29,7 @@ public class Pigeon extends SubsystemBase {
   }
 
   public double getPitch () {
-    return Units.degreesToRadians(pigeon.getPitch());
+    return Units.degreesToRadians(pigeon.getPitch() + 0.07);
   }
 
   public Rotation2d getYawAsRotation2d () {
@@ -46,6 +46,7 @@ public class Pigeon extends SubsystemBase {
 
     builder.setSmartDashboardType("Pigeon");
     builder.addDoubleProperty("Yaw", this::getYaw, null);
+    builder.addDoubleProperty("Pitch", this::getPitch, null);
   }
 
   @Override

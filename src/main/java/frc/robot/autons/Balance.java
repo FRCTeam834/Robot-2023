@@ -13,7 +13,7 @@ public class Balance extends CommandBase {
   /** Creates a new Balance. */
   private final DriveTrain driveTrain;
   private final Pigeon gyro;
-  private final PIDController controller = new PIDController(0.1, 0, 0);
+  private final PIDController controller = new PIDController(0.3, 0, 0);
 
   public Balance(DriveTrain driveTrain, Pigeon gyro) {
     this.driveTrain = driveTrain;
@@ -28,7 +28,10 @@ public class Balance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.drive(controller.calculate(gyro.getPitch(), 0), 0, 0);
+    double speed = controller.calculate(gyro.getPitch(), 0);
+    if (Math.abs(gyro.getPitch()) > 0.05) speed += Math.copySign(0.5, speed);
+    if (Math.abs(gyro.getPitch()) < 0.005) speed = 0;
+    driveTrain.drive(0, speed, 0);
   }
 
   // Called once the command ends or is interrupted.

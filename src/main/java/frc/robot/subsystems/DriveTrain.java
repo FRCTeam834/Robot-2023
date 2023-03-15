@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.List;
+
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
@@ -112,6 +114,7 @@ public class DriveTrain extends SubsystemBase {
   public void ppsetDesiredModuleStates (SwerveModuleState[] desiredStates) {
     ChassisSpeeds speeds = kinematics.toChassisSpeeds(desiredStates);
     ChassisSpeeds convertedSpeeds = new ChassisSpeeds(speeds.vyMetersPerSecond, -speeds.vxMetersPerSecond, -speeds.omegaRadiansPerSecond);
+    SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveTrainConstants.MAX_MODULE_SPEED);
     //System.out.println(convertedSpeeds);
     this.setDesiredModuleStates(kinematics.toSwerveModuleStates(convertedSpeeds));
     //this.setDesiredModuleStates(desiredStates);
@@ -245,7 +248,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public Command followEventTrajectoryCommand (
-    PathPlannerTrajectory trajectory,
+    List<PathPlannerTrajectory> trajectory,
     PoseEstimator poseEstimator,
     boolean resetOdometry
   ) {

@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -25,8 +26,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ArmConstants.ArmPositionPresets;
 import frc.robot.Constants.DriveTrainConstants.OnTheFlyConstants;
+import frc.robot.autons.Balance;
 import frc.robot.autons.LinearPath;
 import frc.robot.autons.OnePlusOne;
+import frc.robot.autons.OnePlusZero;
 import frc.robot.commands.ArmToPreset;
 import frc.robot.commands.DriveAbsoluteAngle;
 import frc.robot.commands.DriveIntoGriddy;
@@ -70,15 +73,27 @@ public class Superstructure {
   public Superstructure() {
     eventMap.put("ESCAPE", new ParallelCommandGroup(
       new ArmToPreset(arm, ArmPositionPresets.ESCAPE),
-      new RepeatCommand(new InstantCommand()).withTimeout(0.5)
+      new RepeatCommand(new InstantCommand()).withTimeout(0.2)
     ));
-    eventMap.put("STOW", new ArmToPreset(arm, ArmPositionPresets.STOW).until(() -> arm.getPosition() < ArmPositionPresets.L1.position));
-    eventMap.put("L3", new ArmToPreset(arm, ArmPositionPresets.L3).until(() -> arm.getPosition() > ArmPositionPresets.L2.position));
+    eventMap.put("STOW", new ParallelCommandGroup(
+      new ArmToPreset(arm, ArmPositionPresets.STOW),
+      new RepeatCommand(new InstantCommand()).until(() -> arm.getPosition() < ArmPositionPresets.L1.position)
+    ));
+    eventMap.put("L1", new ParallelCommandGroup(
+      new ArmToPreset(arm, ArmPositionPresets.L1),
+      new RepeatCommand(new InstantCommand()).until(() -> arm.getPosition() < ArmPositionPresets.L2.position)
+    ));
+    eventMap.put("L3", new ParallelCommandGroup(
+      new ArmToPreset(arm, ArmPositionPresets.L3),
+      new RepeatCommand(new InstantCommand()).until(() -> arm.getPosition() > ArmPositionPresets.L2.position)
+    ));
     eventMap.put("CONE", new IntakeCone(intake));
+    eventMap.put("CUBE", new IntakeCube(intake));
     eventMap.put("OUT", new Outtake(intake));
-    
+  
     autonChooser.setDefaultOption("Do nothing", new InstantCommand());
-    autonChooser.addOption("Linear test path", new LinearPath(driveTrain, arm, intake, poseEstimator));
+    autonChooser.addOption("Balance", new Balance(driveTrain, pigeon));
+    autonChooser.addOption("1 + 0 path", new OnePlusZero(driveTrain, arm, intake, poseEstimator));
     autonChooser.addOption("1 + 1 path", new OnePlusOne(driveTrain, arm, intake, poseEstimator));
     SmartDashboard.putData(autonChooser);
 

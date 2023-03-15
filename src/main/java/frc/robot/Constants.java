@@ -85,14 +85,14 @@ public final class Constants {
         /** Minimum speed needed for module to move, mitigates jittering */
         public static final double MODULE_ACTIVATION_THRESHOLD = 0.01;
 
-        public static final PIDGains DRIVE_PID_GAINS = new TuneablePIDGains("SWERVE_DRIVE", 0.6, 0.0);
+        public static final PIDGains DRIVE_PID_GAINS = new TuneablePIDGains("SWERVE_DRIVE", 0.4, 0.0);
         public static final PIDGains STEER_PID_GAINS = new TuneablePIDGains("SWERVE_STEER", 0.6, 0.0);
         public static final SimpleMotorFeedforward DRIVE_FF = new SimpleMotorFeedforward(0.31437, 0.7, 0.0); // 0.59408
 
-        public static final PIDGains AUTON_DRIVE_PID_GAINS = new PIDGains(0.1);
-        public static final PIDGains AUTON_STEER_PID_GAINS = new PIDGains(0.1);
+        public static final PIDGains AUTON_DRIVE_PID_GAINS = new PIDGains(0.9);
+        public static final PIDGains AUTON_STEER_PID_GAINS = new PIDGains(0.9);
 
-        public static final TrapezoidProfile.Constraints AUTON_DRIVE_CONSTRAINTS = new TrapezoidProfile.Constraints(0.5, 0.5);
+        public static final TrapezoidProfile.Constraints AUTON_DRIVE_CONSTRAINTS = new TrapezoidProfile.Constraints(2, 1.5);
         public static final TrapezoidProfile.Constraints AUTON_STEER_CONSTRAINTS = new TrapezoidProfile.Constraints(Units.degreesToRadians(60), Units.degreesToRadians(60));
 
         /** Slewrate values for drivetrain (max acceleration) */
@@ -157,7 +157,7 @@ public final class Constants {
 
         public static final double GEAR_REDUCTION = 60 * 64.0 / 36.0;
         public static final double MAX_POSITION = Units.degreesToRadians(125);
-        public static final double MIN_POSITION = Units.degreesToRadians(-46);
+        public static final double MIN_POSITION = Units.degreesToRadians(-48);
         public static final double STARTING_POSITION = Units.degreesToRadians(0);
 
         public static final TuneablePIDGains PID_GAINS = new TuneablePIDGains("ARM", 35, 3, 0);
@@ -195,11 +195,11 @@ public final class Constants {
         public static enum ArmPositionPresets {
             ESCAPE(Units.degreesToRadians(-44)),
             HOOK(Units.degreesToRadians(-38)),
-            STOW(Units.degreesToRadians(-30)),
+            STOW(Units.degreesToRadians(-33)),
             L1(Units.degreesToRadians(-3)),
-            L2(Units.degreesToRadians(90)),
-            L3(Units.degreesToRadians(120)),
-            DS(Units.degreesToRadians(105.5));
+            L2(Units.degreesToRadians(83)),
+            L3(Units.degreesToRadians(107)),
+            DS(Units.degreesToRadians(104));
 
             public final double position;
 
@@ -229,9 +229,9 @@ public final class Constants {
         public static final int CANID = 11;
         public static final int CURRENT_LIMIT = 20;
         public static final double GEAR_RATIO = 5;
-        public static final int RPM_FILTER_TAPS = 30;
-        public static final double CONE_RPM_THRESHOLD = 5;
-        public static final double CUBE_RPM_THRESHOLD = 10;
+        public static final int RPM_FILTER_TAPS = 15;
+        public static final double CONE_RPM_THRESHOLD = 15;
+        public static final double CUBE_RPM_THRESHOLD = 30;
         public static final double FREE_RPM_THRESHOLD = 250;
     }
 

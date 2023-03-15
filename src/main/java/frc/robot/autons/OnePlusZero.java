@@ -4,7 +4,6 @@
 
 package frc.robot.autons;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.pathplanner.lib.PathPlanner;
@@ -28,9 +27,9 @@ import frc.robot.subsystems.PoseEstimator;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class OnePlusOne extends SequentialCommandGroup {
+public class OnePlusZero extends SequentialCommandGroup {
   /** Creates a new OnePlusOne. */
-  public OnePlusOne(
+  public OnePlusZero(
     DriveTrain driveTrain,
     Arm arm,
     Intake intake,
@@ -39,7 +38,7 @@ public class OnePlusOne extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     List<PathPlannerTrajectory> trajectory = PathPlanner.loadPathGroup(
-      "1 + 1",
+      "1 + 0",
       DriveTrainConstants.AUTON_DRIVE_CONSTRAINTS.maxVelocity,
       DriveTrainConstants.AUTON_DRIVE_CONSTRAINTS.maxAcceleration
     );
