@@ -229,9 +229,9 @@ public final class Constants {
         public static final int CANID = 11;
         public static final int CURRENT_LIMIT = 20;
         public static final double GEAR_RATIO = 5;
-        public static final int RPM_FILTER_TAPS = 10;
-        public static final double CONE_RPM_THRESHOLD = 20;
-        public static final double CUBE_RPM_THRESHOLD = 50;
+        public static final int RPM_FILTER_TAPS = 5;
+        public static final double CONE_RPM_THRESHOLD = 30;
+        public static final double CUBE_RPM_THRESHOLD = 60;
         public static final double FREE_RPM_THRESHOLD = 250;
     }
 

@@ -28,9 +28,9 @@ import frc.robot.subsystems.PoseEstimator;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class OnePlusOne extends SequentialCommandGroup {
+public class CableOnePlusOne extends SequentialCommandGroup {
   /** Creates a new OnePlusOne. */
-  public OnePlusOne(
+  public CableOnePlusOne(
     DriveTrain driveTrain,
     Arm arm,
     Intake intake,
@@ -39,7 +39,7 @@ public class OnePlusOne extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     List<PathPlannerTrajectory> trajectory = PathPlanner.loadPathGroup(
-      "1 + 1",
+      "C1 + 1",
       DriveTrainConstants.AUTON_DRIVE_CONSTRAINTS.maxVelocity,
       DriveTrainConstants.AUTON_DRIVE_CONSTRAINTS.maxAcceleration
     );

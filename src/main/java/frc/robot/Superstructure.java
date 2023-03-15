@@ -28,7 +28,7 @@ import frc.robot.Constants.ArmConstants.ArmPositionPresets;
 import frc.robot.Constants.DriveTrainConstants.OnTheFlyConstants;
 import frc.robot.autons.Balance;
 import frc.robot.autons.LinearPath;
-import frc.robot.autons.OnePlusOne;
+import frc.robot.autons.CableOnePlusOne;
 import frc.robot.autons.OnePlusZero;
 import frc.robot.commands.ArmToPreset;
 import frc.robot.commands.DriveAbsoluteAngle;
@@ -96,8 +96,8 @@ public class Superstructure {
   
     autonChooser.setDefaultOption("Do nothing", new InstantCommand());
     autonChooser.addOption("Balance", new Balance(driveTrain, pigeon));
-    autonChooser.addOption("1 + 0 path", new OnePlusZero(driveTrain, arm, intake, poseEstimator));
-    autonChooser.addOption("1 + 1 path", new OnePlusOne(driveTrain, arm, intake, poseEstimator));
+    autonChooser.addOption("1 + 0", new OnePlusZero(driveTrain, arm, intake, poseEstimator));
+    autonChooser.addOption("Cable 1 + 1", new CableOnePlusOne(driveTrain, arm, intake, poseEstimator));
     SmartDashboard.putData(autonChooser);
 
     driveTrain.setDefaultCommand(new DriveWithSpeeds(

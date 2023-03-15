@@ -29,7 +29,7 @@ public class Pigeon extends SubsystemBase {
   }
 
   public double getPitch () {
-    return Units.degreesToRadians(pigeon.getPitch() + 0.07);
+    return Units.degreesToRadians(pigeon.getPitch());
   }
 
   public Rotation2d getYawAsRotation2d () {
