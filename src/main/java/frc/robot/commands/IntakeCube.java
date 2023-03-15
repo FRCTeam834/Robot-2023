@@ -8,7 +8,9 @@ import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.GamePieceType;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.Superstructure;
 import frc.robot.subsystems.Intake;
+import frc.robot.utility.LEDColors;
 
 public class IntakeCube extends CommandBase {
   /** Creates a new IntakeCube. */
@@ -43,6 +45,7 @@ public class IntakeCube extends CommandBase {
     if (this.isFinished()) {
       intake.currentGamePiece = GamePieceType.CUBE;
       intake.setVoltage(8);
+      Superstructure.leds.setColor(LEDColors.PURPLE);
     } else {
       intake.stop();
     }

@@ -4,27 +4,21 @@
       "anchorPoint": {
         "x": 2.5,
         "y": 0.61
-        "x": 2.6,
-        "y": 0.6
       },
       "prevControl": null,
       "nextControl": {
         "x": 2.4928933900420995,
         "y": 0.61
-        "x": 2.286952185637383,
-        "y": 0.6
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
       "velOverride": null,
-      "isLocked": false,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
         "names": [
           "ESCAPE",
           "CONE",
-          "ESCAPE",
           "L3"
         ],
         "executionBehavior": "sequential",
@@ -36,47 +30,14 @@
       "anchorPoint": {
         "x": 1.8316679186549876,
         "y": 0.61
-        "x": 1.83,
-        "y": 0.6
       },
       "prevControl": {
         "x": 1.8104335779617065,
         "y": 0.6077632140299263
-        "x": 2.071712088850453,
-        "y": 0.6
       },
       "nextControl": {
         "x": 2.449942984992354,
         "y": 0.6751279460005735
-        "x": 2.071712088850453,
-        "y": 0.6
-      },
-      "holonomicAngle": 180.0,
-      "isReversal": true,
-      "velOverride": null,
-      "isLocked": false,
-      "isStopPoint": true,
-      "stopEvent": {
-        "names": [
-          "OUT"
-        ],
-        "executionBehavior": "sequential",
-        "waitBehavior": "none",
-        "waitTime": 0
-      }
-    },
-    {
-      "anchorPoint": {
-        "x": 4.636512731775464,
-        "y": 0.7612938150876304
-      },
-      "prevControl": {
-        "x": 4.358540343768999,
-        "y": 0.7194582309672021
-      },
-      "nextControl": {
-        "x": 4.919839389190529,
-        "y": 0.8039352310025524
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
@@ -107,7 +68,7 @@
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
-      "velOverride": 0.5,
+      "velOverride": 0.75,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
@@ -268,7 +229,7 @@
       ]
     },
     {
-      "position": 6.2,
+      "position": 6.1,
       "names": [
         "L3"
       ]

@@ -89,8 +89,8 @@ public final class Constants {
         public static final PIDGains STEER_PID_GAINS = new TuneablePIDGains("SWERVE_STEER", 0.6, 0.0);
         public static final SimpleMotorFeedforward DRIVE_FF = new SimpleMotorFeedforward(0.31437, 0.7, 0.0); // 0.59408
 
-        public static final PIDGains AUTON_DRIVE_PID_GAINS = new PIDGains(0.9);
-        public static final PIDGains AUTON_STEER_PID_GAINS = new PIDGains(0.9);
+        public static final PIDGains AUTON_DRIVE_PID_GAINS = new PIDGains(1);
+        public static final PIDGains AUTON_STEER_PID_GAINS = new PIDGains(1);
 
         public static final TrapezoidProfile.Constraints AUTON_DRIVE_CONSTRAINTS = new TrapezoidProfile.Constraints(2, 1.5);
         public static final TrapezoidProfile.Constraints AUTON_STEER_CONSTRAINTS = new TrapezoidProfile.Constraints(Units.degreesToRadians(60), Units.degreesToRadians(60));
@@ -229,10 +229,14 @@ public final class Constants {
         public static final int CANID = 11;
         public static final int CURRENT_LIMIT = 20;
         public static final double GEAR_RATIO = 5;
-        public static final int RPM_FILTER_TAPS = 15;
-        public static final double CONE_RPM_THRESHOLD = 15;
-        public static final double CUBE_RPM_THRESHOLD = 30;
+        public static final int RPM_FILTER_TAPS = 10;
+        public static final double CONE_RPM_THRESHOLD = 20;
+        public static final double CUBE_RPM_THRESHOLD = 50;
         public static final double FREE_RPM_THRESHOLD = 250;
+    }
+
+    public static final class LedConstants {
+        public static final int PWM_PORT = 0;
     }
 
     public static enum GamePieceType {

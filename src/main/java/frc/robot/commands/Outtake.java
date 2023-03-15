@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 import frc.robot.Constants.GamePieceType;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.Superstructure;
 
 public class Outtake extends CommandBase {
   /** Creates a new Outtake. */
@@ -53,6 +54,7 @@ public class Outtake extends CommandBase {
   public void end(boolean interrupted) {
     if (this.isFinished()) {
       intake.currentGamePiece = GamePieceType.NONE;
+      Superstructure.leds.defaultColor();
     }
     intake.stop();
   }

@@ -42,6 +42,7 @@ import frc.robot.commands.Outtake;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Pigeon;
 import frc.robot.subsystems.PoseEstimator;
 import frc.robot.subsystems.Vision;
@@ -65,6 +66,8 @@ public class Superstructure {
     pigeon,
     vision
   );
+
+  public static LEDs leds = new LEDs();
 
   SendableChooser<Command> autonChooser = new SendableChooser<>();
 

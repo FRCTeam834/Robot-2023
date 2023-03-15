@@ -7,7 +7,9 @@ package frc.robot.commands;
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.Superstructure;
 import frc.robot.subsystems.Intake;
+import frc.robot.utility.LEDColors;
 import frc.robot.Constants.GamePieceType;
 
 public class IntakeCone extends CommandBase {
@@ -43,6 +45,7 @@ public class IntakeCone extends CommandBase {
     if (this.isFinished()) {
       intake.currentGamePiece = GamePieceType.CONE;
       intake.setVoltage(-9);
+      Superstructure.leds.setColor(LEDColors.YELLOW);
     } else {
       intake.stop();
     }
