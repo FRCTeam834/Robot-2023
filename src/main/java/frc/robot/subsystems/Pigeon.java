@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.Pigeon2;
 
+import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.sendable.SendableBuilder;
@@ -16,6 +17,8 @@ import frc.robot.Constants.PigeonConstants;
 
 public class Pigeon extends SubsystemBase {
   private final Pigeon2 pigeon;
+  private double pitchVelocity;
+  private LinearFilter pitchVelocityFilter = LinearFilter.backwardFiniteDifference(1, 3, 0.02);
 
   public Pigeon() {
     pigeon = new Pigeon2(PigeonConstants.CANID);
@@ -30,6 +33,10 @@ public class Pigeon extends SubsystemBase {
 
   public double getPitch () {
     return Units.degreesToRadians(pigeon.getPitch());
+  }
+
+  public double getPitchVelocity () {
+    return pitchVelocity;
   }
 
   public Rotation2d getYawAsRotation2d () {
@@ -47,10 +54,12 @@ public class Pigeon extends SubsystemBase {
     builder.setSmartDashboardType("Pigeon");
     builder.addDoubleProperty("Yaw", this::getYaw, null);
     builder.addDoubleProperty("Pitch", this::getPitch, null);
+    builder.addDoubleProperty("Pitch Velocity", this::getPitchVelocity, null);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    pitchVelocity = pitchVelocityFilter.calculate(getPitch());
   }
 }

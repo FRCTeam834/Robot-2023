@@ -41,7 +41,7 @@ import frc.robot.utility.TuneablePIDGains;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static final boolean competitionMode = false;
+    public static final boolean competitionMode = true;
 
     public static final boolean telemetryMode = true && !competitionMode;
     public static final boolean tuningMode = true && !competitionMode;
@@ -89,8 +89,8 @@ public final class Constants {
         public static final PIDGains STEER_PID_GAINS = new TuneablePIDGains("SWERVE_STEER", 0.6, 0.0);
         public static final SimpleMotorFeedforward DRIVE_FF = new SimpleMotorFeedforward(0.31437, 0.7, 0.0); // 0.59408
 
-        public static final PIDGains AUTON_DRIVE_PID_GAINS = new PIDGains(1);
-        public static final PIDGains AUTON_STEER_PID_GAINS = new PIDGains(1);
+        public static final PIDGains AUTON_DRIVE_PID_GAINS = new PIDGains(1.1);
+        public static final PIDGains AUTON_STEER_PID_GAINS = new PIDGains(1.2);
 
         public static final TrapezoidProfile.Constraints AUTON_DRIVE_CONSTRAINTS = new TrapezoidProfile.Constraints(2, 1.5);
         public static final TrapezoidProfile.Constraints AUTON_STEER_CONSTRAINTS = new TrapezoidProfile.Constraints(Units.degreesToRadians(60), Units.degreesToRadians(60));
@@ -195,7 +195,7 @@ public final class Constants {
         public static enum ArmPositionPresets {
             ESCAPE(Units.degreesToRadians(-44)),
             HOOK(Units.degreesToRadians(-38)),
-            STOW(Units.degreesToRadians(-33)),
+            STOW(Units.degreesToRadians(-38)),
             L1(Units.degreesToRadians(-3)),
             L2(Units.degreesToRadians(83)),
             L3(Units.degreesToRadians(107)),
@@ -229,9 +229,9 @@ public final class Constants {
         public static final int CANID = 11;
         public static final int CURRENT_LIMIT = 20;
         public static final double GEAR_RATIO = 5;
-        public static final int RPM_FILTER_TAPS = 5;
-        public static final double CONE_RPM_THRESHOLD = 30;
-        public static final double CUBE_RPM_THRESHOLD = 60;
+        public static final int RPM_FILTER_TAPS = 10;
+        public static final double CONE_RPM_THRESHOLD = 20;
+        public static final double CUBE_RPM_THRESHOLD = 40;
         public static final double FREE_RPM_THRESHOLD = 250;
     }
 
