@@ -7,6 +7,7 @@ public class LEDColors {
     public static final double OCEAN = -.95;
     public static final double YELLOW = 0.69; // very cool
     public static final double PURPLE = 0.91;// also very cool
+    public static final double GREEN = 0.77;
        //___\\
       // . . \\
       //__V__\\

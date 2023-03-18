@@ -30,6 +30,7 @@ public class IntakeCube extends CommandBase {
     rpmFilter.reset();
     rpmFilter.calculate(834834834);
     intake.setVoltage(8);
+    Superstructure.leds.setColor(LEDColors.PURPLE);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -45,7 +46,7 @@ public class IntakeCube extends CommandBase {
     if (this.isFinished()) {
       intake.currentGamePiece = GamePieceType.CUBE;
       intake.setVoltage(8);
-      Superstructure.leds.setColor(LEDColors.PURPLE);
+      Superstructure.leds.setColor(LEDColors.GREEN);
     } else {
       intake.stop();
     }

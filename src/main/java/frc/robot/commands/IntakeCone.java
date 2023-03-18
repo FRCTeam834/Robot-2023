@@ -31,6 +31,7 @@ public class IntakeCone extends CommandBase {
     rpmFilter.reset();
     rpmFilter.calculate(-834834834);
     intake.setVoltage(-9);
+    Superstructure.leds.setColor(LEDColors.YELLOW);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -45,7 +46,7 @@ public class IntakeCone extends CommandBase {
     if (this.isFinished()) {
       intake.currentGamePiece = GamePieceType.CONE;
       intake.setVoltage(-9);
-      Superstructure.leds.setColor(LEDColors.YELLOW);
+      Superstructure.leds.setColor(LEDColors.GREEN);
     } else {
       intake.stop();
     }
