@@ -118,8 +118,8 @@ public class SwerveModule extends SubsystemBase {
 
     /* Burn flash so configurations are saved if brownout */
     if (Constants.competitionMode) {
-      System.out.println(steerEncoder.getZeroOffset());
-      System.out.println(driveMotor.burnFlash());
+      // System.out.println(steerEncoder.getZeroOffset());
+      // System.out.println(driveMotor.burnFlash());
       steerMotor.burnFlash();
     }
 

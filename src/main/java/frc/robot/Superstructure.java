@@ -61,12 +61,12 @@ public class Superstructure {
   DriveTrain driveTrain = new DriveTrain(pigeon);
   Arm arm = new Arm();
   Intake intake = new Intake();
-  Vision vision = new Vision();
+  //Vision vision = new Vision();
   PoseEstimator poseEstimator = new PoseEstimator(
     driveTrain.getKinematics(),
     driveTrain,
-    pigeon,
-    vision
+    pigeon//,
+    //vision
   );
 
   public static LEDs leds = new LEDs();

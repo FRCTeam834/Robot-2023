@@ -22,15 +22,15 @@ public class PoseEstimator extends SubsystemBase {
   private final SwerveDrivePoseEstimator poseEstimator;
   private final DriveTrain driveTrain;
   private final Pigeon gyro;
-  private final Vision vision;
+  //private final Vision vision;
 
   private final Field2d telemetryField = new Field2d();
 
   public PoseEstimator(
     SwerveDriveKinematics kinematics,
     DriveTrain driveTrain,
-    Pigeon gyro,
-    Vision vision
+    Pigeon gyro//,
+    //Vision vision
   ) {
     poseEstimator = new SwerveDrivePoseEstimator(
       kinematics,
@@ -43,7 +43,7 @@ public class PoseEstimator extends SubsystemBase {
 
     this.driveTrain = driveTrain;
     this.gyro = gyro;
-    this.vision = vision;
+    //this.vision = vision;
 
     SmartDashboard.putData("Pose Estimator Pose", telemetryField);
   }
