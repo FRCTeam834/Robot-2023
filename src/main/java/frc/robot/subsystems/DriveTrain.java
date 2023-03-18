@@ -111,6 +111,13 @@ public class DriveTrain extends SubsystemBase {
     backRight.setDesiredStateOpenLoop(desiredStates[3]);
   }
 
+  public void lockModules () {
+    frontLeft.setDesiredAngle(Units.degreesToRadians(-45));
+    frontRight.setDesiredAngle(Units.degreesToRadians(45));
+    backLeft.setDesiredAngle(Units.degreesToRadians(45));
+    backRight.setDesiredAngle(Units.degreesToRadians(-45));
+  }
+
   public void ppsetDesiredModuleStates (SwerveModuleState[] desiredStates) {
     ChassisSpeeds speeds = kinematics.toChassisSpeeds(desiredStates);
     ChassisSpeeds convertedSpeeds = new ChassisSpeeds(speeds.vyMetersPerSecond, -speeds.vxMetersPerSecond, -speeds.omegaRadiansPerSecond);

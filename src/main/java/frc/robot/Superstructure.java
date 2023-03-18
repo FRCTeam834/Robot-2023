@@ -26,11 +26,13 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ArmConstants.ArmPositionPresets;
 import frc.robot.Constants.DriveTrainConstants.OnTheFlyConstants;
-import frc.robot.autons.Balance;
+import frc.robot.autons.OnePlusBalance;
 import frc.robot.autons.LinearPath;
 import frc.robot.autons.CableOnePlusOne;
+import frc.robot.autons.FlatOnePlusOne;
 import frc.robot.autons.OnePlusZero;
 import frc.robot.commands.ArmToPreset;
+import frc.robot.commands.AutoBalance;
 import frc.robot.commands.DriveAbsoluteAngle;
 import frc.robot.commands.DriveIntoGriddy;
 import frc.robot.commands.DriveToWaypoint;
@@ -93,11 +95,16 @@ public class Superstructure {
     eventMap.put("CONE", new IntakeCone(intake));
     eventMap.put("CUBE", new IntakeCube(intake));
     eventMap.put("OUT", new Outtake(intake));
+    eventMap.put("BALANCE", new AutoBalance(driveTrain, pigeon));
+    //eventMap.put("LOCK", new InstantCommand(() -> {
+    //  driveTrain.lockModules();
+    //}));
   
     autonChooser.setDefaultOption("Do nothing", new InstantCommand());
-    autonChooser.addOption("Balance", new Balance(driveTrain, pigeon));
+    autonChooser.addOption("1 + Balance", new OnePlusBalance(driveTrain, arm, intake, poseEstimator));
     autonChooser.addOption("1 + 0", new OnePlusZero(driveTrain, arm, intake, poseEstimator));
     autonChooser.addOption("Cable 1 + 1", new CableOnePlusOne(driveTrain, arm, intake, poseEstimator));
+    autonChooser.addOption("Flat 1 + 1", new FlatOnePlusOne(driveTrain, arm, intake, poseEstimator));
     SmartDashboard.putData(autonChooser);
 
     driveTrain.setDefaultCommand(new DriveWithSpeeds(
@@ -153,7 +160,7 @@ public class Superstructure {
     //new JoystickButton(new Joystick(1), 9).whileTrue(new DriveToWaypoint(driveTrain, poseEstimator, new Pose2d(2.32, 1.05, Rotation2d.fromDegrees(180))));
 
     // Temp auto score L3
-    new JoystickButton(new Joystick(1), 10).onTrue(new SequentialCommandGroup(
+    /*new JoystickButton(new Joystick(1), 10).onTrue(new SequentialCommandGroup(
       new DriveIntoGriddy(driveTrain, poseEstimator, "ColumnTwoAlign"),
       new ArmToPreset(arm, ArmPositionPresets.L3).until(() -> arm.getPosition() > ArmPositionPresets.L2.position),
       new ParallelCommandGroup(
@@ -161,7 +168,10 @@ public class Superstructure {
         new WaitUntilCommand(arm::atSetpoint)
       ),
       new Outtake(intake)
-    ));
+    ));*/
+    new JoystickButton(new Joystick(0), 3).onTrue(new InstantCommand(() -> {
+      pigeon.resetYaw(0);
+    }));
   }
 
   /** Runs every 10ms */
