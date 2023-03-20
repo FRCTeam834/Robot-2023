@@ -124,7 +124,7 @@ public final class Constants {
         };
 
         public static final double[] ENCODER_OFFSETS = {
-            2.8255298 + Units.degreesToRadians(90 - 90),
+            1.5569909 + Units.degreesToRadians(90 - 90),
             5.2846947 + Units.degreesToRadians(-180 - 90),
             5.3150279 + Units.degreesToRadians(0 - 90),
             5.8668175 + Units.degreesToRadians(-90 - 90)

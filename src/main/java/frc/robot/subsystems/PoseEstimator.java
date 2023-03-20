@@ -55,7 +55,8 @@ public class PoseEstimator extends SubsystemBase {
    */
   public void resetOdometry (Pose2d pose) {
     gyro.resetYaw(pose.getRotation().getDegrees());
-    poseEstimator.resetPosition(gyro.getYawAsRotation2d(), driveTrain.getModulePositions(), pose);
+    // gyro.offset = pose.getRotation().minus(gyro.getYawAsRotation2d()).getDegrees();
+    poseEstimator.resetPosition(pose.getRotation(), driveTrain.getModulePositions(), pose);
   }
 
   public Pose2d getEstimatedPose () {

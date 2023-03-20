@@ -43,7 +43,7 @@ public class AutoBalance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (flipTimer.get() > 0.25) {
+    if (flipTimer.get() > 0.3) {
       driveTrain.stop();
       driveTrain.lockModules();
       return;
@@ -56,7 +56,7 @@ public class AutoBalance extends CommandBase {
       speed = Math.max(Math.min(speed, 0.5), -0.5);
       driveTrain.drive(0, speed, 0);
   
-      if (Math.abs(gyro.getPitchVelocity()) > 0.5 && bufferTimer.get() > 0.2) {
+      if (Math.abs(gyro.getPitchVelocity()) > 3 && bufferTimer.get() > 0.5) {
         flipped = true;
         flipDirection = Math.signum(-speed);
         flipTimer.start();

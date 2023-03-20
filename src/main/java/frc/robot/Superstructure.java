@@ -94,7 +94,7 @@ public class Superstructure {
     ));
     eventMap.put("CONE", new IntakeCone(intake));
     eventMap.put("CUBE", new IntakeCube(intake));
-    eventMap.put("OUT", new Outtake(intake));
+    eventMap.put("OUT", new Outtake(intake, arm));
     eventMap.put("BALANCE", new AutoBalance(driveTrain, pigeon));
     //eventMap.put("LOCK", new InstantCommand(() -> {
     //  driveTrain.lockModules();
@@ -136,7 +136,7 @@ public class Superstructure {
   private void configureBindings() {
     new JoystickButton(new XboxController(2), 4).onTrue(new IntakeCone(intake));
     new JoystickButton(new XboxController(2), 3).onTrue(new IntakeCube(intake));
-    new JoystickButton(new XboxController(2), 2).onTrue(new Outtake(intake));
+    new JoystickButton(new XboxController(2), 2).onTrue(new Outtake(intake, arm));
     
     // Zero the arm manually when both triggers are pressed
     new JoystickButton(new XboxController(2), 5)
