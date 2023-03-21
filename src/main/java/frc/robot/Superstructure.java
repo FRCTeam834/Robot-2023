@@ -16,8 +16,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -76,21 +78,30 @@ public class Superstructure {
   public static final HashMap<String, Command> eventMap = new HashMap<>();
 
   public Superstructure() {
+    eventMap.put("START", new ParallelCommandGroup(
+      new IntakeCone(intake).until(() -> true),
+      new ArmToPreset(arm, ArmPositionPresets.ESCAPE),
+      new WaitCommand(0.2)
+    ));
     eventMap.put("ESCAPE", new ParallelCommandGroup(
       new ArmToPreset(arm, ArmPositionPresets.ESCAPE),
-      new RepeatCommand(new InstantCommand()).withTimeout(0.2)
+      new WaitCommand(0.2)
     ));
     eventMap.put("STOW", new ParallelCommandGroup(
       new ArmToPreset(arm, ArmPositionPresets.STOW),
-      new RepeatCommand(new InstantCommand()).until(() -> arm.getPosition() < ArmPositionPresets.L1.position)
+      new WaitUntilCommand(() -> arm.getPosition() < ArmPositionPresets.L1.position)
     ));
     eventMap.put("L1", new ParallelCommandGroup(
       new ArmToPreset(arm, ArmPositionPresets.L1),
-      new RepeatCommand(new InstantCommand()).until(() -> arm.getPosition() < ArmPositionPresets.L2.position)
+      new WaitUntilCommand(() -> arm.getPosition() < ArmPositionPresets.L2.position)
     ));
     eventMap.put("L3", new ParallelCommandGroup(
       new ArmToPreset(arm, ArmPositionPresets.L3),
-      new RepeatCommand(new InstantCommand()).until(() -> arm.getPosition() > ArmPositionPresets.L2.position)
+      new WaitUntilCommand(() -> arm.getPosition() > ArmPositionPresets.L2.position)
+    ));
+    eventMap.put("DIV", new ParallelCommandGroup(
+      new ArmToPreset(arm, ArmPositionPresets.DIV),
+      new WaitUntilCommand(() -> arm.getPosition() > ArmPositionPresets.L3.position)
     ));
     eventMap.put("CONE", new IntakeCone(intake));
     eventMap.put("CUBE", new IntakeCube(intake));

@@ -30,7 +30,7 @@ public class IntakeCone extends CommandBase {
     /* Artifically inflate filter so intake has time to spin up */
     rpmFilter.reset();
     rpmFilter.calculate(-834834834);
-    intake.setVoltage(-9);
+    intake.setVoltage(-10);
     Superstructure.leds.setColor(LEDColors.YELLOW);
   }
 
@@ -43,9 +43,9 @@ public class IntakeCone extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    intake.currentGamePiece = GamePieceType.CONE;
     if (this.isFinished()) {
-      intake.currentGamePiece = GamePieceType.CONE;
-      intake.setVoltage(-9);
+      intake.setVoltage(-10);
       Superstructure.leds.setColor(LEDColors.GREEN);
     } else {
       intake.stop();

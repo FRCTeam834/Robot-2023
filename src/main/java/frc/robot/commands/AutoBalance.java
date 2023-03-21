@@ -5,9 +5,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Pigeon;
 
@@ -15,12 +17,8 @@ public class AutoBalance extends CommandBase {
   /** Creates a new AutoBalance. */
   private final DriveTrain driveTrain;
   private final Pigeon gyro;
-  private final PIDController controller = new PIDController(2.5, 0, 0);
-  private final PIDController vcontroller = new PIDController(1, 0, 0);
-  private boolean flipped = false;
-  private double flipDirection = 0;
-  private Timer flipTimer = new Timer();
-  private Timer bufferTimer = new Timer();
+  private double speed = 0.0;
+  private final Timer timer = new Timer();
 
 
   public AutoBalance(DriveTrain driveTrain, Pigeon gyro) {
@@ -33,35 +31,22 @@ public class AutoBalance extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    flipped = false;
-    flipTimer.stop();
-    flipTimer.reset();
-    bufferTimer.reset();
-    bufferTimer.start();
+    speed = 1;
+    timer.stop();
+    timer.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (flipTimer.get() > 0.25) {
-      driveTrain.stop();
-      driveTrain.lockModules();
+    if (timer.get() != 0 && timer.get() < 0.4) return;
+    if (Math.abs(gyro.getPitch()) < Units.degreesToRadians(2.5)) {
+      timer.reset();
+      timer.start();
+      speed *= 0.5;
       return;
     }
-    if (flipped) {
-      driveTrain.drive(0, flipDirection * 0.4, 0);
-    } else {
-      double speed = 0.0;
-      speed = controller.calculate(gyro.getPitch(), 0);
-      speed = Math.max(Math.min(speed, 0.5), -0.5);
-      driveTrain.drive(0, speed, 0);
-  
-      if (Math.abs(gyro.getPitchVelocity()) > 0.5 && bufferTimer.get() > 0.2) {
-        flipped = true;
-        flipDirection = Math.signum(-speed);
-        flipTimer.start();
-      }
-    }
+    driveTrain.drive(0, Math.copySign(speed, gyro.getPitch()), 0);
   }
 
   // Called once the command ends or is interrupted.
