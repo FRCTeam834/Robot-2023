@@ -6,21 +6,25 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 import frc.robot.Constants.GamePieceType;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.Constants.ArmConstants.ArmPositionPresets;
 import frc.robot.Superstructure;
 
 public class Outtake extends CommandBase {
   /** Creates a new Outtake. */
   private Intake intake;
+  private Arm arm;
   private final LinearFilter rpmFilter;
   private double rpm;
   private GamePieceType lastGamePiece;
 
-  public Outtake(Intake intake) {
+  public Outtake(Intake intake, Arm arm) {
     this.intake = intake;
-    rpmFilter = LinearFilter.movingAverage(IntakeConstants.RPM_FILTER_TAPS);
+    this.arm = arm;
+    rpmFilter = LinearFilter.movingAverage(IntakeConstants.RPM_FILTER_TAPS + 30);
     addRequirements(intake);
   }
 
@@ -31,6 +35,9 @@ public class Outtake extends CommandBase {
     if(intake.currentGamePiece == GamePieceType.CUBE) {
       lastGamePiece = intake.currentGamePiece;
       intake.setVoltage(-6);
+      if (arm.getPositionSetpoint() == ArmPositionPresets.STOW.position) {
+        intake.setVoltage(-12);
+      }
     } else if (intake.currentGamePiece == GamePieceType.CONE){
       lastGamePiece = intake.currentGamePiece;
       intake.setVoltage(6);
@@ -39,6 +46,9 @@ public class Outtake extends CommandBase {
         intake.setVoltage(6);
       } else if (lastGamePiece == GamePieceType.CUBE) {
         intake.setVoltage(-6);
+        if (arm.getPositionSetpoint() == ArmPositionPresets.STOW.position) {
+          intake.setVoltage(-12);
+        }
       }
     }
   }

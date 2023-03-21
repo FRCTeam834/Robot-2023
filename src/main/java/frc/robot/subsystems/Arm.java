@@ -80,6 +80,14 @@ public class Arm extends SubsystemBase {
     return this.encoder.getVelocity();
   }
 
+  //
+  //
+  //
+
+  //
+  //
+  //
+  // THIS NEEDS TO BE FIXED TO ATGOAL
   public boolean atSetpoint () {
     return controller.atSetpoint();
   }
@@ -191,7 +199,7 @@ public class Arm extends SubsystemBase {
     //this.getAccelerationFromCounterbalance();
   }
 
-  private double getPositionSetpoint () {
+  public double getPositionSetpoint () {
     return controller.getGoal().position;
   }
 

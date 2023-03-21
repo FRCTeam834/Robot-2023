@@ -59,7 +59,7 @@ public class LinearPath extends SequentialCommandGroup {
       ),
       new ArmToPreset(arm, ArmPositionPresets.L2).until(() -> arm.getPosition() > 1),
       driveTrain.followTrajectoryCommand(trajectory2, poseEstimator, false),
-      new Outtake(intake)
+      new Outtake(intake, arm)
     );
   }
 }

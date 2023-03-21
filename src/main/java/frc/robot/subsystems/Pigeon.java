@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.time.OffsetDateTime;
+
 import com.ctre.phoenix.sensors.Pigeon2;
 
 import edu.wpi.first.math.filter.LinearFilter;
@@ -19,6 +21,7 @@ public class Pigeon extends SubsystemBase {
   private final Pigeon2 pigeon;
   private double pitchVelocity;
   private LinearFilter pitchVelocityFilter = LinearFilter.backwardFiniteDifference(1, 3, 0.02);
+  public double offset = 0.0;
 
   public Pigeon() {
     pigeon = new Pigeon2(PigeonConstants.CANID);
