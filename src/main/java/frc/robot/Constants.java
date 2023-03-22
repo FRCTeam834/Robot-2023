@@ -196,11 +196,11 @@ public final class Constants {
             ESCAPE(Units.degreesToRadians(-44)),
             HOOK(Units.degreesToRadians(-38)),
             STOW(Units.degreesToRadians(-38)),
-            L1(Units.degreesToRadians(-3)),
+            L1(Units.degreesToRadians(-5)),
             L2(Units.degreesToRadians(83)),
             L3(Units.degreesToRadians(107)),
             DS(Units.degreesToRadians(104)),
-            DIV(Units.degreesToRadians(40));
+            DIV(Units.degreesToRadians(45));
 
             public final double position;
 
@@ -230,9 +230,9 @@ public final class Constants {
         public static final int CANID = 11;
         public static final int CURRENT_LIMIT = 20;
         public static final double GEAR_RATIO = 5;
-        public static final int RPM_FILTER_TAPS = 5;
-        public static final double CONE_RPM_THRESHOLD = 5;
-        public static final double CUBE_RPM_THRESHOLD = 5;
+        public static final int RPM_FILTER_TAPS = 10;
+        public static final double CONE_RPM_THRESHOLD = 40;
+        public static final double CUBE_RPM_THRESHOLD = 40;
         public static final double FREE_RPM_THRESHOLD = 250;
     }
 

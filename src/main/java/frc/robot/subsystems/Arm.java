@@ -187,7 +187,7 @@ public class Arm extends SubsystemBase {
       double voltage = feedforward.calculate(controller.getGoal().position, controller.getGoal().velocity) + controller.calculate(this.getPosition());
 
       if (controller.getGoal().position == ArmPositionPresets.ESCAPE.position) {
-        voltage -= 6;
+        voltage -= 8;
       }
 
       motor.setVoltage(voltage);

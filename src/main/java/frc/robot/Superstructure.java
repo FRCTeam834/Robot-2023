@@ -32,6 +32,7 @@ import frc.robot.autons.OnePlusBalance;
 import frc.robot.autons.LinearPath;
 import frc.robot.autons.CableOnePlusOne;
 import frc.robot.autons.FlatOnePlusOne;
+import frc.robot.autons.FlatOnePlusOnePlusOne;
 import frc.robot.autons.OnePlusZero;
 import frc.robot.commands.ArmToPreset;
 import frc.robot.commands.AutoBalance;
@@ -81,7 +82,7 @@ public class Superstructure {
     eventMap.put("START", new ParallelCommandGroup(
       new IntakeCone(intake).until(() -> true),
       new ArmToPreset(arm, ArmPositionPresets.ESCAPE),
-      new WaitCommand(0.2)
+      new WaitCommand(0.07)
     ));
     eventMap.put("ESCAPE", new ParallelCommandGroup(
       new ArmToPreset(arm, ArmPositionPresets.ESCAPE),
@@ -116,6 +117,7 @@ public class Superstructure {
     autonChooser.addOption("1 + 0", new OnePlusZero(driveTrain, arm, intake, poseEstimator));
     autonChooser.addOption("Cable 1 + 1", new CableOnePlusOne(driveTrain, arm, intake, poseEstimator));
     autonChooser.addOption("Flat 1 + 1", new FlatOnePlusOne(driveTrain, arm, intake, poseEstimator));
+    autonChooser.addOption("Flat 1 + 1 + 1", new FlatOnePlusOnePlusOne(driveTrain, arm, intake, poseEstimator));
     SmartDashboard.putData(autonChooser);
 
     driveTrain.setDefaultCommand(new DriveWithSpeeds(

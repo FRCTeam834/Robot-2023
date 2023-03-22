@@ -31,7 +31,7 @@ public class AutoBalance extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    speed = 1;
+    speed = 0.5;
     timer.stop();
     timer.reset();
   }
@@ -46,7 +46,7 @@ public class AutoBalance extends CommandBase {
       speed *= 0.5;
       return;
     }
-    driveTrain.drive(0, Math.copySign(speed, gyro.getPitch()), 0);
+    driveTrain.drive(0, -Math.copySign(speed, gyro.getPitch()), 0);
   }
 
   // Called once the command ends or is interrupted.
