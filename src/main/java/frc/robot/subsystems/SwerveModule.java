@@ -90,7 +90,8 @@ public class SwerveModule extends SubsystemBase {
     steerMotor.setSmartCurrentLimit(DriveTrainConstants.STEER_CURRENT_LIMIT);
 
     // Duty cycle encoder position packet (default 200ms - bad!)
-    steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 20);
+    driveMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 10);
+    steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10);
     steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
 
     // RPM -> m/s

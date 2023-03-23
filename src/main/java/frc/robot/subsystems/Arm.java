@@ -25,7 +25,7 @@ public class Arm extends SubsystemBase {
   public final RelativeEncoder encoder;
 
   private final ArmFeedforward feedforward;
-  private final ProfiledPIDController controller = new ProfiledPIDController(0.0, 0.0, 0.0, ArmConstants.PROFILE_CONSTRAINTS);
+  public final ProfiledPIDController controller = new ProfiledPIDController(0.0, 0.0, 0.0, ArmConstants.PROFILE_CONSTRAINTS);
 
   public boolean isStopped = true;
   private boolean resetToggled = false;

@@ -68,9 +68,8 @@ public class PoseEstimator extends SubsystemBase {
     Pose2d convertedPose = new Pose2d(pose.getX(), pose.getY(), pose.getRotation().rotateBy(Rotation2d.fromDegrees(180)));
     return convertedPose;
   }
-
-  @Override
-  public void periodic() {
+  
+  public void periodic10() {
     /* Update the odometry */
     poseEstimator.updateWithTime(Timer.getFPGATimestamp(), gyro.getYawAsRotation2d(), driveTrain.getModulePositions());
 

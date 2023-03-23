@@ -92,7 +92,7 @@ public final class Constants {
         public static final PIDGains AUTON_DRIVE_PID_GAINS = new PIDGains(1.1);
         public static final PIDGains AUTON_STEER_PID_GAINS = new PIDGains(1.2);
 
-        public static final TrapezoidProfile.Constraints AUTON_DRIVE_CONSTRAINTS = new TrapezoidProfile.Constraints(2, 1.5);
+        public static final TrapezoidProfile.Constraints AUTON_DRIVE_CONSTRAINTS = new TrapezoidProfile.Constraints(2.5, 2.5);
         public static final TrapezoidProfile.Constraints AUTON_STEER_CONSTRAINTS = new TrapezoidProfile.Constraints(Units.degreesToRadians(60), Units.degreesToRadians(60));
 
         /** Slewrate values for drivetrain (max acceleration) */
@@ -157,7 +157,7 @@ public final class Constants {
 
         public static final double GEAR_REDUCTION = 60 * 64.0 / 36.0;
         public static final double MAX_POSITION = Units.degreesToRadians(125);
-        public static final double MIN_POSITION = Units.degreesToRadians(-48);
+        public static final double MIN_POSITION = Units.degreesToRadians(-50);
         public static final double STARTING_POSITION = Units.degreesToRadians(0);
 
         public static final TuneablePIDGains PID_GAINS = new TuneablePIDGains("ARM", 35, 3, 0);
@@ -196,11 +196,11 @@ public final class Constants {
             ESCAPE(Units.degreesToRadians(-44)),
             HOOK(Units.degreesToRadians(-38)),
             STOW(Units.degreesToRadians(-38)),
-            L1(Units.degreesToRadians(-5)),
+            L1(Units.degreesToRadians(-11)),
             L2(Units.degreesToRadians(83)),
             L3(Units.degreesToRadians(107)),
             DS(Units.degreesToRadians(104)),
-            DIV(Units.degreesToRadians(45));
+            DIV(Units.degreesToRadians(55));
 
             public final double position;
 

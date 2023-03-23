@@ -76,16 +76,16 @@
     },
     {
       "anchorPoint": {
-        "x": 7.5,
-        "y": 4.640616302509201
+        "x": 7.694621133923119,
+        "y": 4.6264030825934
       },
       "prevControl": {
-        "x": 4.7497880070512934,
-        "y": 5.205272382045102
+        "x": 4.944409140974413,
+        "y": 5.191059162129301
       },
       "nextControl": {
-        "x": 4.7497880070512934,
-        "y": 5.205272382045102
+        "x": 4.944409140974413,
+        "y": 5.191059162129301
       },
       "holonomicAngle": 0.01,
       "isReversal": true,
@@ -105,12 +105,12 @@
         "y": 4.88
       },
       "prevControl": {
-        "x": 4.951482062717746,
-        "y": 5.074417127490476
+        "x": 4.870097911912518,
+        "y": 5.082020415865341
       },
       "nextControl": {
-        "x": 2.7298743447035463,
-        "y": 4.846222665558529
+        "x": 2.730181104384756,
+        "y": 4.843358966639261
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
@@ -127,15 +127,15 @@
     {
       "anchorPoint": {
         "x": 1.75,
-        "y": 4.43452461373008
+        "y": 4.5
       },
       "prevControl": {
         "x": 2.4378255478739534,
-        "y": 4.762205720632805
+        "y": 4.827681106902725
       },
       "nextControl": {
         "x": 2.4378255478739534,
-        "y": 4.762205720632805
+        "y": 4.827681106902725
       },
       "holonomicAngle": 180.01,
       "isReversal": true,
@@ -152,15 +152,15 @@
     {
       "anchorPoint": {
         "x": 4.35931724029666,
-        "y": 4.88
+        "y": 4.92
       },
       "prevControl": {
-        "x": 3.6480162376708245,
-        "y": 4.938651425912904
+        "x": 3.6721055394698947,
+        "y": 5.038469876131638
       },
       "nextControl": {
-        "x": 6.11252801741608,
-        "y": 4.735436289806532
+        "x": 5.358014143782828,
+        "y": 4.747832532090598
       },
       "holonomicAngle": 90.0,
       "isReversal": false,
@@ -176,65 +176,15 @@
     },
     {
       "anchorPoint": {
-        "x": 7.812926137845227,
-        "y": 3.0859861117760103
+        "x": 7.41746334556499,
+        "y": 3.7238636179400024
       },
       "prevControl": {
-        "x": 6.318387695423787,
-        "y": 4.616031340763301
-      },
-      "nextControl": {
-        "x": 6.318387695423787,
-        "y": 4.616031340763301
-      },
-      "holonomicAngle": -19.02560603662616,
-      "isReversal": true,
-      "velOverride": null,
-      "isLocked": false,
-      "isStopPoint": false,
-      "stopEvent": {
-        "names": [],
-        "executionBehavior": "parallel",
-        "waitBehavior": "none",
-        "waitTime": 0
-      }
-    },
-    {
-      "anchorPoint": {
-        "x": 4.924751318373745,
-        "y": 4.5
-      },
-      "prevControl": {
-        "x": 5.562469075845648,
-        "y": 4.559821678499531
-      },
-      "nextControl": {
-        "x": 4.54511703654801,
-        "y": 4.464388070288634
-      },
-      "holonomicAngle": -101.13624610304888,
-      "isReversal": false,
-      "velOverride": null,
-      "isLocked": false,
-      "isStopPoint": false,
-      "stopEvent": {
-        "names": [],
-        "executionBehavior": "parallel",
-        "waitBehavior": "none",
-        "waitTime": 0
-      }
-    },
-    {
-      "anchorPoint": {
-        "x": 2.9,
-        "y": 4.5
-      },
-      "prevControl": {
-        "x": 3.5471335690489534,
-        "y": 4.25969901737985
+        "x": 6.287512362258767,
+        "y": 4.5482303730565015
       },
       "nextControl": null,
-      "holonomicAngle": 180.0,
+      "holonomicAngle": -37.23483398157463,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -247,9 +197,6 @@
       }
     }
   ],
-  "maxVelocity": 2.7,
-  "maxAcceleration": 2.5,
-  "isReversed": null,
   "markers": [
     {
       "position": 1.0,
@@ -295,22 +242,10 @@
       ]
     },
     {
-      "position": 6.3,
+      "position": 6.1,
       "names": [
         "L1",
-        "CUBE"
-      ]
-    },
-    {
-      "position": 7.0,
-      "names": [
-        "STOW"
-      ]
-    },
-    {
-      "position": 8.9,
-      "names": [
-        "OUT"
+        "CONE"
       ]
     }
   ]

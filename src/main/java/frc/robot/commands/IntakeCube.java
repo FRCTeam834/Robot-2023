@@ -29,7 +29,7 @@ public class IntakeCube extends CommandBase {
   public void initialize() {
     rpmFilter.reset();
     rpmFilter.calculate(834834834);
-    intake.setVoltage(8);
+    intake.setVoltage(10);
     Superstructure.leds.setColor(LEDColors.PURPLE);
   }
 
@@ -45,7 +45,7 @@ public class IntakeCube extends CommandBase {
   public void end(boolean interrupted) {
     intake.currentGamePiece = GamePieceType.CUBE;
     if (this.isFinished()) {
-      intake.setVoltage(8);
+      intake.setVoltage(10);
       Superstructure.leds.setColor(LEDColors.GREEN);
     } else {
       intake.stop();

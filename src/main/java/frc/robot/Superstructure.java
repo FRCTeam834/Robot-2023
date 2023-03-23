@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -32,6 +33,7 @@ import frc.robot.autons.OnePlusBalance;
 import frc.robot.autons.LinearPath;
 import frc.robot.autons.CableOnePlusOne;
 import frc.robot.autons.FlatOnePlusOne;
+import frc.robot.autons.FlatOnePlusOnePlusHalf;
 import frc.robot.autons.FlatOnePlusOnePlusOne;
 import frc.robot.autons.OnePlusZero;
 import frc.robot.commands.ArmToPreset;
@@ -79,10 +81,24 @@ public class Superstructure {
   public static final HashMap<String, Command> eventMap = new HashMap<>();
 
   public Superstructure() {
-    eventMap.put("START", new ParallelCommandGroup(
-      new IntakeCone(intake).until(() -> true),
-      new ArmToPreset(arm, ArmPositionPresets.ESCAPE),
-      new WaitCommand(0.07)
+    eventMap.put("START", new SequentialCommandGroup(
+      new ParallelCommandGroup(
+        new IntakeCone(intake).withTimeout(0.25).andThen(
+          new InstantCommand(() -> {
+            intake.setVoltage(-10);
+          })
+        ),
+        new InstantCommand(() -> {
+          arm.isStopped = false;
+          arm.encoder.setPosition(ArmPositionPresets.HOOK.position);
+          arm.controller.reset(ArmPositionPresets.HOOK.position, 0);
+          arm.controller.setGoal(new TrapezoidProfile.State(ArmPositionPresets.ESCAPE.position, 0));
+        })
+      ),
+      new InstantCommand(() -> {
+        arm.controller.setGoal(new TrapezoidProfile.State(ArmPositionPresets.L3.position, 0));
+      }),
+      new WaitUntilCommand(() -> arm.getPosition() > ArmPositionPresets.DIV.position)
     ));
     eventMap.put("ESCAPE", new ParallelCommandGroup(
       new ArmToPreset(arm, ArmPositionPresets.ESCAPE),
@@ -112,12 +128,12 @@ public class Superstructure {
     //  driveTrain.lockModules();
     //}));
   
-    autonChooser.setDefaultOption("Do nothing", new InstantCommand());
+    autonChooser.setDefaultOption("Do nothing", new AutoBalance(driveTrain, pigeon));
     autonChooser.addOption("1 + Balance", new OnePlusBalance(driveTrain, arm, intake, poseEstimator));
     autonChooser.addOption("1 + 0", new OnePlusZero(driveTrain, arm, intake, poseEstimator));
     autonChooser.addOption("Cable 1 + 1", new CableOnePlusOne(driveTrain, arm, intake, poseEstimator));
     autonChooser.addOption("Flat 1 + 1", new FlatOnePlusOne(driveTrain, arm, intake, poseEstimator));
-    autonChooser.addOption("Flat 1 + 1 + 1", new FlatOnePlusOnePlusOne(driveTrain, arm, intake, poseEstimator));
+    autonChooser.addOption("Flat 1 + 1 + 0.5", new FlatOnePlusOnePlusHalf(driveTrain, arm, intake, poseEstimator));
     SmartDashboard.putData(autonChooser);
 
     driveTrain.setDefaultCommand(new DriveWithSpeeds(
@@ -190,6 +206,7 @@ public class Superstructure {
   /** Runs every 10ms */
   public void periodic10 () {
     arm.periodic10();
+    poseEstimator.periodic10();
   }
 
   /**

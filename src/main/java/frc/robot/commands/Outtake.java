@@ -46,7 +46,7 @@ public class Outtake extends CommandBase {
         intake.setVoltage(6);
       } else if (lastGamePiece == GamePieceType.CUBE) {
         intake.setVoltage(-6);
-        if (arm.getPositionSetpoint() == ArmPositionPresets.STOW.position) {
+        if (arm.getPositionSetpoint() == ArmPositionPresets.STOW.position || arm.getPositionSetpoint() == ArmPositionPresets.L1.position) {
           intake.setVoltage(-12);
         }
       }

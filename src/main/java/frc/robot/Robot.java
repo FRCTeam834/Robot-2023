@@ -78,7 +78,6 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    m_robotContainer.arm.encoder.setPosition(ArmPositionPresets.HOOK.position);
     m_robotContainer.driveTrain.drive(0, 0, 0);
 
     // schedule the autonomous command (example)
