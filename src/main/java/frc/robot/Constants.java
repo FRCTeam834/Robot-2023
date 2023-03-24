@@ -92,7 +92,7 @@ public final class Constants {
         public static final PIDGains AUTON_DRIVE_PID_GAINS = new PIDGains(1.1);
         public static final PIDGains AUTON_STEER_PID_GAINS = new PIDGains(1.2);
 
-        public static final TrapezoidProfile.Constraints AUTON_DRIVE_CONSTRAINTS = new TrapezoidProfile.Constraints(2.5, 2.5);
+        public static final TrapezoidProfile.Constraints AUTON_DRIVE_CONSTRAINTS = new TrapezoidProfile.Constraints(2, 2);
         public static final TrapezoidProfile.Constraints AUTON_STEER_CONSTRAINTS = new TrapezoidProfile.Constraints(Units.degreesToRadians(60), Units.degreesToRadians(60));
 
         /** Slewrate values for drivetrain (max acceleration) */

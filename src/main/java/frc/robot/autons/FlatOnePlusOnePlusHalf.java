@@ -40,8 +40,8 @@ public class FlatOnePlusOnePlusHalf extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     List<PathPlannerTrajectory> trajectory = PathPlanner.loadPathGroup(
       "F1 + 1 + 0.5",
-      DriveTrainConstants.AUTON_DRIVE_CONSTRAINTS.maxVelocity,
-      DriveTrainConstants.AUTON_DRIVE_CONSTRAINTS.maxAcceleration
+      2.25,
+      2.25
     );
 
     addCommands(
