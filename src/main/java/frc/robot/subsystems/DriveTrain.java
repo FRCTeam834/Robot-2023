@@ -43,7 +43,7 @@ public class DriveTrain extends SubsystemBase {
   private final SlewRateLimiter translationRateLimiter = new SlewRateLimiter(DriveTrainConstants.TRANSLATION_SLEWRATE);
   private final SlewRateLimiter steerRateLimiter = new SlewRateLimiter(DriveTrainConstants.STEER_SLEWRATE);
 
-  private ChassisSpeeds lastChassisSpeeds;
+  private ChassisSpeeds lastChassisSpeeds = new ChassisSpeeds(0, 0, 0);
 
   private final ProfiledPIDController keepHeadingController = new ProfiledPIDController(0.0, 0.0, 0.0, DriveTrainConstants.AUTON_DRIVE_CONSTRAINTS);
   /* Current rotation2d to keep maintain heading to */

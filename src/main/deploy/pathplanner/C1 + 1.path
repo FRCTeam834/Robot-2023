@@ -17,9 +17,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "ESCAPE",
-          "CONE",
-          "L3"
+          "START"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",

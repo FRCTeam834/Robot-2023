@@ -40,8 +40,8 @@ import frc.robot.utility.TuneablePIDGains;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {
-    public static final boolean competitionMode = false;
+public final class Constants { 
+    public static final boolean competitionMode = true;
 
     public static final boolean telemetryMode = true && !competitionMode;
     public static final boolean tuningMode = true && !competitionMode;
@@ -58,7 +58,7 @@ public final class Constants {
         public static final int XBOX_PORT = 2;
 
         public static final double LEFT_JOYSTICK_DEADZONE = 0.15;
-        public static final double RIGHT_JOYSTICK_DEADZONE = 0.075;
+        public static final double RIGHT_JOYSTICK_DEADZONE = 0.15;
         public static final double XBOX_JOYSTICK_DEADZONE = 0.1;
     }
 
@@ -92,7 +92,7 @@ public final class Constants {
         public static final PIDGains AUTON_DRIVE_PID_GAINS = new PIDGains(1.1);
         public static final PIDGains AUTON_STEER_PID_GAINS = new PIDGains(1.2);
 
-        public static final TrapezoidProfile.Constraints AUTON_DRIVE_CONSTRAINTS = new TrapezoidProfile.Constraints(2, 2);
+        public static final TrapezoidProfile.Constraints AUTON_DRIVE_CONSTRAINTS = new TrapezoidProfile.Constraints(2, 1.5);
         public static final TrapezoidProfile.Constraints AUTON_STEER_CONSTRAINTS = new TrapezoidProfile.Constraints(Units.degreesToRadians(60), Units.degreesToRadians(60));
 
         /** Slewrate values for drivetrain (max acceleration) */
@@ -195,8 +195,8 @@ public final class Constants {
         public static enum ArmPositionPresets {
             ESCAPE(Units.degreesToRadians(-44)),
             HOOK(Units.degreesToRadians(-38)),
-            STOW(Units.degreesToRadians(-38)),
-            L1(Units.degreesToRadians(-11)),
+            STOW(Units.degreesToRadians(-42)),
+            L1(Units.degreesToRadians(-8)),
             L2(Units.degreesToRadians(83)),
             L3(Units.degreesToRadians(107)),
             DS(Units.degreesToRadians(104)),
