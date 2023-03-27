@@ -45,7 +45,6 @@ public class DriveTrain extends SubsystemBase {
 
   private ChassisSpeeds lastChassisSpeeds = new ChassisSpeeds(0, 0, 0);
 
-  private final ProfiledPIDController keepHeadingController = new ProfiledPIDController(0.0, 0.0, 0.0, DriveTrainConstants.AUTON_DRIVE_CONSTRAINTS);
   /* Current rotation2d to keep maintain heading to */
   private Rotation2d keepHeading = new Rotation2d();
   private double lastKeepHeadingTime = Timer.getFPGATimestamp();
@@ -205,20 +204,17 @@ public class DriveTrain extends SubsystemBase {
     ) {
       /** Numerically integrate new desired heading */
       keepHeading = gyro.getYawAsRotation2d().plus(Rotation2d.fromRadians(desiredSpeeds.omegaRadiansPerSecond).times(0.02));
-      keepHeadingController.setGoal(keepHeading.getDegrees());
       lastKeepHeadingTime = currentTime;
       return desiredSpeeds;
     }
+    
+    if (Math.abs(gyro.getYaw() - keepHeading.getRadians()) < 0.06) return desiredSpeeds;
 
     ChassisSpeeds convertedChassisSpeeds = new ChassisSpeeds(
       desiredSpeeds.vxMetersPerSecond,
       desiredSpeeds.vyMetersPerSecond,
-      keepHeadingController.calculate(Units.degreesToRadians(gyro.getYaw()))
+      Math.min(Math.max(gyro.getYaw() - keepHeading.getRadians(), -0.02), 0.02)
     );
-    
-    if (keepHeadingController.atGoal()) {
-      return desiredSpeeds;
-    }
 
     return convertedChassisSpeeds;
   }
