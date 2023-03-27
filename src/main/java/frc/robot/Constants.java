@@ -196,9 +196,9 @@ public final class Constants {
             ESCAPE(Units.degreesToRadians(-44)),
             HOOK(Units.degreesToRadians(-38)),
             STOW(Units.degreesToRadians(-42)),
-            L1(Units.degreesToRadians(-8)),
-            L2(Units.degreesToRadians(83)),
-            L3(Units.degreesToRadians(107)),
+            L1(Units.degreesToRadians(-6)),
+            L2(Units.degreesToRadians(84)),
+            L3(Units.degreesToRadians(109.5)),
             DS(Units.degreesToRadians(104)),
             DIV(Units.degreesToRadians(55));
 
