@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.filter.LinearFilter;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Superstructure;
@@ -17,6 +18,7 @@ public class IntakeCone extends CommandBase {
   private final Intake intake;
   private final LinearFilter rpmFilter;
   private double rpm;
+  private Timer timer = new Timer();
   
   public IntakeCone(Intake intake) {
     this.intake = intake;
@@ -28,10 +30,13 @@ public class IntakeCone extends CommandBase {
   @Override
   public void initialize() {
     /* Artifically inflate filter so intake has time to spin up */
+    timer.reset();
+    timer.start();
     rpmFilter.reset();
-    rpmFilter.calculate(-834834834);
+    //rpmFilter.calculate(-834834834);
     intake.setVoltage(-10);
     Superstructure.leds.setColor(LEDColors.YELLOW);
+    Superstructure.desiredGamePiece = GamePieceType.CONE;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -45,7 +50,7 @@ public class IntakeCone extends CommandBase {
   public void end(boolean interrupted) {
     intake.currentGamePiece = GamePieceType.CONE;
     if (this.isFinished()) {
-      intake.setVoltage(-10);
+      intake.setVoltage(-8);
       Superstructure.leds.setColor(LEDColors.GREEN);
     } else {
       intake.stop();
@@ -55,6 +60,6 @@ public class IntakeCone extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(rpm) < IntakeConstants.CONE_RPM_THRESHOLD;
+    return timer.get() > 0.5 && Math.abs(rpm) < IntakeConstants.CONE_RPM_THRESHOLD;
   }
 }

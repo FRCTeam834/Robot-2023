@@ -30,6 +30,8 @@ public class Intake extends SubsystemBase {
     motor.setInverted(false);
     motor.enableVoltageCompensation(12.0);
     motor.setSmartCurrentLimit(IntakeConstants.CURRENT_LIMIT);
+    encoder.setAverageDepth(2);
+    encoder.setMeasurementPeriod(5);
 
     encoder.setVelocityConversionFactor(1.0 / IntakeConstants.GEAR_RATIO);
 

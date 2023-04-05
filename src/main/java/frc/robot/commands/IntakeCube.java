@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.filter.LinearFilter;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.GamePieceType;
 import frc.robot.Constants.IntakeConstants;
@@ -17,6 +18,7 @@ public class IntakeCube extends CommandBase {
   private final Intake intake;
   private final LinearFilter rpmFilter;
   private double rpm;
+  private Timer timer = new Timer();
   
   public IntakeCube(Intake intake) {
     this.intake = intake;
@@ -27,10 +29,13 @@ public class IntakeCube extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    timer.reset();
+    timer.start();
     rpmFilter.reset();
-    rpmFilter.calculate(834834834);
+    //rpmFilter.calculate(834834834);
     intake.setVoltage(10);
     Superstructure.leds.setColor(LEDColors.PURPLE);
+    Superstructure.desiredGamePiece = GamePieceType.CUBE;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -45,7 +50,7 @@ public class IntakeCube extends CommandBase {
   public void end(boolean interrupted) {
     intake.currentGamePiece = GamePieceType.CUBE;
     if (this.isFinished()) {
-      intake.setVoltage(10);
+      intake.setVoltage(6);
       Superstructure.leds.setColor(LEDColors.GREEN);
     } else {
       intake.stop();
@@ -55,6 +60,6 @@ public class IntakeCube extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(rpm) < IntakeConstants.CUBE_RPM_THRESHOLD;
+    return timer.get() > 0.5 && Math.abs(rpm) < IntakeConstants.CUBE_RPM_THRESHOLD;
   }
 }

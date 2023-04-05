@@ -71,8 +71,8 @@ public final class Constants {
             {8, 9}
         };
 
-        public static final double WIDTH = Units.inchesToMeters(26.5);
-        public static final double LENGTH = Units.inchesToMeters(26.5);
+        public static final double WIDTH = Units.inchesToMeters(26.2);
+        public static final double LENGTH = Units.inchesToMeters(26.25);
 
         public static final double WHEEL_DIAMETER = Units.inchesToMeters(3);
 
@@ -96,7 +96,7 @@ public final class Constants {
         public static final TrapezoidProfile.Constraints AUTON_STEER_CONSTRAINTS = new TrapezoidProfile.Constraints(Units.degreesToRadians(60), Units.degreesToRadians(60));
 
         /** Slewrate values for drivetrain (max acceleration) */
-        public static final double TRANSLATION_SLEWRATE = Units.feetToMeters(32);
+        public static final double TRANSLATION_SLEWRATE = Units.feetToMeters(24);
         public static final double STEER_SLEWRATE = Units.degreesToRadians(1080);
 
         public static final PIDGains KEEP_HEADING_PID_GAINS = new PIDGains(Units.degreesToRadians(5));
@@ -196,9 +196,11 @@ public final class Constants {
             ESCAPE(Units.degreesToRadians(-44)),
             HOOK(Units.degreesToRadians(-38)),
             STOW(Units.degreesToRadians(-42)),
-            L1(Units.degreesToRadians(-6)),
+            GCONE(Units.degreesToRadians(10)), // use L1 for command
+            GCUBE(Units.degreesToRadians(-6)), // use L1 for command
+            L1(Units.degreesToRadians(-6)), // GCUBE and L1 must be the same height
             L2(Units.degreesToRadians(84)),
-            L3(Units.degreesToRadians(109.5)),
+            L3(Units.degreesToRadians(108)),
             DS(Units.degreesToRadians(104)),
             DIV(Units.degreesToRadians(55));
 
@@ -230,9 +232,9 @@ public final class Constants {
         public static final int CANID = 11;
         public static final int CURRENT_LIMIT = 20;
         public static final double GEAR_RATIO = 5;
-        public static final int RPM_FILTER_TAPS = 10;
-        public static final double CONE_RPM_THRESHOLD = 40;
-        public static final double CUBE_RPM_THRESHOLD = 40;
+        public static final int RPM_FILTER_TAPS = 2;
+        public static final double CONE_RPM_THRESHOLD = 600;
+        public static final double CUBE_RPM_THRESHOLD = 600;
         public static final double FREE_RPM_THRESHOLD = 250;
     }
 

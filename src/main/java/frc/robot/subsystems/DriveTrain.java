@@ -21,6 +21,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -58,10 +59,7 @@ public class DriveTrain extends SubsystemBase {
     gyro = pigeon;
 
     kinematics = new SwerveDriveKinematics(DriveTrainConstants.MODULE_POSITIONS);
-
-    DriveTrainConstants.KEEP_HEADING_PID_GAINS.bindToController(keepHeadingController);
-    keepHeadingController.enableContinuousInput(0, 2 * Math.PI);
-    keepHeadingController.setTolerance(DriveTrainConstants.KEEP_HEADING_SETPOINT_TOLERANCE);
+    SmartDashboard.putData(this);
   }
 
   public SwerveDriveKinematics getKinematics () {
@@ -149,6 +147,7 @@ public class DriveTrain extends SubsystemBase {
 
     ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, omega, gyro.getYawAsRotation2d());
     //ChassisSpeeds speeds = new ChassisSpeeds(vx, vy, omega);
+    speeds = keepHeading(speeds);
 
     SwerveModuleState[] desiredStates = kinematics.toSwerveModuleStates(speeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(
@@ -160,6 +159,38 @@ public class DriveTrain extends SubsystemBase {
     );
 
     this.setDesiredModuleStates(desiredStates);
+    lastChassisSpeeds = speeds;
+  }
+
+  public void driveOpenLoop (
+    double vx,
+    double vy,
+    double omega
+  ) {
+    vx = -vx;
+    // Ratelimiter, do not ratelimit if vx or vy are too low as it makes the angle volatile
+    if (Math.abs(vx) > DriveTrainConstants.MODULE_ACTIVATION_THRESHOLD || Math.abs(vy) > DriveTrainConstants.MODULE_ACTIVATION_THRESHOLD) {
+      double angle = Math.atan2(vy, vx);
+      double mag = translationRateLimiter.calculate(Math.hypot(vx, vy));
+      vx = mag * Math.cos(angle);
+      vy = mag * Math.sin(angle);
+    }
+    omega = steerRateLimiter.calculate(omega);
+
+    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, omega, gyro.getYawAsRotation2d());
+    //ChassisSpeeds speeds = new ChassisSpeeds(vx, vy, omega);
+    speeds = keepHeading(speeds);
+
+    SwerveModuleState[] desiredStates = kinematics.toSwerveModuleStates(speeds);
+    SwerveDriveKinematics.desaturateWheelSpeeds(
+      desiredStates,
+      lastChassisSpeeds,
+      DriveTrainConstants.MAX_MODULE_SPEED,
+      DriveTrainConstants.MAX_TRANSLATION_SPEED,
+      DriveTrainConstants.MAX_STEER_SPEED
+    );
+
+    this.setDesiredModuleStatesOpenLoop(desiredStates);
     lastChassisSpeeds = speeds;
   }
 
@@ -197,23 +228,26 @@ public class DriveTrain extends SubsystemBase {
    * @return converted chassis speeds
    */
   private ChassisSpeeds keepHeading (ChassisSpeeds desiredSpeeds) {
-    double currentTime = Timer.getMatchTime();
+    double currentTime = Timer.getFPGATimestamp();
     if (
-      desiredSpeeds.omegaRadiansPerSecond > DriveTrainConstants.KEEP_HEADING_OMEGA_THRESHOLD ||
-      currentTime - lastKeepHeadingTime < DriveTrainConstants.KEEP_HEADING_TIME_THRESHOLD
+      Math.abs(desiredSpeeds.omegaRadiansPerSecond) > DriveTrainConstants.KEEP_HEADING_OMEGA_THRESHOLD
     ) {
       /** Numerically integrate new desired heading */
       keepHeading = gyro.getYawAsRotation2d().plus(Rotation2d.fromRadians(desiredSpeeds.omegaRadiansPerSecond).times(0.02));
       lastKeepHeadingTime = currentTime;
       return desiredSpeeds;
     }
+
+    //if (currentTime - lastKeepHeadingTime < DriveTrainConstants.KEEP_HEADING_TIME_THRESHOLD) {
+    //  return desiredSpeeds;
+    //}
     
-    if (Math.abs(gyro.getYaw() - keepHeading.getRadians()) < 0.06) return desiredSpeeds;
+    if (Math.abs(gyro.getYawAsRotation2d().minus(keepHeading).getRadians()) < 0.04) return desiredSpeeds;
 
     ChassisSpeeds convertedChassisSpeeds = new ChassisSpeeds(
       desiredSpeeds.vxMetersPerSecond,
       desiredSpeeds.vyMetersPerSecond,
-      Math.min(Math.max(gyro.getYaw() - keepHeading.getRadians(), -0.02), 0.02)
+      Math.min(Math.max(gyro.getYawAsRotation2d().minus(keepHeading).getRadians(), -0.08), 0.08)
     );
 
     return convertedChassisSpeeds;

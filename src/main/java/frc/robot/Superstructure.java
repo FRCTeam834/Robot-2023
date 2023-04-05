@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.GamePieceType;
 import frc.robot.Constants.ArmConstants.ArmPositionPresets;
 import frc.robot.Constants.DriveTrainConstants.OnTheFlyConstants;
 import frc.robot.autons.OnePlusBalance;
@@ -75,6 +76,7 @@ public class Superstructure {
   );
 
   public static LEDs leds = new LEDs();
+  public static GamePieceType desiredGamePiece = GamePieceType.CUBE;
 
   SendableChooser<Command> autonChooser = new SendableChooser<>();
 
@@ -83,7 +85,7 @@ public class Superstructure {
   public Superstructure() {
     eventMap.put("START", new SequentialCommandGroup(
       new ParallelCommandGroup(
-        new IntakeCone(intake).withTimeout(0.25).andThen(
+        new IntakeCone(intake).withTimeout(0.4).andThen(
           new InstantCommand(() -> {
             intake.setVoltage(-10);
           })
@@ -93,7 +95,8 @@ public class Superstructure {
           arm.encoder.setPosition(ArmPositionPresets.HOOK.position);
           arm.controller.reset(ArmPositionPresets.HOOK.position, 0);
           arm.controller.setGoal(new TrapezoidProfile.State(ArmPositionPresets.ESCAPE.position, 0));
-        })
+        }),
+        new WaitCommand(0.4)
       ),
       new InstantCommand(() -> {
         arm.controller.setGoal(new TrapezoidProfile.State(ArmPositionPresets.L3.position, 0));
@@ -128,7 +131,7 @@ public class Superstructure {
     //  driveTrain.lockModules();
     //}));
   
-    autonChooser.setDefaultOption("Do nothing", new AutoBalance(driveTrain, pigeon));
+    autonChooser.setDefaultOption("Do nothing", new InstantCommand());
     autonChooser.addOption("1 + Balance", new OnePlusBalance(driveTrain, arm, intake, poseEstimator));
     autonChooser.addOption("1 + 0", new OnePlusZero(driveTrain, arm, intake, poseEstimator));
     autonChooser.addOption("Cable 1 + 1", new CableOnePlusOne(driveTrain, arm, intake, poseEstimator));

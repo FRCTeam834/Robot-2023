@@ -17,7 +17,9 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Superstructure;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.GamePieceType;
 import frc.robot.Constants.ArmConstants.ArmPositionPresets;
 
 public class Arm extends SubsystemBase {
@@ -99,7 +101,7 @@ public class Arm extends SubsystemBase {
    */
   public void setDesiredState (double position, double velocity) {
     isStopped = false;
-    resetToggled = false;
+    resetToggled = true;
     controller.reset(this.getPosition(), this.getVelocity());
     controller.setGoal(new TrapezoidProfile.State(position, velocity));
   }
@@ -185,6 +187,20 @@ public class Arm extends SubsystemBase {
       //  controller.reset(getPosition(), getVelocity());
       //}
       double voltage = feedforward.calculate(controller.getGoal().position, controller.getGoal().velocity) + controller.calculate(this.getPosition());
+
+      if (
+        controller.getGoal().position == ArmPositionPresets.GCUBE.position &&
+        Superstructure.desiredGamePiece == GamePieceType.CONE
+        ) {
+        controller.setGoal(ArmPositionPresets.GCONE.position);
+      }
+      
+      if (
+        controller.getGoal().position == ArmPositionPresets.GCONE.position &&
+        Superstructure.desiredGamePiece == GamePieceType.CUBE
+        ) {
+        controller.setGoal(ArmPositionPresets.GCUBE.position);
+      }
 
       if (controller.getGoal().position == ArmPositionPresets.ESCAPE.position) {
         voltage -= 8;
