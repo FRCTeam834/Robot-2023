@@ -39,7 +39,7 @@ public class FlatOnePlusOne extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     List<PathPlannerTrajectory> trajectory = PathPlanner.loadPathGroup(
-      "F1 + 1 + 1 New",
+      "F1 + 1",
       DriveTrainConstants.AUTON_DRIVE_CONSTRAINTS.maxVelocity,
       DriveTrainConstants.AUTON_DRIVE_CONSTRAINTS.maxAcceleration
     );

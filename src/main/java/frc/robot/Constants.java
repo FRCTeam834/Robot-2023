@@ -200,8 +200,8 @@ public final class Constants {
             GCUBE(Units.degreesToRadians(-6)), // use L1 for command
             L1(Units.degreesToRadians(-6)), // GCUBE and L1 must be the same height
             L2(Units.degreesToRadians(84)),
-            L3(Units.degreesToRadians(108)),
-            DS(Units.degreesToRadians(104)),
+            L3(Units.degreesToRadians(106)),
+            DS(Units.degreesToRadians(105)), // 104
             DIV(Units.degreesToRadians(55));
 
             public final double position;
