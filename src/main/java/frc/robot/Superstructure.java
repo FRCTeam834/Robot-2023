@@ -44,6 +44,7 @@ import frc.robot.commands.DriveIntoGriddy;
 import frc.robot.commands.DriveToWaypoint;
 import frc.robot.commands.DriveWithSpeeds;
 import frc.robot.commands.DumbArm;
+import frc.robot.commands.DumbWrist;
 import frc.robot.commands.IntakeCone;
 import frc.robot.commands.IntakeCube;
 import frc.robot.commands.Outtake;
@@ -54,6 +55,7 @@ import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Pigeon;
 import frc.robot.subsystems.PoseEstimator;
 import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.Wrist;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -66,6 +68,7 @@ public class Superstructure {
   Pigeon pigeon = new Pigeon();
   DriveTrain driveTrain = new DriveTrain(pigeon);
   Arm arm = new Arm();
+  Wrist wrist = new Wrist();
   Intake intake = new Intake();
   //Vision vision = new Vision();
   PoseEstimator poseEstimator = new PoseEstimator(
@@ -149,6 +152,11 @@ public class Superstructure {
     arm.setDefaultCommand(new DumbArm(
       arm,
       OI::getXboxLeftJoystickY
+    ));
+
+    wrist.setDefaultCommand(new DumbWrist(
+      wrist,
+      OI::getXboxRightJoystickY
     ));
 
     //arm.setDefaultCommand(new DumbArm(arm, OI::getRightJoystickY));

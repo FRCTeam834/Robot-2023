@@ -56,4 +56,10 @@ public class OI {
         if (Math.abs(raw) < DriverConstants.XBOX_JOYSTICK_DEADZONE) raw = 0.0;
         return raw;
     }
+
+    public static final double getXboxRightJoystickY () {
+        double raw = xbox.getRightY();
+        if (Math.abs(raw) < DriverConstants.XBOX_JOYSTICK_DEADZONE) raw = 0.0;
+        return raw;
+    }
 }
