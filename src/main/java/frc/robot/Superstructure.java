@@ -68,7 +68,7 @@ public class Superstructure {
   Pigeon pigeon = new Pigeon();
   DriveTrain driveTrain = new DriveTrain(pigeon);
   Arm arm = new Arm();
-  Wrist wrist = new Wrist();
+  //Wrist wrist = new Wrist();
   Intake intake = new Intake();
   //Vision vision = new Vision();
   PoseEstimator poseEstimator = new PoseEstimator(
@@ -154,10 +154,10 @@ public class Superstructure {
       OI::getXboxLeftJoystickY
     ));
 
-    wrist.setDefaultCommand(new DumbWrist(
+    /*wrist.setDefaultCommand(new DumbWrist(
       wrist,
       OI::getXboxRightJoystickY
-    ));
+    ));*/
 
     //arm.setDefaultCommand(new DumbArm(arm, OI::getRightJoystickY));
     // Configure the trigger bindings
