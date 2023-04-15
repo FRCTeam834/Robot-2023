@@ -51,6 +51,13 @@ public final class Constants {
     public static final double WIDTH = Units.inchesToMeters(35.5);
     public static final double LENGTH = Units.inchesToMeters(35);
 
+    public static final class WristConstants {
+        public static final double STOW_POSITION = Units.degreesToRadians(70);
+        // old position on v4b relative to the horizontal, all measured from the top of the intake
+        // top of the intake bc thats what hits the hardstop
+        public static final double OLD_POSITION_GROUND_RELATIVE = Units.degreesToRadians(10);
+    }
+
     public static final class DriverConstants {
         public static final int LEFT_JOYSTICK_PORT = 0;
         public static final int RIGHT_JOYSTICK_PORT = 1;
@@ -198,6 +205,8 @@ public final class Constants {
             STOW(Units.degreesToRadians(-42)),
             GCONE(Units.degreesToRadians(10)), // use L1 for command
             GCUBE(Units.degreesToRadians(-6)), // use L1 for command
+            SINGLE(Units.degreesToRadians(15)),
+            SHOOT(Units.degreesToRadians(20)),
             L1(Units.degreesToRadians(-6)), // GCUBE and L1 must be the same height
             L2(Units.degreesToRadians(84)),
             L3(Units.degreesToRadians(106)),

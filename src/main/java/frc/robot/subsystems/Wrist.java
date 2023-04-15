@@ -6,20 +6,50 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Wrist extends SubsystemBase {
   /** Creates a new Wrist. */
   private final CANSparkMax motor;
+  private final SparkMaxPIDController controller;
+  public final RelativeEncoder encoder;
+
   public Wrist() {
     motor = new CANSparkMax(13, CANSparkMaxLowLevel.MotorType.kBrushless);
+    motor.restoreFactoryDefaults();
+    motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    motor.setInverted(true);
     motor.setSmartCurrentLimit(20);
     motor.enableVoltageCompensation(12);
+    controller = motor.getPIDController();
+    encoder = motor.getEncoder();
+    controller.setP(1);
+    controller.setI(0);
+    controller.setD(0);
+
+    encoder.setPositionConversionFactor(2 * Math.PI / 100);
+    encoder.setVelocityConversionFactor(2 * Math.PI / (100 * 60));
+
+    if (Constants.competitionMode) {
+      motor.burnFlash();
+    }
   }
 
   public void setVoltage(double voltage) {
     motor.setVoltage(voltage);
+  }
+
+  public void setPosition(double position) {
+    controller.setReference(position, ControlType.kPosition);
+  }
+  
+  public double getPosition () {
+    return encoder.getPosition();
   }
 
   @Override

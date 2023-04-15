@@ -55,7 +55,7 @@ public class Arm extends SubsystemBase {
     encoder.setPositionConversionFactor(2 * Math.PI / ArmConstants.GEAR_REDUCTION);
     encoder.setVelocityConversionFactor(2 * Math.PI / (ArmConstants.GEAR_REDUCTION * 60));
 
-    encoder.setPosition(ArmConstants.STARTING_POSITION);
+    //encoder.setPosition(ArmConstants.STARTING_POSITION);
 
     motor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 10);
     motor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 10);

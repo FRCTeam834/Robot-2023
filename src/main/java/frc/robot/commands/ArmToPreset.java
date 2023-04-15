@@ -4,8 +4,13 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Superstructure;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.WristConstants;
 import frc.robot.Constants.ArmConstants.ArmPositionPresets;
 import frc.robot.subsystems.Arm;
 
@@ -13,22 +18,32 @@ public class ArmToPreset extends CommandBase {
   /** Creates a new ArmToPreset. */
   private final Arm arm;
   private final ArmPositionPresets preset;
+  private boolean finished = false;
 
   public ArmToPreset(Arm arm, ArmPositionPresets preset) {
     this.arm = arm;
     this.preset = preset;
-    addRequirements(arm);
+    // nvm dont want this this.withInterruptBehavior(Command.InterruptionBehavior.kCancelIncoming);
+    addRequirements(arm, Superstructure.wrist);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    arm.setDesiredState(preset.position, 0.0);
+    finished = false;
+    //arm.setDesiredState(preset.position, 0.0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if (Superstructure.wrist.getPosition() < WristConstants.STOW_POSITION - Units.degreesToRadians(5)) {
+      Superstructure.wrist.setPosition(WristConstants.STOW_POSITION);
+    } else {
+      finished = true;
+      arm.setDesiredState(preset.position, 0.0);
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -37,6 +52,6 @@ public class ArmToPreset extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true; //return Math.abs(arm.getPosition() - preset.position) < ArmConstants.SETPOINT_TOLERANCE;
+    return finished; //return Math.abs(arm.getPosition() - preset.position) < ArmConstants.SETPOINT_TOLERANCE;
   }
 }

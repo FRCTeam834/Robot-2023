@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.GamePieceType;
+import frc.robot.Constants.WristConstants;
 import frc.robot.Constants.ArmConstants.ArmPositionPresets;
 import frc.robot.Constants.DriveTrainConstants.OnTheFlyConstants;
 import frc.robot.autons.OnePlusBalance;
@@ -37,8 +38,10 @@ import frc.robot.autons.FlatOnePlusOne;
 import frc.robot.autons.FlatOnePlusOnePlusHalf;
 import frc.robot.autons.FlatOnePlusOnePlusOne;
 import frc.robot.autons.OnePlusZero;
+import frc.robot.autons.TwoPlusBalance;
 import frc.robot.commands.ArmToPreset;
 import frc.robot.commands.AutoBalance;
+import frc.robot.commands.CubeShoot;
 import frc.robot.commands.DriveAbsoluteAngle;
 import frc.robot.commands.DriveIntoGriddy;
 import frc.robot.commands.DriveToWaypoint;
@@ -48,6 +51,7 @@ import frc.robot.commands.DumbWrist;
 import frc.robot.commands.IntakeCone;
 import frc.robot.commands.IntakeCube;
 import frc.robot.commands.Outtake;
+import frc.robot.commands.WristOut;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
@@ -68,7 +72,7 @@ public class Superstructure {
   Pigeon pigeon = new Pigeon();
   DriveTrain driveTrain = new DriveTrain(pigeon);
   Arm arm = new Arm();
-  //Wrist wrist = new Wrist();
+  public static Wrist wrist = new Wrist();
   Intake intake = new Intake();
   //Vision vision = new Vision();
   PoseEstimator poseEstimator = new PoseEstimator(
@@ -96,6 +100,8 @@ public class Superstructure {
         new InstantCommand(() -> {
           arm.isStopped = false;
           arm.encoder.setPosition(ArmPositionPresets.HOOK.position);
+          // WRIST ENCODER IS RELATIVE TO ARM
+          wrist.encoder.setPosition(WristConstants.STOW_POSITION);
           arm.controller.reset(ArmPositionPresets.HOOK.position, 0);
           arm.controller.setGoal(new TrapezoidProfile.State(ArmPositionPresets.ESCAPE.position, 0));
         }),
@@ -103,6 +109,7 @@ public class Superstructure {
       ),
       new InstantCommand(() -> {
         arm.controller.setGoal(new TrapezoidProfile.State(ArmPositionPresets.L3.position, 0));
+        wrist.setPosition(WristConstants.OLD_POSITION_GROUND_RELATIVE - ArmPositionPresets.L3.position);
       }),
       new WaitUntilCommand(() -> arm.getPosition() > ArmPositionPresets.DIV.position)
     ));
@@ -118,6 +125,7 @@ public class Superstructure {
       new ArmToPreset(arm, ArmPositionPresets.L1),
       new WaitUntilCommand(() -> arm.getPosition() < ArmPositionPresets.L2.position)
     ));
+    eventMap.put("WRIST", new WristOut(arm));
     eventMap.put("L3", new ParallelCommandGroup(
       new ArmToPreset(arm, ArmPositionPresets.L3),
       new WaitUntilCommand(() -> arm.getPosition() > ArmPositionPresets.L2.position)
@@ -135,11 +143,12 @@ public class Superstructure {
     //}));
   
     autonChooser.setDefaultOption("Do nothing", new InstantCommand());
-    autonChooser.addOption("1 + Balance", new OnePlusBalance(driveTrain, arm, intake, poseEstimator));
-    autonChooser.addOption("1 + 0", new OnePlusZero(driveTrain, arm, intake, poseEstimator));
-    autonChooser.addOption("Cable 1 + 1", new CableOnePlusOne(driveTrain, arm, intake, poseEstimator));
-    autonChooser.addOption("Flat 1 + 1", new FlatOnePlusOne(driveTrain, arm, intake, poseEstimator));
-    autonChooser.addOption("Flat 1 + 1 + 0.5", new FlatOnePlusOnePlusHalf(driveTrain, arm, intake, poseEstimator));
+    autonChooser.addOption("2 + Balance", new TwoPlusBalance(driveTrain, arm, intake, poseEstimator));
+    //autonChooser.addOption("1 + Balance", new OnePlusBalance(driveTrain, arm, intake, poseEstimator));
+    //autonChooser.addOption("1 + 0", new OnePlusZero(driveTrain, arm, intake, poseEstimator));
+    //autonChooser.addOption("Cable 1 + 1", new CableOnePlusOne(driveTrain, arm, intake, poseEstimator));
+    //autonChooser.addOption("Flat 1 + 1", new FlatOnePlusOne(driveTrain, arm, intake, poseEstimator));
+    //autonChooser.addOption("Flat 1 + 1 + 0.5", new FlatOnePlusOnePlusHalf(driveTrain, arm, intake, poseEstimator));
     SmartDashboard.putData(autonChooser);
 
     driveTrain.setDefaultCommand(new DriveWithSpeeds(
@@ -154,10 +163,10 @@ public class Superstructure {
       OI::getXboxLeftJoystickY
     ));
 
-    /*wrist.setDefaultCommand(new DumbWrist(
+    wrist.setDefaultCommand(new DumbWrist(
       wrist,
       OI::getXboxRightJoystickY
-    ));*/
+    ));
 
     //arm.setDefaultCommand(new DumbArm(arm, OI::getRightJoystickY));
     // Configure the trigger bindings
@@ -188,10 +197,35 @@ public class Superstructure {
     //new JoystickButton(new Joystick(0), 3).onTrue(new IntakeCube(intake));
     //new JoystickButton(new Joystick(0), 4).onTrue(new Outtake(intake));
     new JoystickButton(new XboxController(3), 5).onTrue(new ArmToPreset(arm, ArmPositionPresets.L3));
-    new JoystickButton(new XboxController(4), 3).onTrue(new ArmToPreset(arm, ArmPositionPresets.DS));
-    new JoystickButton(new XboxController(5), 2).onTrue(new ArmToPreset(arm, ArmPositionPresets.L2));
-    new JoystickButton(new XboxController(3), 1).onTrue(new ArmToPreset(arm, ArmPositionPresets.L1));
+    //new JoystickButton(new XboxController(4), 3).onTrue(new ArmToPreset(arm, ArmPositionPresets.DS));
+    new JoystickButton(new XboxController(4), 3).onTrue(new ArmToPreset(arm, ArmPositionPresets.L2));
+    new JoystickButton(new XboxController(5), 2).onTrue(new ArmToPreset(arm, ArmPositionPresets.L1));
+    new JoystickButton(new XboxController(3), 1).onTrue(new ArmToPreset(arm, ArmPositionPresets.SINGLE));
+    //new JoystickButton(new XboxController(5), 2).onTrue(new ArmToPreset(arm, ArmPositionPresets.L2));
+    //new JoystickButton(new XboxController(3), 1).onTrue(new ArmToPreset(arm, ArmPositionPresets.L1));
     new JoystickButton(new XboxController(5), 5).onTrue(new ArmToPreset(arm, ArmPositionPresets.STOW));
+
+    // Left arrow M3 key
+    new JoystickButton(new XboxController(4), 100000).onTrue(new ArmToPreset(arm, ArmPositionPresets.DS));
+
+    // Cube shooting
+    // Mid cube (ENTER KEY)
+    new JoystickButton(new XboxController(5), 100000).onTrue(new SequentialCommandGroup(
+      new ParallelCommandGroup(
+        new ArmToPreset(arm, ArmPositionPresets.SHOOT),
+        new WaitUntilCommand(() -> Math.abs(arm.getPosition() - ArmPositionPresets.SHOOT.position) < Units.degreesToRadians(5))
+      ),
+      new CubeShoot(intake, 30)
+    ));
+    // High cube (PLUS KEY)
+    new JoystickButton(new XboxController(5), 100000).onTrue(new SequentialCommandGroup(
+      new ParallelCommandGroup(
+        new ArmToPreset(arm, ArmPositionPresets.SHOOT),
+        new WaitUntilCommand(() -> Math.abs(arm.getPosition() - ArmPositionPresets.SHOOT.position) < Units.degreesToRadians(5))
+      ),
+      new CubeShoot(intake, 40)
+    ));
+
     //new JoystickButton(new Joystick(1), 4).onTrue(new ArmToPreset(arm, ArmPositionPresets.L1));
     //new JoystickButton(new Joystick(1), 5).onTrue(new ArmToPreset(arm, ArmPositionPresets.L2));
     //new JoystickButton(new Joystick(1), 6).onTrue(new ArmToPreset(arm, ArmPositionPresets.L3));

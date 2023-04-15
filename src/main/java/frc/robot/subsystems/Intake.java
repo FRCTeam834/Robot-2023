@@ -16,7 +16,7 @@ import frc.robot.commands.IntakeCone;
 
 public class Intake extends SubsystemBase {
   
-  private final CANSparkMax motor;
+  public final CANSparkMax motor;
   private final RelativeEncoder encoder;
 
   public GamePieceType currentGamePiece = GamePieceType.NONE;
