@@ -10,6 +10,9 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -18,6 +21,7 @@ public class Wrist extends SubsystemBase {
   private final CANSparkMax motor;
   private final SparkMaxPIDController controller;
   public final RelativeEncoder encoder;
+  private double setpoint = 0.0;
 
   public Wrist() {
     motor = new CANSparkMax(13, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -38,6 +42,8 @@ public class Wrist extends SubsystemBase {
     if (Constants.competitionMode) {
       motor.burnFlash();
     }
+
+    SmartDashboard.putData(this);
   }
 
   public void setVoltage(double voltage) {
@@ -45,6 +51,7 @@ public class Wrist extends SubsystemBase {
   }
 
   public void setPosition(double position) {
+    setpoint = position;
     controller.setReference(position, ControlType.kPosition);
   }
   
@@ -55,5 +62,14 @@ public class Wrist extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  @Override
+  public void initSendable (SendableBuilder builder) {
+    if (Constants.telemetryMode == false) return;
+
+    builder.setSmartDashboardType("Arm");
+    builder.addDoubleProperty("Position", () -> Units.radiansToDegrees(this.getPosition()), null);
+    builder.addDoubleProperty("Setpoint", () -> Units.radiansToDegrees(setpoint), null);
   }
 }

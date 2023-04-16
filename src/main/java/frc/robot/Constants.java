@@ -41,7 +41,7 @@ import frc.robot.utility.TuneablePIDGains;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants { 
-    public static final boolean competitionMode = true;
+    public static final boolean competitionMode = false;
 
     public static final boolean telemetryMode = true && !competitionMode;
     public static final boolean tuningMode = true && !competitionMode;
