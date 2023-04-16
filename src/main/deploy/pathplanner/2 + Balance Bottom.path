@@ -51,6 +51,31 @@
     },
     {
       "anchorPoint": {
+        "x": 2.5,
+        "y": 2.2
+      },
+      "prevControl": {
+        "x": 2.271630392533786,
+        "y": 2.2
+      },
+      "nextControl": {
+        "x": 2.728369607466214,
+        "y": 2.2
+      },
+      "holonomicAngle": 90.0,
+      "isReversal": false,
+      "velOverride": 0.5,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
         "x": 4.0,
         "y": 2.2
       },
@@ -62,7 +87,7 @@
         "x": 5.0,
         "y": 2.2
       },
-      "holonomicAngle": 180.0,
+      "holonomicAngle": 90.0,
       "isReversal": false,
       "velOverride": 0.5,
       "isLocked": false,
@@ -87,11 +112,11 @@
         "x": 5.705568030260162,
         "y": 2.2
       },
-      "holonomicAngle": 180.0,
+      "holonomicAngle": 90.0,
       "isReversal": false,
-      "velOverride": null,
+      "velOverride": 0.5,
       "isLocked": false,
-      "isStopPoint": true,
+      "isStopPoint": false,
       "stopEvent": {
         "names": [],
         "executionBehavior": "parallel",
@@ -112,11 +137,11 @@
         "x": 6.4171109949242675,
         "y": 2.2
       },
-      "holonomicAngle": 0.01,
+      "holonomicAngle": 0.0,
       "isReversal": false,
-      "velOverride": null,
+      "velOverride": 0.5,
       "isLocked": false,
-      "isStopPoint": true,
+      "isStopPoint": false,
       "stopEvent": {
         "names": [
           "CUBE",
@@ -195,6 +220,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
+          "SHOOT",
           "BALANCE"
         ],
         "executionBehavior": "sequential",
@@ -214,15 +240,15 @@
       ]
     },
     {
-      "position": 1.2,
+      "position": 1.25,
       "names": [
         "STOW"
       ]
     },
     {
-      "position": 5.0,
+      "position": 6.0,
       "names": [
-        "STOW"
+        "READYSHOOT"
       ]
     }
   ]

@@ -38,7 +38,8 @@ import frc.robot.autons.FlatOnePlusOne;
 import frc.robot.autons.FlatOnePlusOnePlusHalf;
 import frc.robot.autons.FlatOnePlusOnePlusOne;
 import frc.robot.autons.OnePlusZero;
-import frc.robot.autons.TwoPlusBalance;
+import frc.robot.autons.TwoPlusBalanceBottom;
+import frc.robot.autons.TwoPlusBalanceTop;
 import frc.robot.commands.ArmToPreset;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.CubeShoot;
@@ -51,6 +52,7 @@ import frc.robot.commands.DumbWrist;
 import frc.robot.commands.IntakeCone;
 import frc.robot.commands.IntakeCube;
 import frc.robot.commands.Outtake;
+import frc.robot.commands.WristIn;
 import frc.robot.commands.WristOut;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
@@ -138,12 +140,15 @@ public class Superstructure {
     eventMap.put("CUBE", new IntakeCube(intake));
     eventMap.put("OUT", new Outtake(intake, arm));
     eventMap.put("BALANCE", new AutoBalance(driveTrain, pigeon));
+    eventMap.put("READYSHOOT", new ArmToPreset(arm, ArmPositionPresets.SHOOT));
+    eventMap.put("SHOOT", new CubeShoot(intake, 40));
     //eventMap.put("LOCK", new InstantCommand(() -> {
     //  driveTrain.lockModules();
     //}));
   
     autonChooser.setDefaultOption("Do nothing", new InstantCommand());
-    autonChooser.addOption("2 + Balance", new TwoPlusBalance(driveTrain, arm, intake, poseEstimator));
+    autonChooser.addOption("2 + Balance Top", new TwoPlusBalanceTop(driveTrain, arm, intake, poseEstimator));
+    autonChooser.addOption("2 + Balance Bottom", new TwoPlusBalanceBottom(driveTrain, arm, intake, poseEstimator));
     //autonChooser.addOption("1 + Balance", new OnePlusBalance(driveTrain, arm, intake, poseEstimator));
     //autonChooser.addOption("1 + 0", new OnePlusZero(driveTrain, arm, intake, poseEstimator));
     //autonChooser.addOption("Cable 1 + 1", new CableOnePlusOne(driveTrain, arm, intake, poseEstimator));
@@ -208,6 +213,11 @@ public class Superstructure {
     // Left arrow M3 key
     new JoystickButton(new XboxController(4), 100000).onTrue(new ArmToPreset(arm, ArmPositionPresets.DS));
 
+    // Wrist out, 0 key
+    new JoystickButton(new XboxController(4), 100000).onTrue(new WristOut(arm));
+    // idk what button this will be
+    new JoystickButton(new XboxController(4), 100000).onTrue(new WristIn());
+
     // Cube shooting
     // Mid cube (ENTER KEY)
     new JoystickButton(new XboxController(5), 100000).onTrue(new SequentialCommandGroup(
@@ -223,7 +233,7 @@ public class Superstructure {
         new ArmToPreset(arm, ArmPositionPresets.SHOOT),
         new WaitUntilCommand(() -> Math.abs(arm.getPosition() - ArmPositionPresets.SHOOT.position) < Units.degreesToRadians(5))
       ),
-      new CubeShoot(intake, 40)
+      new CubeShoot(intake, 40) // <--- !REMEMBER TO CHANGE THIS VALUE IN AUTO TOO
     ));
 
     //new JoystickButton(new Joystick(1), 4).onTrue(new ArmToPreset(arm, ArmPositionPresets.L1));
