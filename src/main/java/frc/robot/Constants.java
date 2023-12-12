@@ -79,14 +79,14 @@ public final class Constants {
         public static final double DRIVE_GEAR_RATIO = 4.71429;
         public static final double STEER_GEAR_RATIO = 1;
 
-        public static final double MAX_TRANSLATION_SPEED = Units.feetToMeters(15);
-        public static final double MAX_STEER_SPEED = Units.degreesToRadians(360);
-        public static final double MAX_MODULE_SPEED = Units.feetToMeters(15);
+        public static final double MAX_TRANSLATION_SPEED = Units.feetToMeters(15); // 15
+        public static final double MAX_STEER_SPEED = Units.degreesToRadians(360); // 360
+        public static final double MAX_MODULE_SPEED = Units.feetToMeters(15); // 15
         /** Minimum speed needed for module to move, mitigates jittering */
         public static final double MODULE_ACTIVATION_THRESHOLD = 0.01;
 
-        public static final PIDGains DRIVE_PID_GAINS = new TuneablePIDGains("SWERVE_DRIVE", 0.4, 0.0);
-        public static final PIDGains STEER_PID_GAINS = new TuneablePIDGains("SWERVE_STEER", 0.6, 0.0);
+        public static final PIDGains DRIVE_PID_GAINS = new TuneablePIDGains("SWERVE_DRIVE", 0.4, 0.0); //new TuneablePIDGains("SWERVE_DRIVE", 0.4, 0.0);
+        public static final PIDGains STEER_PID_GAINS = new TuneablePIDGains("SWERVE_STEER", 0.6, 0.0); // 0.6
         public static final SimpleMotorFeedforward DRIVE_FF = new SimpleMotorFeedforward(0.31437, 0.7, 0.0); // 0.59408
 
         public static final PIDGains AUTON_DRIVE_PID_GAINS = new PIDGains(1.1);
@@ -96,8 +96,8 @@ public final class Constants {
         public static final TrapezoidProfile.Constraints AUTON_STEER_CONSTRAINTS = new TrapezoidProfile.Constraints(Units.degreesToRadians(60), Units.degreesToRadians(60));
 
         /** Slewrate values for drivetrain (max acceleration) */
-        public static final double TRANSLATION_SLEWRATE = Units.feetToMeters(24);
-        public static final double STEER_SLEWRATE = Units.degreesToRadians(1080);
+        public static final double TRANSLATION_SLEWRATE = Units.feetToMeters(24); // 24
+        public static final double STEER_SLEWRATE = Units.degreesToRadians(1080); // 1080
 
         public static final PIDGains KEEP_HEADING_PID_GAINS = new PIDGains(Units.degreesToRadians(5));
         public static final double KEEP_HEADING_OMEGA_THRESHOLD = Units.degreesToRadians(5);
@@ -124,7 +124,7 @@ public final class Constants {
         };
 
         public static final double[] ENCODER_OFFSETS = {
-            1.5569909 + Units.degreesToRadians(90 - 90),
+            5.3639789 + Units.degreesToRadians(90 - 90),
             5.2846947 + Units.degreesToRadians(-180 - 90),
             5.3150279 + Units.degreesToRadians(0 - 90),
             5.8668175 + Units.degreesToRadians(-90 - 90)
@@ -199,9 +199,10 @@ public final class Constants {
             GCONE(Units.degreesToRadians(10)), // use L1 for command
             GCUBE(Units.degreesToRadians(-6)), // use L1 for command
             L1(Units.degreesToRadians(-6)), // GCUBE and L1 must be the same height
+            HYBRID(Units.degreesToRadians(-25)),
             L2(Units.degreesToRadians(84)),
             L3(Units.degreesToRadians(106)),
-            DS(Units.degreesToRadians(105)), // 104
+            DS(Units.degreesToRadians(105)), // 105
             DIV(Units.degreesToRadians(55));
 
             public final double position;
@@ -224,8 +225,8 @@ public final class Constants {
             new Translation3d(0.0, 0.0, 0.0), // x: front/back, y: left/right, z: up/down
             new Rotation3d(0, 0, 0)
         );
-        public static final String PHOTON_CAMERA_NAME = "Camera name goes here";
-        public static final PoseStrategy POSE_ESTIMATION_STRATEGY = PoseStrategy.CLOSEST_TO_REFERENCE_POSE;
+        public static final String PHOTON_CAMERA_NAME = "USB_webcam";
+        public static final PoseStrategy POSE_ESTIMATION_STRATEGY = PoseStrategy.LOWEST_AMBIGUITY;
     }
 
     public static final class IntakeConstants {

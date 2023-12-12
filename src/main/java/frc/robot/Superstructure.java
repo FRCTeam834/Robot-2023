@@ -37,6 +37,7 @@ import frc.robot.autons.FlatOnePlusOne;
 import frc.robot.autons.FlatOnePlusOnePlusHalf;
 import frc.robot.autons.FlatOnePlusOnePlusOne;
 import frc.robot.autons.OnePlusZero;
+import frc.robot.autons.TwoPlusBalance;
 import frc.robot.commands.ArmToPreset;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.DriveAbsoluteAngle;
@@ -70,12 +71,12 @@ public class Superstructure {
   Arm arm = new Arm();
   //Wrist wrist = new Wrist();
   Intake intake = new Intake();
-  //Vision vision = new Vision();
+  Vision vision = new Vision();
   PoseEstimator poseEstimator = new PoseEstimator(
     driveTrain.getKinematics(),
     driveTrain,
-    pigeon//,
-    //vision
+    pigeon,
+    vision
   );
 
   public static LEDs leds = new LEDs();
@@ -106,6 +107,15 @@ public class Superstructure {
       }),
       new WaitUntilCommand(() -> arm.getPosition() > ArmPositionPresets.DIV.position)
     ));
+    eventMap.put("STARTISH", new ParallelCommandGroup(
+        new InstantCommand(() -> {
+          arm.isStopped = false;
+          arm.encoder.setPosition(ArmPositionPresets.HOOK.position);
+          arm.controller.reset(ArmPositionPresets.HOOK.position, 0);
+          arm.controller.setGoal(new TrapezoidProfile.State(ArmPositionPresets.ESCAPE.position, 0));
+        }),
+        new WaitCommand(0.4)
+    ));
     eventMap.put("ESCAPE", new ParallelCommandGroup(
       new ArmToPreset(arm, ArmPositionPresets.ESCAPE),
       new WaitCommand(0.2)
@@ -126,6 +136,7 @@ public class Superstructure {
       new ArmToPreset(arm, ArmPositionPresets.DIV),
       new WaitUntilCommand(() -> arm.getPosition() > ArmPositionPresets.L3.position)
     ));
+    eventMap.put("HYBRID", new ArmToPreset(arm, ArmPositionPresets.HYBRID));
     eventMap.put("CONE", new IntakeCone(intake));
     eventMap.put("CUBE", new IntakeCube(intake));
     eventMap.put("OUT", new Outtake(intake, arm));
@@ -136,6 +147,7 @@ public class Superstructure {
   
     autonChooser.setDefaultOption("Do nothing", new InstantCommand());
     autonChooser.addOption("1 + Balance", new OnePlusBalance(driveTrain, arm, intake, poseEstimator));
+    autonChooser.addOption("2 + Balance", new TwoPlusBalance(driveTrain, arm, intake, poseEstimator));
     autonChooser.addOption("1 + 0", new OnePlusZero(driveTrain, arm, intake, poseEstimator));
     autonChooser.addOption("Cable 1 + 1", new CableOnePlusOne(driveTrain, arm, intake, poseEstimator));
     autonChooser.addOption("Flat 1 + 1", new FlatOnePlusOne(driveTrain, arm, intake, poseEstimator));
@@ -192,6 +204,7 @@ public class Superstructure {
     new JoystickButton(new XboxController(5), 2).onTrue(new ArmToPreset(arm, ArmPositionPresets.L2));
     new JoystickButton(new XboxController(3), 1).onTrue(new ArmToPreset(arm, ArmPositionPresets.L1));
     new JoystickButton(new XboxController(5), 5).onTrue(new ArmToPreset(arm, ArmPositionPresets.STOW));
+    new JoystickButton(new XboxController(3), 4).onTrue(new ArmToPreset(arm, ArmPositionPresets.HYBRID));
     //new JoystickButton(new Joystick(1), 4).onTrue(new ArmToPreset(arm, ArmPositionPresets.L1));
     //new JoystickButton(new Joystick(1), 5).onTrue(new ArmToPreset(arm, ArmPositionPresets.L2));
     //new JoystickButton(new Joystick(1), 6).onTrue(new ArmToPreset(arm, ArmPositionPresets.L3));
